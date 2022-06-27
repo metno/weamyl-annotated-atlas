@@ -1,4 +1,4 @@
-import Button from "@mui/material/Button";
+import Button from "@mui/material/Button/Button";
 import React from "react";
 
 const App: React.FC = () => {
