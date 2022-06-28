@@ -3,6 +3,7 @@ import Menu from './Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { pageSpacing } from '../utils/metMuiThemes';
 import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
+import metLogo from '../images/met_logo.png';
 
 const Header: React.FC = () => {
   return (
@@ -20,7 +21,7 @@ const Header: React.FC = () => {
         <Toolbar sx={(theme) => pageSpacing(theme)}>
           <Box
             component="img"
-            src={'../images/met_logo.png'}
+            src={metLogo}
             alt="met logo"
             sx={{
               padding: 0,

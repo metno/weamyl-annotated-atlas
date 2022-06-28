@@ -3,6 +3,7 @@ import { getNonesenseText } from '../utils/randomText';
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import ObservationTable from './ObservationTable';
 import { createRandomObs } from '../utils/randomObs';
+import exampleImg from '../images/example.png';
 
 const paperStyle = {
   padding: 2,
@@ -33,7 +34,7 @@ const Home: React.FC = () => {
             <Box
               component="img"
               alt={'description of example image'}
-              src={'images/example.png'}
+              src={exampleImg}
               sx={{ maxWidth: '100%' }}
             />
           </Paper>

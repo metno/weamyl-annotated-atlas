@@ -9,8 +9,10 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { ObservationEntryList } from '../@Types/ObservationEntry';
-import { ObservationEntry } from '../@Types/ObservationEntry.d';
+import {
+  ObservationEntry,
+  ObservationEntryList,
+} from '../@customTypes/ObservationEntry';
 
 const styles = {
   table: {

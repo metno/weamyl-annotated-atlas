@@ -1,15 +1,11 @@
 import { ThemeProvider } from '@emotion/react';
-import { Box, createTheme, SimplePaletteColorOptions } from '@mui/material';
-import React, { useState } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import {
-  createMetTheme,
-  paletteAsString,
-  paletteMap,
-} from '../utils/metMuiThemes';
+import { Box, createTheme } from '@mui/material';
+import React from 'react';
+import { paletteMap } from '../utils/metMuiThemes';
 import Footer from './Footer';
 import Header from './Header';
 import Home from './Home';
+import bgImage from '../images/waves.png';
 
 const App: React.FC = () => {
   return (
@@ -25,7 +21,7 @@ const App: React.FC = () => {
         component="div"
         sx={{
           height: '100%',
-          backgroundImage: 'url(/images/waves.png)',
+          backgroundImage: `url(${bgImage})`,
         }}
       >
         <Header />

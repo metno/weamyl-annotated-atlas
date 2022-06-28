@@ -2,15 +2,15 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react",
-    "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "strict": true,
     "sourceMap": true,
-    "target": "esnext",
+    "target": "ES6",
     "paths": {
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
-    }
+    },
+    "typeRoots": ["src/@customTypes", "node_modules/@types"]
   },
-  "exclude": ["node_modules", "public"]
+  "exclude": ["node_modules"]
 }
