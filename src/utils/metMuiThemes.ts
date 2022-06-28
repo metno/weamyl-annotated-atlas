@@ -4,12 +4,7 @@
  * for more info see: https://blest.met.no/intranett/_attachment/1712?_ts=1490d5de31a
  */
 
-import {
-  Color,
-  createTheme,
-  SimplePaletteColorOptions,
-  Theme,
-} from '@mui/material';
+import { SimplePaletteColorOptions, Theme } from '@mui/material';
 
 export const teal_palette: SimplePaletteColorOptions = {
   light: '#BADEE4',
@@ -58,24 +53,6 @@ export const red_palette: SimplePaletteColorOptions = {
   dark: '#712C56',
 };
 
-export const paletteMap = new Map([
-  ['teal_palette', teal_palette],
-  ['black_palette', black_palette],
-  ['green_palette', green_palette],
-  ['yellow_palette', yellow_palette],
-  ['purple_palette', purple_palette],
-  ['brown_palette', brown_palette],
-  ['red_palette', red_palette],
-]);
-
-export const paletteAsString = (p: SimplePaletteColorOptions | undefined) => {
-  let str = '';
-  paletteMap.forEach((value, key) => {
-    if (p === value) str = key;
-  });
-  return str;
-};
-
 export const pageSpacing = (theme: Theme) => {
   return {
     margin: 0,
@@ -92,21 +69,4 @@ export const pageSpacing = (theme: Theme) => {
       paddingRight: 20,
     },
   };
-};
-
-export const createMetTheme = (
-  primary: SimplePaletteColorOptions | Partial<Color> | undefined = undefined,
-  secondary: SimplePaletteColorOptions | Partial<Color> | undefined = undefined,
-) => {
-  return createTheme({
-    palette: {
-      primary: Object.assign({}, primary, {
-        // special primary color rules can be added here
-      }),
-      secondary: Object.assign({}, secondary, {
-        // special secondary color rules can be added here
-      }),
-      // error: will use the default color
-    },
-  });
 };

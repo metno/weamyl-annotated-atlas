@@ -1,1 +1,1 @@
-This is propietary fonts, do not distribute.
+Simplon fonts are propietary. Distribute with MET Norway license.

@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
 import { Box, createTheme } from '@mui/material';
 import React from 'react';
-import { paletteMap } from '../utils/metMuiThemes';
+import { black_palette, teal_palette } from '../utils/metMuiThemes';
 import Footer from './Footer';
 import Header from './Header';
 import Home from './Home';
@@ -12,8 +12,12 @@ const App: React.FC = () => {
     <ThemeProvider
       theme={createTheme({
         palette: {
-          primary: paletteMap.get('teal_palette'),
-          secondary: paletteMap.get('black_palette'),
+          primary: teal_palette,
+          secondary: black_palette,
+        },
+        typography: {
+          fontFamily: 'Simplon BP Regular',
+          fontSize: 16,
         },
       })}
     >

@@ -1,13 +1,17 @@
-const prod = process.env.NODE_ENV === 'production';
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: prod ? 'production' : 'development',
-  entry: './src/index.tsx',
+  entry: {
+    reactComp: './src/index.tsx',
+  },
   output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].bundle.js',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -21,11 +25,15 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/,
-        exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
+        exclude: /node_modules/,
+        use: ['file-loader'],
+      },
+      {
+        test: /\.(otf|ttf|woff)$/,
         exclude: /node_modules/,
         use: ['file-loader'],
       },
@@ -34,7 +42,14 @@ module.exports = {
   devtool: prod ? undefined : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, '/src', 'index.html'),
+      filename: 'index.html',
+      template: path.resolve(__dirname, './src/template.html'),
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: './src/images', to: './images' }],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: './src/fonts', to: './fonts' }],
     }),
   ],
 };
