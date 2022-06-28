@@ -8,6 +8,13 @@ how to implement apps with React in typescript.
 There is a room in [google chat](https://chat.google.com) called **MET - FAG - React** where we discuss React development at MET.
 If you need access to the group, contact it-team-frontend@met.no
 
+## Build and run with docker
+
+```
+docker build -t react-boilerplate .
+docker run -p 8080:8080 react-boilerplate
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

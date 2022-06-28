@@ -1,6 +1,6 @@
-FROM node:14 as build-stage
+FROM node:16 as build-stage
 WORKDIR /app
-COPY package*.json /src/ /public/
+COPY package*.json /src/ /app/
 ARG PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ARG CYPRESS_INSTALL_BINARY=0
 RUN npm install
