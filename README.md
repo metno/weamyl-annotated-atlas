@@ -36,4 +36,5 @@ It correctly bundles React in production mode and optimizes the build for the be
 - [Prettier](https://prettier.io/docs/en/index.html)
 - [ESlint](https://eslint.org/)
 - [WebPack](https://webpack.js.org/)
-- [Babel](https://babeljs.io/)
+
+If you have browser support issues, consider adding [Babel](https://babeljs.io/)

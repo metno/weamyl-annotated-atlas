@@ -12,5 +12,5 @@
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "public"]
 }
