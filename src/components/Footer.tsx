@@ -68,6 +68,7 @@ const Footer: React.FC = () => {
             <FacebookIcon />
           </IconButton>
           <IconButton
+            data-testid="twitter-button"
             aria-label="MET på Twitter"
             href="https://twitter.com/Meteorologene"
             target="_blank"
