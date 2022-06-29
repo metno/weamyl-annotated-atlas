@@ -17,6 +17,8 @@ stages:
 
 setup:
   stage: setup
+  tags:
+    - k8s-unpriv
   script:
     - npm ci
   extends: .dependencies_cache
@@ -30,20 +32,20 @@ setup:
 format-check:
   stage: test
   tags:
-    - k8s-root
+    - k8s-unpriv
   script:
     - npm run format:check
 
 npm-test:
   stage: test
   tags:
-    - k8s-root
+    - k8s-unpriv
   script:
     - npm run test
 
 build-prod:
   stage: build
   tags:
-    - k8s-root
+    - k8s-unpriv
   script:
     - npm run build
