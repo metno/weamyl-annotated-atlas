@@ -2,16 +2,43 @@ image:
   name: node:16
 
 stages:
+  - setup
   - test
   - build
+
+.dependencies_cache:
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm
+    policy: pull
+
+setup:
+  stage: setup
+  script:
+    - npm ci
+  extends: .dependencies_cache
+  cache:
+    policy: pull-push
+  artifacts:
+    expire_in: 2h
+    paths:
+      - node_modules
+
+format-check:
+  stage: test
+  tags:
+    - k8s-root
+  script:
+    - npm run format:check
 
 npm-test:
   stage: test
   tags:
     - k8s-root
   script:
-    - npm install
-    - npm run format:check
     - npm run test
 
 build-prod:
@@ -19,12 +46,4 @@ build-prod:
   tags:
     - k8s-root
   script:
-    - npm install
     - npm run build
-
-.build-docker:
-  stage: build
-  tags:
-    - k8s-root
-  script:
-    - docker build -t react-boilerplate .
