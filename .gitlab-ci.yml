@@ -11,6 +11,7 @@ npm-test:
     - k8s-root
   script:
     - npm install
+    - npm run format:check
     - npm run test
 
 build-prod:
