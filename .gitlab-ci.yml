@@ -10,7 +10,16 @@ npm-test:
   tags:
     - k8s-root
   script:
+    - npm install
     - npm run test
+
+build-prod:
+  stage: build
+  tags:
+    - k8s-root
+  script:
+    - npm install
+    - npm run build
 
 .build-docker:
   stage: build
