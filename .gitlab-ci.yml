@@ -1,0 +1,20 @@
+image:
+  name: node:16
+
+stages:
+  - test
+  - build
+
+npm-test:
+  stage: test
+  tags:
+    - k8s-root
+  script:
+    - npm run test
+
+.build-docker:
+  stage: build
+  tags:
+    - k8s-root
+  script:
+    - docker build -t react-boilerplate .
