@@ -39,17 +39,6 @@ const Home: React.FC = () => {
           </Paper>
         </Grid>
 
-        <Grid item xs={12}>
-          <Paper
-            sx={{
-              textAlign: 'center',
-              padding: 2,
-            }}
-            >
-
-          </Paper>
-        </Grid>
-
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle}>
             <ObservationTable
