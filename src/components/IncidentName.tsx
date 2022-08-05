@@ -1,6 +1,5 @@
-import React from "react";
-import CreatableSelect from "react-select/creatable";
-import { SingleValue, ActionMeta } from "react-select/dist/declarations/src";
+import React from 'react';
+import CreatableSelect from 'react-select/creatable';
 import names from '../config/incidentNames.json';
 import databaseFunctions from '../utils/databaseFunctions';
 
@@ -11,7 +10,7 @@ console.log(testImport);
 const IncidentName: React.FC = () => {
   const onChange = (option: any | null) => {
     console.log(option);
-  }
+  };
   return (
     <>
       <CreatableSelect
@@ -21,7 +20,7 @@ const IncidentName: React.FC = () => {
         options={names}
       />
     </>
-  )
-}
+  );
+};
 
 export default IncidentName;

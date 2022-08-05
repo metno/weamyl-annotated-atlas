@@ -3,9 +3,9 @@ import { getNonesenseText } from '../utils/randomText';
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import ObservationTable from './ObservationTable';
 import { createRandomObs } from '../utils/randomObs';
-import Phenomenon from "./Phenomenon";
-import Polygon from "./Polygon";
-import Time from "./Time";
+import Phenomenon from './Phenomenon';
+import Polygon from './Polygon';
+import Time from './Time';
 import IncidentName from './IncidentName';
 
 const paperStyle = {
@@ -27,7 +27,6 @@ const Home: React.FC = () => {
       }}
     >
       <Grid container spacing={2}>
-
         <Grid item xs={12}>
           <Paper
             sx={{
@@ -44,30 +43,28 @@ const Home: React.FC = () => {
           </Paper>
         </Grid>
 
-
-        <Grid item md={12} lg={6} >
-          <Paper sx={ paperStyle }>
+        <Grid item md={12} lg={6}>
+          <Paper sx={paperStyle}>
             <IncidentName />
             <Phenomenon />
             <Polygon />
-            <Time/>
+            <Time />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>
-        <Paper sx={paperStyle}>
-          <ObservationTable
+          <Paper sx={paperStyle}>
+            <ObservationTable
               locationName="Bergen"
               observations={createRandomObs(5)}
-          />
-        </Paper>
-      </Grid>
+            />
+          </Paper>
+        </Grid>
 
-        <Grid item xs={12} >
+        <Grid item xs={12}>
           <Paper sx={paperStyle}>
             <Typography>{getNonesenseText(2)}</Typography>
           </Paper>
         </Grid>
-
       </Grid>
     </Box>
   );
