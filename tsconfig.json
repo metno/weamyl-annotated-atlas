@@ -3,6 +3,7 @@
     "esModuleInterop": true,
     "jsx": "react",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "strict": true,
     "sourceMap": true,

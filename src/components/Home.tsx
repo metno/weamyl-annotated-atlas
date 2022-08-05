@@ -3,6 +3,10 @@ import { getNonesenseText } from '../utils/randomText';
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import ObservationTable from './ObservationTable';
 import { createRandomObs } from '../utils/randomObs';
+import Phenomenon from "./Phenomenon";
+import Polygon from "./Polygon";
+import Time from "./Time";
+import IncidentName from './IncidentName';
 
 const paperStyle = {
   padding: 2,
@@ -23,6 +27,7 @@ const Home: React.FC = () => {
       }}
     >
       <Grid container spacing={2}>
+
         <Grid item xs={12}>
           <Paper
             sx={{
@@ -39,39 +44,30 @@ const Home: React.FC = () => {
           </Paper>
         </Grid>
 
+
+        <Grid item md={12} lg={6} >
+          <Paper sx={ paperStyle }>
+            <IncidentName />
+            <Phenomenon />
+            <Polygon />
+            <Time/>
+          </Paper>
+        </Grid>
         <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle}>
-            <ObservationTable
+        <Paper sx={paperStyle}>
+          <ObservationTable
               locationName="Bergen"
               observations={createRandomObs(5)}
-            />
-          </Paper>
-        </Grid>
-        <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle}>
-            <Typography>{getNonesenseText(1)}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item sm={12} md={6}>
+          />
+        </Paper>
+      </Grid>
+
+        <Grid item xs={12} >
           <Paper sx={paperStyle}>
             <Typography>{getNonesenseText(2)}</Typography>
           </Paper>
         </Grid>
-        <Grid item sm={12} md={6}>
-          <Paper sx={paperStyle}>
-            <Typography>{getNonesenseText(3)}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item sm={12} md={6}>
-          <Paper sx={paperStyle}>
-            <Typography>{getNonesenseText(4)}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item sm={12} md={6}>
-          <Paper sx={paperStyle}>
-            <Typography>{getNonesenseText(5)}</Typography>
-          </Paper>
-        </Grid>
+
       </Grid>
     </Box>
   );

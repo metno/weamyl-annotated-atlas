@@ -34,7 +34,7 @@ type Props = {
 const ObservationTable: React.FC<Props> = ({ locationName, observations }) => {
   return (
     <>
-      <Typography variant="h5">Observasjoner for {locationName}</Typography>
+      <Typography variant="h5">Liste over CAP-filer</Typography>
       <TableContainer component={Paper} sx={styles.table}>
         <Table aria-label="Observasjoner">
           <TableHead>
