@@ -1,4 +1,7 @@
 [
+  { "value": "Huginn", "label": "Huginn" },
+  { "value": "Midgard", "label": "Midgard" },
+  { "value": "Muninn", "label": "Muninn" },
   { "value": "Hans", "label": "Hans" },
   { "value": "Ingrid", "label": "Ingrid" },
   { "value": "Jakob", "label": "Jakob" },
@@ -13,8 +16,5 @@
   { "value": "Toril", "label": "Toril" },
   { "value": "Uno", "label": "Uno" },
   { "value": "Vigdis", "label": "Vigdis" },
-  { "value": "Yngvar", "label": "Yngvar" },
-  { "value": "Huginn", "label": "Huginn" },
-  { "value": "Midgard", "label": "Midgard" },
-  { "value": "Muninn", "label": "Muninn" }
+  { "value": "Yngvar", "label": "Yngvar" }
 ]

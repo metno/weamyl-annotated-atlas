@@ -3,13 +3,12 @@ import CreatableSelect from 'react-select/creatable';
 import names from '../config/incidentNames.json';
 import databaseFunctions from '../utils/databaseFunctions';
 
-const name: string = 'Muninn';
-const testImport = databaseFunctions.getWarningsFromIncidentNames(name);
-console.log(testImport);
-
 const IncidentName: React.FC = () => {
-  const onChange = (option: any | null) => {
-    console.log(option);
+  const onChange = (option: any) => {
+    console.log(option.value);
+    databaseFunctions
+      .getWarningsFromIncidentNames(option.value)
+      .then((response) => console.log(response));
   };
   return (
     <>

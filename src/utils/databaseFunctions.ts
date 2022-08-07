@@ -1,13 +1,5 @@
 const axios = require('axios');
 
-const url1 = 'https://metcap.met.no/api/v1/map/';
-const url2 = 'https://metcap.met.no/api/v1/map/lowres/fylke/list/';
-
-async function getMunicipalities() {
-  const response = await axios.get(url2);
-  return await response.data;
-}
-
 async function getIncidentNames() {
   try {
     const response = await axios.get(
@@ -26,14 +18,14 @@ async function getIncidentNames() {
 }
 
 async function getWarningsFromIncidentNames(names: any) {
-  const testResponse = 'Hello World!!';
-  //const url = `https://test.metcap.met.no/api/v1/cap/incident/${names}`;
-  //const response = await axios.get(url)
-  return testResponse;
+  //const testResponse = 'Hello World!!';
+  const url = `https://test.metcap.met.no/api/v1/cap/incident/${names}`;
+  const response = await axios.get(url);
+  console.log(response);
+  return response;
 }
 
 export default {
-  getMunicipalities,
   getIncidentNames,
   getWarningsFromIncidentNames,
 };
