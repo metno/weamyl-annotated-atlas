@@ -44,13 +44,11 @@ export default function LocalizedTimePicker() {
         </Stack>
         <Stack direction="row" spacing={3}>
           <DateTimePicker
-            label="From"
             value={startValue}
             onChange={(newValue) => setStartValue(newValue)}
             renderInput={(params) => <TextField {...params} />}
           />
           <DateTimePicker
-            label="To"
             value={endValue}
             onChange={(newValue) => setEndValue(newValue)}
             renderInput={(params) => <TextField {...params} />}

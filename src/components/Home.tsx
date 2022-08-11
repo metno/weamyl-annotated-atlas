@@ -1,12 +1,11 @@
 import React from 'react';
-import { getNonesenseText } from '../utils/randomText';
-import { Box, Grid, Paper, Typography } from '@mui/material';
-import ObservationTable from './ObservationTable';
+import { Box, Grid, Paper } from '@mui/material';
 import { createRandomObs } from '../utils/randomObs';
 import Phenomenon from './Phenomenon';
 import Polygon from './Polygon';
 import Time from './Time';
 import IncidentName from './IncidentName';
+import CapTable from './CapTable';
 
 const paperStyle = {
   padding: 2,
@@ -53,16 +52,23 @@ const Home: React.FC = () => {
         </Grid>
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle}>
-            <ObservationTable
-              locationName="Bergen"
-              observations={createRandomObs(5)}
-            />
+            <CapTable locationName="Bergen" observations={createRandomObs(5)} />
           </Paper>
         </Grid>
 
         <Grid item xs={12}>
-          <Paper sx={paperStyle}>
-            <Typography>{getNonesenseText(2)}</Typography>
+          <Paper
+            sx={{
+              textAlign: 'center',
+              padding: 2,
+            }}
+          >
+            <Box
+              component="img"
+              alt={'description of example image'}
+              src={'images/MapPolygon.png'}
+              sx={{ maxWidth: '100%' }}
+            />
           </Paper>
         </Grid>
       </Grid>

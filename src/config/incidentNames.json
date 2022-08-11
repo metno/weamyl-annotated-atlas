@@ -1,20 +1,5 @@
 [
   { "value": "Huginn", "label": "Huginn" },
   { "value": "Midgard", "label": "Midgard" },
-  { "value": "Muninn", "label": "Muninn" },
-  { "value": "Hans", "label": "Hans" },
-  { "value": "Ingrid", "label": "Ingrid" },
-  { "value": "Jakob", "label": "Jakob" },
-  { "value": "Kaia", "label": "Kaia" },
-  { "value": "Lukas", "label": "Lukas" },
-  { "value": "Marte", "label": "Marte" },
-  { "value": "Nils", "label": "Nils" },
-  { "value": "Oline", "label": "Oline" },
-  { "value": "Paul", "label": "Paul" },
-  { "value": "Ronja", "label": "Ronja" },
-  { "value": "Sjur", "label": "Sjur" },
-  { "value": "Toril", "label": "Toril" },
-  { "value": "Uno", "label": "Uno" },
-  { "value": "Vigdis", "label": "Vigdis" },
-  { "value": "Yngvar", "label": "Yngvar" }
+  { "value": "Muninn", "label": "Muninn" }
 ]

@@ -1,5 +1,7 @@
 import React from 'react';
 import CreatableSelect from 'react-select/creatable';
+import Stack from '@mui/material/Stack';
+import { TextField } from '@mui/material';
 
 const Polygon: React.FC = () => {
   /*
@@ -73,11 +75,16 @@ const Polygon: React.FC = () => {
 */
   return (
     <>
-      <CreatableSelect
-        isClearable
-        placeholder={'Polygon'}
-        //onChange={onChange}
-      />
+      <Stack direction="row" spacing={3}>
+        <TextField
+          //sx={{ width: 1 / 2 }}
+          placeholder={'Area name'}
+        />
+        <TextField
+          placeholder={'Polygon'}
+          //onChange={onChange}
+        />
+      </Stack>
     </>
   );
 };

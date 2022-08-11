@@ -4,12 +4,15 @@ import names from '../config/incidentNames.json';
 import databaseFunctions from '../utils/databaseFunctions';
 
 const IncidentName: React.FC = () => {
+  const [warning, setWarning] = React.useState<object>();
   const onChange = (option: any) => {
     console.log(option.value);
     databaseFunctions
       .getWarningsFromIncidentNames(option.value)
-      .then((response) => console.log(response));
+      .then((response) => setWarning(response.data[0]));
+    console.log('top', warning);
   };
+
   return (
     <>
       <CreatableSelect
