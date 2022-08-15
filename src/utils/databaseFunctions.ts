@@ -4,14 +4,14 @@ const client = axios.create({
   baseURL: 'https://test.metcap.met.no/api/v1/cap',
 });
 
-/*async function getIncidentNames() {
-  const response = await axios.get(
-    'https://test.metcap.met.no/api/v1/map/lowres/kommune/list/',
-  );
-  return await response.data;
-}*/
+async function getIncidentNamesList() {
+  const url = `/incident/name/list/`;
+  const response = await client.get(url);
+  console.log(response.data);
+  return response;
+}
 
-async function getWarningsFromIncidentNames(names: any) {
+async function getWarningsFromIncidentNames(names: string) {
   const url = `/incident/${names}`;
   const response = await client.get(url);
   console.log(response.data[0]._id);
@@ -19,6 +19,6 @@ async function getWarningsFromIncidentNames(names: any) {
 }
 
 export default {
-  //getIncidentNames,
+  getIncidentNamesList,
   getWarningsFromIncidentNames,
 };

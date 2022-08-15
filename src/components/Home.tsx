@@ -13,6 +13,8 @@ const paperStyle = {
 };
 
 const Home: React.FC = () => {
+  const [warning, setWarning] = React.useState<object>([]);
+
   return (
     <Box
       component="div"
@@ -44,7 +46,7 @@ const Home: React.FC = () => {
 
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle}>
-            <IncidentName />
+            <IncidentName setWarning={setWarning} warning={warning} />
             <Phenomenon />
             <Polygon />
             <Time />
@@ -52,7 +54,11 @@ const Home: React.FC = () => {
         </Grid>
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle}>
-            <CapTable locationName="Bergen" observations={createRandomObs(5)} />
+            <CapTable
+              warning={warning}
+              locationName="Bergen"
+              observations={createRandomObs(5)}
+            />
           </Paper>
         </Grid>
 

@@ -3,8 +3,13 @@ import CreatableSelect from 'react-select/creatable';
 import names from '../config/incidentNames.json';
 import databaseFunctions from '../utils/databaseFunctions';
 
-const IncidentName: React.FC = () => {
-  const [warning, setWarning] = React.useState<object>();
+type Props = {
+  warning: any;
+  setWarning: any;
+};
+
+const IncidentName: React.FC<Props> = (props) => {
+  const { setWarning, warning } = props;
   const onChange = (option: any) => {
     console.log(option.value);
     databaseFunctions
@@ -16,7 +21,6 @@ const IncidentName: React.FC = () => {
   return (
     <>
       <CreatableSelect
-        isClearable
         placeholder={'Incident Names'}
         onChange={onChange}
         options={names}

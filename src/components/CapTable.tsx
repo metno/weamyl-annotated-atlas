@@ -13,6 +13,7 @@ import {
   ObservationEntry,
   ObservationEntryList,
 } from '../@customTypes/ObservationEntry';
+import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 
 const styles = {
   table: {
@@ -27,11 +28,14 @@ const styles = {
 };
 
 type Props = {
+  warning: any;
   locationName: string;
   observations: ObservationEntryList;
 };
 
-const ObservationTable: React.FC<Props> = ({ locationName, observations }) => {
+const ObservationTable: React.FC<Props> = (props) => {
+  const { warning, locationName, observations } = props;
+  console.log('Table ', warning);
   return (
     <>
       <Typography variant="h5">Liste over CAP-filer</Typography>
@@ -55,7 +59,7 @@ const ObservationTable: React.FC<Props> = ({ locationName, observations }) => {
             {observations.map((row: ObservationEntry) => (
               <TableRow key={row.time}>
                 <TableCell component="th" scope="row" sx={styles.tableTime}>
-                  {row.time}
+                  {warning._id}
                 </TableCell>
                 <TableCell align="right">{row.wind.toFixed(0)} m/s</TableCell>
                 <TableCell align="right">
