@@ -11,6 +11,13 @@ async function getIncidentNamesList() {
   return response;
 }
 
+async function getPhenomenaList() {
+  const url = `/phenomenon/list/`;
+  const response = await client.get(url);
+  console.log(response.data);
+  return response;
+}
+
 async function getWarningsFromIncidentNames(names: string) {
   const url = `/incident/${names}`;
   const response = await client.get(url);
@@ -18,7 +25,16 @@ async function getWarningsFromIncidentNames(names: string) {
   return response;
 }
 
+async function getOpenSearch(input: object) {
+  const url = `/${input}`;
+  const response = await client.post(url);
+  console.log('OpenSearch: ', response);
+  return response;
+}
+
 export default {
   getIncidentNamesList,
+  getPhenomenaList,
   getWarningsFromIncidentNames,
+  getOpenSearch,
 };

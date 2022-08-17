@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import names from '../config/incidentNames.json';
 import databaseFunctions from '../utils/databaseFunctions';
@@ -10,6 +10,14 @@ type Props = {
 
 const IncidentName: React.FC<Props> = (props) => {
   const { setWarning, warning } = props;
+  const [names, setNames] = React.useState();
+
+  useEffect(() => {
+    databaseFunctions
+      .getIncidentNamesList()
+      .then((response) => setNames(response.data));
+  }, []);
+
   const onChange = (option: any) => {
     console.log(option.value);
     databaseFunctions
