@@ -7,7 +7,7 @@ const client = axios.create({
 async function getIncidentNamesList() {
   const url = `/incident/name/list/`;
   const response = await client.get(url);
-  console.log(response.data);
+  // console.log('Navneliste: ', response.data);
   return response;
 }
 
@@ -26,8 +26,8 @@ async function getWarningsFromIncidentNames(names: string) {
 }
 
 async function getOpenSearch(input: object) {
-  const url = `/${input}`;
-  const response = await client.post(url);
+  const url = `/`;
+  const response = await client.post(url, input);
   console.log('OpenSearch: ', response);
   return response;
 }

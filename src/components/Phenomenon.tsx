@@ -11,6 +11,8 @@ const Phenomenon: React.FC = () => {
       label: Object.values(phenomValues)[i].guiName.nb,
     };
   }
+  console.log(' Fenomen ', optionList);
+
   return (
     <>
       <CreatableSelect

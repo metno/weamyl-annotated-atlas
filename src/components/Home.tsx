@@ -6,6 +6,7 @@ import Polygon from './Polygon';
 import Time from './Time';
 import IncidentName from './IncidentName';
 import CapTable from './CapTable';
+import Buttons from './Buttons';
 
 const paperStyle = {
   padding: 2,
@@ -50,6 +51,7 @@ const Home: React.FC = () => {
             <Phenomenon />
             <Polygon />
             <Time />
+            <Buttons />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>

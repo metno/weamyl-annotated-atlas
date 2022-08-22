@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import names from '../config/incidentNames.json';
+import jsonNames from '../config/incidentNames.json';
 import databaseFunctions from '../utils/databaseFunctions';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 const IncidentName: React.FC<Props> = (props) => {
   const { setWarning, warning } = props;
-  const [names, setNames] = React.useState();
+  const [names, setNames] = React.useState([]);
 
   useEffect(() => {
     databaseFunctions
@@ -19,19 +19,29 @@ const IncidentName: React.FC<Props> = (props) => {
   }, []);
 
   const onChange = (option: any) => {
-    console.log(option.value);
+    console.log('What I Chose ', option.value);
     databaseFunctions
       .getWarningsFromIncidentNames(option.value)
       .then((response) => setWarning(response.data[0]));
     console.log('top', warning);
   };
 
+  const name1 = {
+    value: names[1],
+    label: names[1],
+  };
+
+  console.log('Liste ', names);
+  console.log('json ', jsonNames);
+  console.log('Lost ', name1);
+  console.log('Nu da? ', Object.values(name1));
+
   return (
     <>
       <CreatableSelect
         placeholder={'Incident Names'}
         onChange={onChange}
-        options={names}
+        options={jsonNames}
       />
     </>
   );
