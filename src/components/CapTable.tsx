@@ -36,7 +36,8 @@ type Props = {
 const ObservationTable: React.FC<Props> = (props) => {
   const { warning, locationName, observations } = props;
 
-  console.log('CapTable ', observations);
+  console.log('CapTableFake ', observations);
+  console.log('CapTableId ', warning);
 
   return (
     <>
@@ -61,7 +62,7 @@ const ObservationTable: React.FC<Props> = (props) => {
             {observations.map((row: ObservationEntry) => (
               <TableRow key={row.time}>
                 <TableCell component="th" scope="row" sx={styles.tableTime}>
-                  {warning._id}
+                  {warning[1]}
                 </TableCell>
                 <TableCell align="right">{row.wind.toFixed(0)} m/s</TableCell>
                 <TableCell align="right">

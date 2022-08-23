@@ -7,6 +7,8 @@ import Time from './Time';
 import IncidentName from './IncidentName';
 import CapTable from './CapTable';
 import Buttons from './Buttons';
+import Incidents from './Incidents';
+import Severity from './Severity';
 
 const paperStyle = {
   padding: 2,
@@ -48,10 +50,12 @@ const Home: React.FC = () => {
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle}>
             <IncidentName setWarning={setWarning} warning={warning} />
+            <Incidents />
             <Phenomenon />
             <Polygon />
+            <Severity />
             <Time />
-            <Buttons />
+            <Buttons setWarning={setWarning} />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>

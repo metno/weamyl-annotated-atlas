@@ -18,16 +18,16 @@ export interface CapFilEntries {
   altitude: string;
   ceiling: string;
   msgType: string;
-  type: 'FeatureCollection';
+  type: string;
   features: [
     {
-      type: 'Feature';
+      type: string;
+      properties: {};
       geometry: {
-        type: 'Polygon';
+        type: string;
         coordinates: number[];
         bbox: number[];
       };
-      properties: { customArea: boolean; area: string };
     },
   ];
 }

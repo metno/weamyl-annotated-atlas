@@ -1,8 +1,4 @@
 {
-  "colour": "Yellow",
-  "onset": "2022-08-01T00:00",
-  "expires": "2022-08-03T16:00",
-  "cutoff": 0.5,
   "type": "FeatureCollection",
   "features": [
     {

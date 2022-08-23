@@ -1,0 +1,35 @@
+{
+    "Extreme": {
+      "value": "Extreme",  
+      "guiName":{
+      "nb": "Ekstrem",
+      "nn": "Ekstrem",
+      "en": "Extreme"
+      }
+    },
+    "Severe":{
+    "value": "Severe",    
+    "guiName":{
+      "nb": "Stor",
+      "nn": "Stor",
+      "en": "Severe"
+     }
+ },
+    "Moderate": {
+    "value" : "Moderate",   
+    "guiName":{
+      "nb": "Moderat",
+      "nn": "Moderat",
+      "en": "Moderate"
+    }
+ },
+    "Minor": {
+    "value":"Minor",   
+    "guiName":{
+      "nb": "Liten",
+      "nn": "Liten",
+      "en": "Minor"
+    
+    }
+ }
+}
