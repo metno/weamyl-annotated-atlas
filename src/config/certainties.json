@@ -1,26 +1,26 @@
 {
-  "Observed":
-  { "value": "Observed", 
+  "Observed": {
+    "value": "Observed",
     "guiName": {
       "nb": "Observert",
       "nn": "Observert",
       "en": "Observed"
     }
-   },
- "Likely":
- { "value": "Likely", 
-    "guiName":{
+  },
+  "Likely": {
+    "value": "Likely",
+    "guiName": {
       "nb": "Sannsynlig",
       "nn": "Sannsynleg",
       "en": "Likely"
-     }
+    }
   },
-  "Possible":
-  { "value": "Possible", 
-    "guiName":{
+  "Possible": {
+    "value": "Possible",
+    "guiName": {
       "nb": "Mulig",
       "nn": "Mogleg",
       "en": "Possible"
-     }
+    }
   }
 }
