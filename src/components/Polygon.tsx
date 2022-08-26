@@ -1,7 +1,7 @@
 import React from 'react';
 import CreatableSelect from 'react-select/creatable';
 import Stack from '@mui/material/Stack';
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
 const Polygon: React.FC = () => {
   /*
@@ -74,18 +74,26 @@ const Polygon: React.FC = () => {
   };
 */
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Stack direction="row" spacing={3}>
         <TextField
-          //sx={{ width: 1 / 2 }}
+          fullWidth
           placeholder={'Area name'}
+          //onChange={onChange}
         />
         <TextField
+          fullWidth
           placeholder={'Polygon'}
           //onChange={onChange}
         />
       </Stack>
-    </>
+    </Box>
   );
 };
 

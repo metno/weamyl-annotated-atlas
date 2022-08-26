@@ -1,14 +1,20 @@
 import React from 'react';
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
 const Incidents: React.FC = () => {
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <TextField
         placeholder={'Incident Id'}
         //onChange={onChange}
       />
-    </>
+    </Box>
   );
 };
 
