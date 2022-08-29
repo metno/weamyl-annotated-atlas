@@ -29,12 +29,11 @@ const styles = {
 
 type Props = {
   warning: any;
-  locationName: string;
   observations: ObservationEntryList;
 };
 
 const ObservationTable: React.FC<Props> = (props) => {
-  const { warning, locationName, observations } = props;
+  const { warning, observations } = props;
 
   console.log('CapTableFake ', observations);
   console.log('CapTableId ', warning);
@@ -64,14 +63,10 @@ const ObservationTable: React.FC<Props> = (props) => {
                 <TableCell component="th" scope="row" sx={styles.tableTime}>
                   {warning[1]}
                 </TableCell>
-                <TableCell align="right">{row.wind.toFixed(0)} m/s</TableCell>
-                <TableCell align="right">
-                  {row.pressure.toFixed(0)} hPa
-                </TableCell>
-                <TableCell align="right">
-                  {row.temperature.toFixed(1)} ℃
-                </TableCell>
-                <TableCell align="right">{row.clouds.toFixed(0)} %</TableCell>
+                <TableCell align="right">{row.wind} m/s</TableCell>
+                <TableCell align="right">{row.pressure} hPa</TableCell>
+                <TableCell align="right">{row.temperature} ℃</TableCell>
+                <TableCell align="right">{row.clouds} %</TableCell>
               </TableRow>
             ))}
           </TableBody>

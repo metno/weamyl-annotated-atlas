@@ -3,11 +3,23 @@ import CreatableSelect from 'react-select/creatable';
 import colours from '../config/colour.json';
 import { Box } from '@mui/material';
 
-const Colour: React.FC = () => {
+type Props = {
+  openSearch: object;
+  searchObject: object;
+  setSearchObject: object;
+};
+
+const Colour: React.FC<Props> = (props) => {
+  const { openSearch, searchObject, setSearchObject } = props;
+
   const handleChange = (option: any) => {
     console.log(option.value);
-    const chosenColour = option.value;
-    // updateSearchParamaters('colour': chosenColour);
+    let colourChosen = {
+      ...openSearch,
+      colour: option.value,
+    };
+    console.log('color', colourChosen);
+    //setSearchObject(colourChosen);
   };
 
   return (

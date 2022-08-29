@@ -18,8 +18,17 @@ const paperStyle = {
 
 const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<object>([]);
+  const [searchObject, setSearchObject] = React.useState<object>({});
 
-  let searchParameters = {
+  let update = {
+    //colour: 'Orange',
+    phenomenon: 'Rain',
+  };
+
+  console.log('MER TESTING ', update);
+
+  let openSearch = {
+    ...update,
     type: 'FeatureCollection',
     features: [
       {
@@ -29,14 +38,14 @@ const Home: React.FC = () => {
           type: 'Polygon',
           coordinates: [
             [
-              [7.91015625, 63.51427544737998],
-              [5.09765625, 61.95961583829658],
-              [4.998779296875, 61.60639637138628],
-              [6.328125, 60.63548951646859],
-              [9.228515625, 60.973107109199404],
-              [10.283203125, 61.81466389468391],
-              [9.700927734375, 62.58322502941986],
-              [7.91015625, 63.51427544737998],
+              [5.95458984375, 62.155240711732425],
+              [4.0869140625, 59.65664225341022],
+              [6.8994140625, 58.07787626787517],
+              [10.04150390625, 58.424729753759124],
+              [11.77734375, 59.84481485969105],
+              [11.88720703125, 61.25966921642908],
+              [9.29443359375, 62.257696189351215],
+              [5.95458984375, 62.155240711732425],
             ],
           ],
         },
@@ -44,38 +53,8 @@ const Home: React.FC = () => {
     ],
   };
 
-  console.log('TESTING ', searchParameters);
-
-  let update = {
-    ...searchParameters,
-    colour: 'Red',
-  };
-
-  console.log('MER TESTING ', update);
-
-  let secUpdate = {
-    ...update,
-    ...(searchParameters.features = [
-      {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'Polygon',
-          coordinates: [
-            [
-              [10.2777099609375, 60.12509169336166],
-              [10.1019287109375, 59.620547310812206],
-              [11.4202880859375, 59.598315739492335],
-              [11.2939453125, 60.06758154285835],
-              [10.2777099609375, 60.12509169336166],
-            ],
-          ],
-        },
-      },
-    ]),
-  };
-
-  console.log('ENDA MER TESTING ', secUpdate);
+  console.log('ENDA MER TESTING ', openSearch);
+  //setSearchObject(openSearch);
 
   return (
     <Box
@@ -112,19 +91,19 @@ const Home: React.FC = () => {
             <Incidents />
             <Phenomenon />
             <Polygon />
-            <Colour />
+            <Colour
+              openSearch={openSearch}
+              searchObject={searchObject}
+              setSearchObject={setSearchObject}
+            />
             <Severity />
             <Time />
-            <Buttons setWarning={setWarning} secUpdate={secUpdate} />
+            <Buttons setWarning={setWarning} openSearch={openSearch} />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle}>
-            <CapTable
-              warning={warning}
-              locationName="Bergen"
-              observations={createRandomObs(5)}
-            />
+            <CapTable warning={warning} observations={createRandomObs(5)} />
           </Paper>
         </Grid>
 

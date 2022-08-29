@@ -5,17 +5,17 @@ import databaseFunctions from '../utils/databaseFunctions';
 
 type Props = {
   setWarning: any;
-  secUpdate: any;
+  openSearch: object;
 };
 
 const Buttons: React.FC<Props> = (props) => {
-  const { setWarning, secUpdate } = props;
+  const { setWarning, openSearch } = props;
 
-  console.log('testSearch ', secUpdate);
+  console.log('testSearch ', openSearch);
 
   const handleOnClick = () => {
     databaseFunctions
-      .getOpenSearch(secUpdate)
+      .getOpenSearch(openSearch)
       .then((response) => setWarning(response.data));
   };
 

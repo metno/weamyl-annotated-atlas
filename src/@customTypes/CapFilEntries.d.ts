@@ -22,7 +22,7 @@ export interface CapFilEntries {
   features: [
     {
       type: string;
-      properties: {};
+      properties: any;
       geometry: {
         type: string;
         coordinates: number[];
