@@ -2,15 +2,14 @@ import React from 'react';
 import { Button } from '@mui/material';
 import testSearch from '../config/searchjson.json';
 import databaseFunctions from '../utils/databaseFunctions';
+import { CapFileEntryList, CapFilEntries } from '../@customTypes/CapFilEntries';
 
 type Props = {
   setWarning: any;
   openSearch: object;
 };
 
-const Buttons: React.FC<Props> = (props) => {
-  const { setWarning, openSearch } = props;
-
+const Buttons: React.FC<Props> = ({ setWarning, openSearch }) => {
   console.log('testSearch ', openSearch);
 
   const handleOnClick = () => {

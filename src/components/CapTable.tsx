@@ -9,10 +9,6 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import {
-  ObservationEntry,
-  ObservationEntryList,
-} from '../@customTypes/ObservationEntry';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 
 const styles = {
@@ -28,14 +24,12 @@ const styles = {
 };
 
 type Props = {
-  warning: any;
-  observations: ObservationEntryList;
+  warning: CapFileEntryList;
 };
 
 const ObservationTable: React.FC<Props> = (props) => {
-  const { warning, observations } = props;
+  const { warning } = props;
 
-  console.log('CapTableFake ', observations);
   console.log('CapTableId ', warning);
 
   return (
@@ -58,15 +52,15 @@ const ObservationTable: React.FC<Props> = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {observations.map((row: ObservationEntry) => (
-              <TableRow key={row.time}>
+            {warning.map((item: CapFilEntries) => (
+              <TableRow key={item._id}>
                 <TableCell component="th" scope="row" sx={styles.tableTime}>
-                  {warning[1]}
+                  {item._id}
                 </TableCell>
-                <TableCell align="right">{row.wind} m/s</TableCell>
-                <TableCell align="right">{row.pressure} hPa</TableCell>
-                <TableCell align="right">{row.temperature} ℃</TableCell>
-                <TableCell align="right">{row.clouds} %</TableCell>
+                <TableCell align="right">{item.phenomenon} </TableCell>
+                <TableCell align="right">{item.colour} </TableCell>
+                <TableCell align="right">{item.areaDesc.en} </TableCell>
+                <TableCell align="right">{item.status} </TableCell>
               </TableRow>
             ))}
           </TableBody>

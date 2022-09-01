@@ -10,6 +10,8 @@ import Buttons from './Buttons';
 import Incidents from './Incidents';
 import Severity from './Severity';
 import Colour from './Colour';
+import polly from '../config/searchjson.json';
+import { CapFileEntryList } from '../@customTypes/CapFilEntries';
 
 const paperStyle = {
   padding: 2,
@@ -17,12 +19,12 @@ const paperStyle = {
 };
 
 const Home: React.FC = () => {
-  const [warning, setWarning] = React.useState<object>([]);
+  const [warning, setWarning] = React.useState<CapFileEntryList>([]);
   const [searchObject, setSearchObject] = React.useState<object>({});
 
   let update = {
     //colour: 'Orange',
-    phenomenon: 'Rain',
+    //phenomenon: 'Rain',
   };
 
   console.log('MER TESTING ', update);
@@ -38,14 +40,12 @@ const Home: React.FC = () => {
           type: 'Polygon',
           coordinates: [
             [
-              [5.95458984375, 62.155240711732425],
-              [4.0869140625, 59.65664225341022],
-              [6.8994140625, 58.07787626787517],
-              [10.04150390625, 58.424729753759124],
-              [11.77734375, 59.84481485969105],
-              [11.88720703125, 61.25966921642908],
-              [9.29443359375, 62.257696189351215],
-              [5.95458984375, 62.155240711732425],
+              [11.271972656249998, 62.08331486294795],
+              [4.010009765624999, 60.98376689595989],
+              [6.218261718749999, 57.79794388498275],
+              [12.447509765625, 59.34999582510769],
+              [12.645263671875, 61.559342106132064],
+              [11.271972656249998, 62.08331486294795],
             ],
           ],
         },
@@ -98,12 +98,12 @@ const Home: React.FC = () => {
             />
             <Severity />
             <Time />
-            <Buttons setWarning={setWarning} openSearch={openSearch} />
+            <Buttons setWarning={setWarning} openSearch={polly} />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle}>
-            <CapTable warning={warning} observations={createRandomObs(5)} />
+            <CapTable warning={warning} />
           </Paper>
         </Grid>
 
