@@ -1,9 +1,9 @@
 import React from 'react';
-import Menu from './Menu';
+import Menu from '../Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import { pageSpacing } from '../utils/metMuiThemes';
+import { pageSpacing } from '../../utils/metMuiThemes';
 import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
-import metLogo from '../images/met_logo.png';
+import metLogo from '../../images/met_logo.png';
 
 const Header: React.FC = () => {
   return (

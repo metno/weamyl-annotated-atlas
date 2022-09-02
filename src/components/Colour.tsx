@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import colours from '../config/colour.json';
 import { Box } from '@mui/material';
+import databaseFunctions from '../utils/databaseFunctions';
 
 type Props = {
-  openSearch: object;
   searchObject: object;
-  setSearchObject: object;
+  setSearchObject: any;
 };
 
-const Colour: React.FC<Props> = (props) => {
-  const { openSearch, searchObject, setSearchObject } = props;
+const Colour: React.FC<Props> = ({ searchObject, setSearchObject }) => {
+  const [colourList, setColourList] = React.useState([]);
 
-  const handleChange = (option: any) => {
-    console.log(option.value);
-    let colourChosen = {
-      ...openSearch,
-      colour: option.value,
+  useEffect(() => {
+    databaseFunctions
+      .getColourList()
+      .then((response) => setColourList(response.data));
+  }, []);
+
+  const optionList = [];
+  for (let i = 0; i < colourList.length; i += 1) {
+    optionList[i] = {
+      value: colourList[i],
+      label: colourList[i],
     };
-    console.log('color', colourChosen);
-    //setSearchObject(colourChosen);
+  }
+
+  const onChange = (option: any) => {
+    const phenomSearch = { ...searchObject, colour: option.value };
+    setSearchObject(phenomSearch);
   };
 
   return (
@@ -30,10 +38,9 @@ const Colour: React.FC<Props> = (props) => {
       }}
     >
       <CreatableSelect
-        isClearable
         placeholder={'Colour'}
-        options={colours}
-        onChange={handleChange}
+        options={optionList}
+        onChange={onChange}
       />
     </Box>
   );

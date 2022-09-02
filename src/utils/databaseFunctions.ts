@@ -14,7 +14,14 @@ async function getIncidentNamesList() {
 async function getPhenomenaList() {
   const url = `/phenomenon/list/`;
   const response = await client.get(url);
-  console.log(response.data);
+  //console.log('FenomenListe: ', response.data);
+  return response;
+}
+
+async function getColourList() {
+  const url = `/color/list/`;
+  const response = await client.get(url);
+  //console.log('FargeListe: ', response.data);
   return response;
 }
 
@@ -35,6 +42,7 @@ async function getOpenSearch(input: object) {
 export default {
   getIncidentNamesList,
   getPhenomenaList,
+  getColourList,
   getWarningsFromIncidentNames,
   getOpenSearch,
 };

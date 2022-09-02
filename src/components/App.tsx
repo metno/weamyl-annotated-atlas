@@ -2,9 +2,9 @@ import { ThemeProvider } from '@emotion/react';
 import { Box, createTheme } from '@mui/material';
 import React from 'react';
 import { black_palette, teal_palette } from '../utils/metMuiThemes';
-import Footer from './Footer';
-import Header from './Header';
-import Home from './Home';
+import Footer from './main/Footer';
+import Header from './main/Header';
+import Home from './main/Home';
 import bgImage from '../images/waves.png';
 
 const App: React.FC = () => {

@@ -1,9 +1,13 @@
 import React from 'react';
-import CreatableSelect from 'react-select/creatable';
 import Stack from '@mui/material/Stack';
 import { Box, TextField } from '@mui/material';
 
-const Polygon: React.FC = () => {
+type Props = {
+  searchObject: object;
+  setSearchObject: any;
+};
+
+const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   /*
   function parsePolygon(polygonString: any) {
     console.log('parsePolygon', polygonString);
@@ -73,6 +77,37 @@ const Polygon: React.FC = () => {
     }
   };
 */
+
+  const onChange = () => {
+    const phenomSearch = {
+      ...searchObject,
+      cutoff: 0.5,
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Polygon',
+            coordinates: [
+              [
+                [7.91015625, 63.51427544737998],
+                [5.09765625, 61.95961583829658],
+                [4.998779296875, 61.60639637138628],
+                [6.328125, 60.63548951646859],
+                [9.228515625, 60.973107109199404],
+                [10.283203125, 61.81466389468391],
+                [9.700927734375, 62.58322502941986],
+                [7.91015625, 63.51427544737998],
+              ],
+            ],
+          },
+        },
+      ],
+    };
+    setSearchObject(phenomSearch);
+  };
+
   return (
     <Box
       sx={{
@@ -87,11 +122,7 @@ const Polygon: React.FC = () => {
           placeholder={'Area name'}
           //onChange={onChange}
         />
-        <TextField
-          fullWidth
-          placeholder={'Polygon'}
-          //onChange={onChange}
-        />
+        <TextField fullWidth placeholder={'Polygon'} onChange={onChange} />
       </Stack>
     </Box>
   );
