@@ -22,7 +22,7 @@ const Buttons: React.FC<Props> = ({
   };
 
   const onClearClick = () => {
-      setNullObject(true);
+    setNullObject(true);
   };
 
   return (
