@@ -35,7 +35,7 @@ async function getWarningsFromIncidentNames(names: string) {
 async function getOpenSearch(input: object) {
   const url = `/`;
   const response = await client.post(url, input);
-  console.log('OpenSearch: ', response);
+  //console.log('OpenSearch: ', response);
   return response;
 }
 

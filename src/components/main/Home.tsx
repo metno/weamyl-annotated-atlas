@@ -19,6 +19,7 @@ const paperStyle = {
 const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<CapFileEntryList>([]);
   const [searchObject, setSearchObject] = React.useState<object>({});
+  const [nullObject, setNullObject] = React.useState<boolean>(false);
 
   return (
     <Box
@@ -69,8 +70,18 @@ const Home: React.FC = () => {
               setSearchObject={setSearchObject}
             />
             <Severity />
-            <Time />
-            <Buttons setWarning={setWarning} searchObject={searchObject} />
+            <Time
+              searchObject={searchObject}
+              setSearchObject={setSearchObject}
+              nullObject={nullObject}
+              setNullObject={setNullObject}
+            />
+            <Buttons
+              setWarning={setWarning}
+              searchObject={searchObject}
+              nullObject={nullObject}
+              setNullObject={setNullObject}
+            />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>

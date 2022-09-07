@@ -30,8 +30,6 @@ type Props = {
 const ObservationTable: React.FC<Props> = (props) => {
   const { warning } = props;
 
-  console.log('CapTableId ', warning);
-
   return (
     <>
       <Typography variant="h5">Liste over CAP-filer</Typography>
