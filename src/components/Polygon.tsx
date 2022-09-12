@@ -48,41 +48,6 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     }
   }
 
-  /*
-  const onChange = (option: any) => {
-    console.log('handleChangePolygon, start');
-    const newValue = option.value;
-    const localGeojson = parsePolygon(newValue);
-    if ('geometry' in localGeojson) {
-      if (gjv.valid(localGeojson)) {
-        const newFeatures = [localGeojson];
-        updateWarning('features', newFeatures);
-        updateWarning('municipalities', []);
-        updateWarning('counties', []);
-        setErrorMessage('');
-      } else {
-        console.log('geojson is NOT valid GeoJSON!');
-        const trace = gjv.isFeature(localGeojson, true);
-        setErrorMessage(
-          <>
-            Not possible to create valid GeoJSON!
-            <br />
-            {trace}
-          </>,
-        );
-      }
-    } else {
-      setErrorMessage(
-        <>
-          Du fors�kte � lime inn et ugyldig polygon!
-          <br />
-          {newValue}
-        </>,
-      );
-    }
-  };
-*/
-
   const onPolygonChange = (event: any) => {
     const newValue = event.target.value;
     parsePolygon(newValue);
