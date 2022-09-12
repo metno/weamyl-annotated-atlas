@@ -64,5 +64,5 @@ npm-test:
 annotated atlas:
   extends: .build
   variables:
-    REGISTRY_IMAGE: "${CI_REGISTRY_IMAGE}/${CI_JOB_NAME}"
+    REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}/${CI_JOB_NAME}'
     DOCKERFILE: Dockerfile
