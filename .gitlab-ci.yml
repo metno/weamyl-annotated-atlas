@@ -46,9 +46,9 @@ npm-test:
 build-prod:
   stage: build
   variables:
-    REGESTRY_IMAGE: "${CI_REGISTRY_IMAGE}"
+    REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}'
     DOCKERFILE: Dockerfile
-    BUILD_CONEXT_DIR: .
+    BUILD_CONTEXT_DIR: .
   tags:
     - k8s-unpriv
   script:
