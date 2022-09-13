@@ -12,7 +12,7 @@ stages:
       - .npm
     policy: pull
 
-.setup:
+setup:
   stage: setup
   tags:
     - k8s-unpriv
@@ -26,14 +26,14 @@ stages:
     paths:
       - node_modules
 
-.format-check:
+format-check:
   stage: test
   tags:
     - k8s-unpriv
   script:
     - npm run format:check
 
-.npm-test:
+npm-test:
   stage: test
   tags:
     - k8s-unpriv
