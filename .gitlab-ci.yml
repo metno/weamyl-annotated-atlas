@@ -1,6 +1,45 @@
+
 stages:
+  - setup
+  - test
   - build
 
+.dependencies_cache:
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm
+    policy: pull
+
+setup:
+  stage: setup
+  tags:
+    - k8s-unpriv
+  script:
+    - npm ci
+  extends: .dependencies_cache
+  cache:
+    policy: pull-push
+  artifacts:
+    expire_in: 2h
+    paths:
+      - node_modules
+
+format-check:
+  stage: test
+  tags:
+    - k8s-unpriv
+  script:
+    - npm run format:check
+
+npm-test:
+  stage: test
+  tags:
+    - k8s-unpriv
+  script:
+    - npm run test
 
 .build:
   stage: build
