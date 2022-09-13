@@ -1,4 +1,4 @@
-FROM node:16 as build-stage
+FROM node:16
 WORKDIR /app
 COPY package*.json /src/ /app/
 ARG PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
