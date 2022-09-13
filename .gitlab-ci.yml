@@ -12,7 +12,7 @@ stages:
       - .npm
     policy: pull
 
-setup:
+.setup:
   stage: setup
   tags:
     - k8s-unpriv
@@ -26,14 +26,14 @@ setup:
     paths:
       - node_modules
 
-format-check:
+.format-check:
   stage: test
   tags:
     - k8s-unpriv
   script:
     - npm run format:check
 
-npm-test:
+.npm-test:
   stage: test
   tags:
     - k8s-unpriv
@@ -59,7 +59,7 @@ npm-test:
       - .images/${CI_JOB_NAME}
 
 annotated_atlas:
-  extends: .build
+  extends: .setup .build .format-check .npm-test
   variables:
     REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}/${CI_JOB_NAME}'
     DOCKERFILE: Dockerfile
