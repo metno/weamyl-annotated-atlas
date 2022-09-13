@@ -59,7 +59,7 @@ stages:
       - .images/${CI_JOB_NAME}
 
 annotated_atlas:
-  extends: .setup .build .format-check .npm-test
+  extends: .build
   variables:
     REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}/${CI_JOB_NAME}'
     DOCKERFILE: Dockerfile
