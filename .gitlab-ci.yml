@@ -1,3 +1,5 @@
+image:
+  name: node:16
 
 stages:
   - setup
