@@ -19,6 +19,7 @@ stages:
     paths:
       - .images/${CI_JOB_NAME}
 
+
 annotated_atlas:
   extends: .build
   variables:
