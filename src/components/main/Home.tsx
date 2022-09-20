@@ -56,7 +56,6 @@ const Home: React.FC = () => {
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />
-            <Incidents />
             <Phenomenon
               searchObject={searchObject}
               setSearchObject={setSearchObject}
@@ -69,7 +68,6 @@ const Home: React.FC = () => {
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />
-            <Severity />
             <Time
               searchObject={searchObject}
               setSearchObject={setSearchObject}
