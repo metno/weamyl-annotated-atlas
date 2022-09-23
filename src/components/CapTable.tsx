@@ -54,7 +54,7 @@ const ObservationTable: React.FC<Props> = (props) => {
           </TableHead>
           <TableBody>
             {warning.map((item: CapFilEntries) => (
-              <TableRow key={item._id}>
+              <TableRow key={item._id} hover>
                 <TableCell component="th" scope="row" sx={styles.tableTime}>
                   {item.phenomenon}
                 </TableCell>

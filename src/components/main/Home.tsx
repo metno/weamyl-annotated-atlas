@@ -51,7 +51,7 @@ const Home: React.FC = () => {
         </Grid>
 
         <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle}>
+          <Paper sx={paperStyle} style={{height:400}}>
             <IncidentName
               searchObject={searchObject}
               setSearchObject={setSearchObject}
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle}>
+          <Paper sx={paperStyle} style={{height:400, maxHeight: 400, overflow: 'auto'}}>
             <CapTable warning={warning} />
           </Paper>
         </Grid>
