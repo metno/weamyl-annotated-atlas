@@ -35,7 +35,7 @@ const Home: React.FC = () => {
     >
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Paper
+          {/*<Paper
             sx={{
               textAlign: 'center',
               padding: 2,
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
               src={'images/example.png'}
               sx={{ maxWidth: '100%' }}
             />
-          </Paper>
+          </Paper>*/}
         </Grid>
 
         <Grid item md={12} lg={6}>

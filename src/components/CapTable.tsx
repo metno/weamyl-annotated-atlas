@@ -32,20 +32,23 @@ const ObservationTable: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Typography variant="h5">Liste over CAP-filer</Typography>
+      <Typography variant="h5">Liste over CAP-filer({warning.length})</Typography>
       <TableContainer component={Paper} sx={styles.table}>
         <Table aria-label="CAP-filer">
           <TableHead>
             <TableRow>
-              <TableCell sx={styles.tableHead}>ID</TableCell>
+              <TableCell sx={styles.tableHead}>Phenomenon</TableCell>
               <TableCell sx={styles.tableHead} align="right">
-                Phenonenon
-              </TableCell>
-              <TableCell sx={styles.tableHead} align="right">
-                Svereity
+                Severity
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
                 Area
+              </TableCell>
+              <TableCell sx={styles.tableHead} align="right">
+                Status
+              </TableCell>
+              <TableCell sx={styles.tableHead} align="right">
+                Duration
               </TableCell>
             </TableRow>
           </TableHead>
@@ -53,12 +56,12 @@ const ObservationTable: React.FC<Props> = (props) => {
             {warning.map((item: CapFilEntries) => (
               <TableRow key={item._id}>
                 <TableCell component="th" scope="row" sx={styles.tableTime}>
-                  {item._id}
+                  {item.phenomenon}
                 </TableCell>
-                <TableCell align="right">{item.phenomenon} </TableCell>
                 <TableCell align="right">{item.colour} </TableCell>
                 <TableCell align="right">{item.areaDesc.en} </TableCell>
                 <TableCell align="right">{item.status} </TableCell>
+                <TableCell align="right">{item.onset} / {item.expires} </TableCell>
               </TableRow>
             ))}
           </TableBody>
