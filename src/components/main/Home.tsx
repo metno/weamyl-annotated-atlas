@@ -50,6 +50,7 @@ const Home: React.FC = () => {
           </Paper>*/}
         </Grid>
 
+
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle} style={{height:400}}>
             <IncidentName
