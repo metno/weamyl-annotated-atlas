@@ -36,6 +36,7 @@ const IncidentName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         placeholder={'Incident Names'}
         onChange={onChange}
         options={optionList}
+        isDisabled
       />
     </Box>
   );

@@ -28,7 +28,7 @@ const Time: React.FC<Props> = ({
   setNullObject,
   nullObject,
 }) => {
-  const [locale, setLocale] = React.useState<keyof typeof localeMap>('en');
+  const [locale, setLocale] = React.useState<keyof typeof localeMap>('nb');
   const [startValue, setStartValue] = React.useState<Date | null>(null);
   const [endValue, setEndValue] = React.useState<Date | null>(null);
 
@@ -69,6 +69,7 @@ const Time: React.FC<Props> = ({
             ))}
           </ToggleButtonGroup>
         </Stack>
+
         <Stack direction="row" spacing={3}>
           <DateTimePicker
             value={startValue}
