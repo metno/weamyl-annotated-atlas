@@ -66,7 +66,7 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
           fullWidth
           placeholder={'Area name'}
           //onChange={onChange}
-          disabled
+          disabled //disabled
         />
         <TextField
           fullWidth
