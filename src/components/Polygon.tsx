@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import { Box, TextField } from '@mui/material';
 import mapCoordinates from 'geojson-apply-right-hand-rule';
 // @ts-ignore
 import toBBox from 'geojson-bounding-box';
+import databaseFunctions from '../utils/databaseFunctions';
+import Select from 'react-select';
 
 type Props = {
   searchObject: object;
@@ -53,28 +55,37 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     parsePolygon(newValue);
   };
 
+  const [customAreaNames, setCustomAreaNames] = React.useState([]);
+
+  useEffect(() => {
+    databaseFunctions
+      .getCustomAreaList()
+      .then((response) => setCustomAreaNames(response.data));
+  }, []);
+
+  const optionList = [];
+  for (let i = 0; i < customAreaNames.length; i += 1) {
+    optionList[i] = {
+      value: customAreaNames[i],
+      label: customAreaNames[i],
+    };
+  }
+
+  const onChange = (option: any) => {
+    const customAreaSearch = { ...searchObject, customArea: option.value };
+    setSearchObject(customAreaSearch);
+    console.log(customAreaSearch);
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Stack direction="row" spacing={3}>
-        <TextField
-          fullWidth
-          placeholder={'Area name'}
-          //onChange={onChange}
-          disabled //disabled
-        />
-        <TextField
-          fullWidth
-          placeholder={'Polygon'}
-          onChange={onPolygonChange}
-        />
-      </Stack>
-    </Box>
+    <Stack direction="row" spacing={3}>
+      <Select
+        placeholder={'Area name'}
+        options={optionList}
+        onChange={onChange}
+      />
+      <TextField placeholder={'Polygon'} onChange={onPolygonChange} />
+    </Stack>
   );
 };
 

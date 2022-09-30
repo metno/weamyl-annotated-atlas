@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import CreatableSelect from 'react-select/creatable';
 import { Box } from '@mui/material';
 import databaseFunctions from '../utils/databaseFunctions';
+import Select from 'react-select';
 
 type Props = {
   searchObject: object;
@@ -37,7 +37,7 @@ const Phenomenon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         maxWidth: '100%',
       }}
     >
-      <CreatableSelect
+      <Select
         placeholder={'Phenomenon'}
         options={optionList}
         onChange={onChange}

@@ -1,7 +1,8 @@
 const axios = require('axios');
+let url = `${process.env.REACT_APP_BASEURL}`;
 
 const client = axios.create({
-  baseURL: 'https://test.metcap.met.no/api/v1/cap',
+  baseURL: url,
 });
 
 async function getIncidentNamesList() {
@@ -25,6 +26,13 @@ async function getColourList() {
   return response;
 }
 
+async function getCustomAreaList() {
+  const url = `/customArea/list/`;
+  const response = await client.get(url);
+  //console.log('Predefinert område: ', response.data);
+  return response;
+}
+
 async function getWarningsFromIncidentNames(names: string) {
   const url = `/incident/${names}`;
   const response = await client.get(url);
@@ -43,6 +51,7 @@ export default {
   getIncidentNamesList,
   getPhenomenaList,
   getColourList,
+  getCustomAreaList,
   getWarningsFromIncidentNames,
   getOpenSearch,
 };
