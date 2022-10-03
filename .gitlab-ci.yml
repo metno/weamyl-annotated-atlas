@@ -2,38 +2,56 @@ stages:
   - build
   - release
 
-.build:
+build:
   stage: build
-  variables:
-    REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}'
-    DOCKERFILE: Dockerfile
-    BUILD_CONTEXT_DIR: .
   tags:
     - k8s-root
   script:
+    - docker build -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}" --build-arg NGINX_CONFIG=nginx_conf/default.conf .
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t ${REGISTRY_IMAGE}:${CI_COMMIT_TAG} -f ${DOCKERFILE} ${BUILD_CONTEXT_DIR}
-    - docker push ${REGISTRY_IMAGE}:${CI_COMMIT_TAG}
+    - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
     - mkdir .images
-    - echo "${REGISTRY_IMAGE}:${CI_COMMIT_TAG}" > .images/${CI_JOB_NAME}
+    - echo "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}" > .images/app
   artifacts:
     paths:
-      - .images/${CI_JOB_NAME}
-  rules: &buildrules
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]/'
+      - .images/app
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
 
-annotated_atlas:
-  extends: .build
-  variables:
-    REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}/${CI_JOB_NAME}'
-    DOCKERFILE: Dockerfile
-
-tjenester/annotated-atlas:
+.release:
   stage: release
-  rules: *buildrules
+  image: registry.met.no/k8s/tools/kustomize-cd:0.4.0
+  tags:
+    - k8s-unpriv
   variables:
-    UPSTREAM_CI_COMMIT_SHA: "${CI_COMMIT_SHA}"
-    UPSTREAM_CI_PROJECT_PATH: "${CI_PROJECT_PATH}"
-    UPSTREAM_CI_PROJECT_URL: "${CI_PROJECT_URL}"
-    UPSTREAM_IMAGES: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
-  trigger: tjenester/annotated-atlas
+    EXCLUDE_MAINTAINERS: '["miguelsn", "audunmg", "sebastianj"]'
+    ENVIRONMENT: 'staging'
+    AUTO_RELEASE: 'true'
+  script:
+    - 'echo app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}'
+    - 'echo app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}'
+    - release --repo https://gitlab.met.no/tjenester/annotated-atlas.git
+      --access-token "${TJENESTE_ACCESS_TOKEN}"
+      --automatic "$AUTO_RELEASE"
+      --environment "$ENVIRONMENT"
+      --updates-dir .images
+      --exclude-maintainers "$EXCLUDE_MAINTAINERS"
+
+staging:
+  extends: .release
+  variables:
+    ENVIRONMENT: 'staging'
+    AUTO_RELEASE: 'true'
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+production:
+  extends: .release
+  variables:
+    ENVIRONMENT: 'production'
+    AUTO_RELEASE: 'false'
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - package.json
+
