@@ -17,7 +17,7 @@ Hans Christian Nenseth (hanscn@met.no) is responsible for this repository.
 # Getting started
 
 There is a room in [google chat](https://chat.google.com) called **WeaMyL-chatroom** where we discuss development.
-If you need access to the group, contact (someone)@met.no
+If you need access to the group, contact someone@met.no
 
 ## Test it out
 
