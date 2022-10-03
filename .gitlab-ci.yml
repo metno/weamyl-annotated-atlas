@@ -29,7 +29,7 @@ stages:
     - k8s-unpriv
   variables:
     EXCLUDE_MAINTAINERS: '["miguelsn", "audunmg", "sebastianj"]'
-    ENVIRONMENT: 'staging'
+    ENVIRONMENT: 'developing'
     AUTO_RELEASE: 'true'
   script:
     - 'echo app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}'
@@ -41,10 +41,10 @@ stages:
       --updates-dir .images
       --exclude-maintainers "$EXCLUDE_MAINTAINERS"
 
-staging:
+developing:
   extends: .release
   variables:
-    ENVIRONMENT: 'staging'
+    ENVIRONMENT: 'developing'
     AUTO_RELEASE: 'true'
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
@@ -55,12 +55,12 @@ annotated_atlas:
     REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}/${CI_JOB_NAME}'
     DOCKERFILE: Dockerfile
 
-tjenester/annotated-atlas:
-  stage: release
-  rules: *buildrules
-  variables:
-    UPSTREAM_CI_COMMIT_SHA: "${CI_COMMIT_SHA}"
-    UPSTREAM_CI_PROJECT_PATH: "${CI_PROJECT_PATH}"
-    UPSTREAM_CI_PROJECT_URL: "${CI_PROJECT_URL}"
-    UPSTREAM_IMAGES: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
-  trigger: tjenester/annotated-atlas
+#tjenester/annotated-atlas:
+#  stage: release
+#  rules: *buildrules
+#  variables:
+#    UPSTREAM_CI_COMMIT_SHA: "${CI_COMMIT_SHA}"
+#    UPSTREAM_CI_PROJECT_PATH: "${CI_PROJECT_PATH}"
+#    UPSTREAM_CI_PROJECT_URL: "${CI_PROJECT_URL}"
+#    UPSTREAM_IMAGES: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
+#  trigger: tjenester/annotated-atlas
