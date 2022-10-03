@@ -1,4 +1,6 @@
 const axios = require('axios');
+
+// change this in the .env-file to use another backend
 let url = `${process.env.REACT_APP_BASEURL}`;
 
 const client = axios.create({

@@ -1,4 +1,4 @@
-# What is Annotated Atlas?
+# What is Annotated Atlas? (Draft)
 
 This is a starting point for making a new frontend react application with typescript at Met Norway.
 
@@ -12,11 +12,11 @@ The purose is to make it easier to meet the requirements from our frontend archi
 
 ## Who is responsible?
 
-IT Team Frontend (it-team-frontend@met.no) is responsible for this repository.
+Hans Christian Nenseth (hanscn@met.no) is responsible for this repository.
 
 # Getting started
 
-There is a room in [google chat](https://chat.google.com) called **MET - FAG - React** where we discuss React development at MET.
+There is a room in [google chat](https://chat.google.com) called **WeaMyL-chatroom** where we discuss development.
 If you need access to the group, contact it-team-frontend@met.no
 
 ## Test it out
@@ -32,7 +32,7 @@ Installs all dependencies (based on package-lock.json).\
 #### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
@@ -42,8 +42,8 @@ You will also see any lint errors in the console.
 If you have docker you can build and run the app without any other dependencies this way.
 
 ```
-docker build -t react-boilerplate .
-docker run -p 8080:8080 react-boilerplate
+docker build -t annotated-atlas .
+docker run -p 8080:8080 annotated-atlas
 ```
 
 The docker image is suitable for production in k8s.met.no.
