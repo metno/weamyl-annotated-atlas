@@ -12,40 +12,15 @@ stages:
     - k8s-root
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t ${REGISTRY_IMAGE}:${CI_COMMIT_SHA} -f ${DOCKERFILE} ${BUILD_CONTEXT_DIR}
-    - docker push ${REGISTRY_IMAGE}:${CI_COMMIT_SHA}
+    - docker build -t ${REGISTRY_IMAGE}:${CI_COMMIT_TAG} -f ${DOCKERFILE} ${BUILD_CONTEXT_DIR}
+    - docker push ${REGISTRY_IMAGE}:${CI_COMMIT_TAG}
     - mkdir .images
-    - echo "${REGISTRY_IMAGE}:${CI_COMMIT_SHA}" > .images/${CI_JOB_NAME}
+    - echo "${REGISTRY_IMAGE}:${CI_COMMIT_TAG}" > .images/${CI_JOB_NAME}
   artifacts:
     paths:
       - .images/${CI_JOB_NAME}
   rules: &buildrules
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]/'
-
-.release:
-  stage: release
-  image: registry.met.no/k8s/tools/kustomize-cd:0.4.0
-  tags:
-    - k8s-unpriv
-  variables:
-    EXCLUDE_MAINTAINERS: '["miguelsn", "audunmg", "sebastianj"]'
-    ENVIRONMENT: 'dev'
-    AUTO_RELEASE: 'true'
-  script:
-    - 'echo app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}'
-    - 'echo app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}'
-    - release --repo https://gitlab.met.no/tjenester/annotated-atlas.git
-      --access-token "${TJENESTE_ACCESS_TOKEN}"
-      --automatic "$AUTO_RELEASE"
-      --environment "$ENVIRONMENT"
-      --updates-dir .images
-      --exclude-maintainers "$EXCLUDE_MAINTAINERS"
-
-development:
-  extends: .release
-  variables:
-    ENVIRONMENT: 'dev'
-    AUTO_RELEASE: 'true'
 
 annotated_atlas:
   extends: .build
@@ -53,12 +28,12 @@ annotated_atlas:
     REGISTRY_IMAGE: '${CI_REGISTRY_IMAGE}/${CI_JOB_NAME}'
     DOCKERFILE: Dockerfile
 
-#tjenester/annotated-atlas:
-#  stage: release
-#  rules: *buildrules
-#  variables:
-#    UPSTREAM_CI_COMMIT_SHA: "${CI_COMMIT_SHA}"
-#    UPSTREAM_CI_PROJECT_PATH: "${CI_PROJECT_PATH}"
-#    UPSTREAM_CI_PROJECT_URL: "${CI_PROJECT_URL}"
-#    UPSTREAM_IMAGES: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
-#  trigger: tjenester/annotated-atlas
+tjenester/annotated-atlas:
+  stage: release
+  rules: *buildrules
+  variables:
+    UPSTREAM_CI_COMMIT_SHA: "${CI_COMMIT_SHA}"
+    UPSTREAM_CI_PROJECT_PATH: "${CI_PROJECT_PATH}"
+    UPSTREAM_CI_PROJECT_URL: "${CI_PROJECT_URL}"
+    UPSTREAM_IMAGES: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
+  trigger: tjenester/annotated-atlas
