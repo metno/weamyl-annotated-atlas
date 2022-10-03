@@ -41,13 +41,11 @@ stages:
       --updates-dir .images
       --exclude-maintainers "$EXCLUDE_MAINTAINERS"
 
-dev:
+development:
   extends: .release
   variables:
     ENVIRONMENT: 'dev'
     AUTO_RELEASE: 'true'
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
 
 annotated_atlas:
   extends: .build
