@@ -29,7 +29,7 @@ stages:
     - k8s-unpriv
   variables:
     EXCLUDE_MAINTAINERS: '["miguelsn", "audunmg", "sebastianj"]'
-    ENVIRONMENT: 'developing'
+    ENVIRONMENT: 'dev'
     AUTO_RELEASE: 'true'
   script:
     - 'echo app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}'
@@ -41,10 +41,10 @@ stages:
       --updates-dir .images
       --exclude-maintainers "$EXCLUDE_MAINTAINERS"
 
-developing:
+dev:
   extends: .release
   variables:
-    ENVIRONMENT: 'developing'
+    ENVIRONMENT: 'dev'
     AUTO_RELEASE: 'true'
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
