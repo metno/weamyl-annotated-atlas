@@ -1,14 +1,11 @@
-# What is Annotated Atlas? (Draft)
+# What is the Annotated Atlas? (Draft)
 
-This is a starting point for making a new frontend react application with typescript at Met Norway.
-
-The purose is to make it easier to meet the requirements from our frontend architecture by
-
-- Suggesting a solution on how to implement Met Norway visual profile (design)
-- Using React and Material UI with example code
-- Configuring test framework and include example tests
-- Provide example of CI pipeline with setup, tests and build
-- Configure useful tools and scripts
+The main end-users of the Annotated Atlas are both the operational and the research meteorologists.
+The operational meteorologists will use the atlas for analyzing the weather warning(CAP) proposal by 
+reviewing historical weather warnings, but also to review earlier situations and give the earlier 
+warnings hit rate grades.  For the research meteorologist, the atlas will be a convenient tool for 
+identifying good training data for machine learning algorithms by giving easy access to source 
+observation datasets.
 
 ## Who is responsible?
 
