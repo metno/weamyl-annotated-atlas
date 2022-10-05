@@ -32,9 +32,7 @@ const ObservationTable: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Typography variant="h5">
-        Results ({warning.length})
-      </Typography>
+      <Typography variant="h5">Results ({warning.length})</Typography>
       <TableContainer component={Paper} sx={styles.table}>
         <Table aria-label="CAP-filer">
           <TableHead>
@@ -72,7 +70,7 @@ const ObservationTable: React.FC<Props> = (props) => {
         </Table>
       </TableContainer>
       <Typography variant="caption">
-        Tabellen viser ikke ekte observasjoner
+        The table shows a list of CAP files for given search parameters
       </Typography>
     </>
   );

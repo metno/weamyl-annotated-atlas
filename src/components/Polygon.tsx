@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Stack from '@mui/material/Stack';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import mapCoordinates from 'geojson-apply-right-hand-rule';
 // @ts-ignore
 import toBBox from 'geojson-bounding-box';
@@ -33,6 +33,7 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
 
       let geometry = mapCoordinates(latlon);
       geometry = { ...geometry, bbox: toBBox(geometry) };
+      console.log('SEARCH: ', geometry);
       const phenomSearch = {
         ...searchObject,
         cutoff: 0.5,
@@ -72,6 +73,12 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   }
 
   const onChange = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
     const customAreaSearch = { ...searchObject, customArea: option.value };
     setSearchObject(customAreaSearch);
     console.log(customAreaSearch);
@@ -80,11 +87,18 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   return (
     <Stack direction="row" spacing={3}>
       <Select
-        placeholder={'Area name'}
+        isClearable
+        placeholder={'Area name (None functional in prototype)'}
         options={optionList}
         onChange={onChange}
       />
-      <TextField placeholder={'Polygon'} onChange={onPolygonChange} />
+      <Stack>
+        <TextField placeholder={'Polygon'} onChange={onPolygonChange} />
+        <Typography variant="caption">
+          Only works on polygons of this format (61.2481, 5.45023) (58.9953,
+          9.23162) (61.6041, 11.5993)
+        </Typography>
+      </Stack>
     </Stack>
   );
 };

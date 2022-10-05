@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import databaseFunctions from '../utils/databaseFunctions';
-import {Box, Typography} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 type Props = {
   searchObject: object;
@@ -33,13 +33,14 @@ const IncidentName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   return (
     <Box>
       <CreatableSelect
-        placeholder={'Incident Names'}
+        isClearable
+        placeholder={'Incident Names (None functional in prototype)'}
         onChange={onChange}
         options={optionList}
-        isDisabled
+        /*isDisabled*/
       />
       <Typography variant="caption">
-        Tabellen viser ikke ekte observasjoner
+        A list of named extreme weather conditions
       </Typography>
     </Box>
   );

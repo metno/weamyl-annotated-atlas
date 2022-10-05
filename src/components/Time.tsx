@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Typography } from '@mui/material';
 
 type Props = {
   searchObject: object;
@@ -20,10 +21,7 @@ const localeMap = {
   nb: nbLocale,
 };
 
-const Time: React.FC<Props> = ({
-  searchObject,
-  setSearchObject,
-}) => {
+const Time: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   const [locale, setLocale] = React.useState<keyof typeof localeMap>('nb');
   const [startValue, setStartValue] = React.useState<Date | null>(null);
   const [endValue, setEndValue] = React.useState<Date | null>(null);
@@ -52,7 +50,7 @@ const Time: React.FC<Props> = ({
       adapterLocale={localeMap[locale]}
     >
       <Stack spacing={3}>
-       {/* <Stack direction="row" spacing={3}>
+        {/* <Stack direction="row" spacing={3}>
           <ToggleButtonGroup value={locale} exclusive sx={{ display: 'block' }}>
             {Object.keys(localeMap).map((localeItem) => (
               <ToggleButton
@@ -67,16 +65,22 @@ const Time: React.FC<Props> = ({
         </Stack>*/}
 
         <Stack direction="row" spacing={3}>
-          <DateTimePicker
-            value={startValue}
-            onChange={onChangeStartTime}
-            renderInput={(params) => <TextField {...params} />}
-          />
-          <DateTimePicker
-            value={endValue}
-            onChange={onChangeEndTime}
-            renderInput={(params) => <TextField {...params} />}
-          />
+          <Stack>
+            <DateTimePicker
+              value={startValue}
+              onChange={onChangeStartTime}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <Typography variant="caption">Onset</Typography>
+          </Stack>
+          <Stack>
+            <DateTimePicker
+              value={endValue}
+              onChange={onChangeEndTime}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <Typography variant="caption">Expires</Typography>
+          </Stack>
         </Stack>
       </Stack>
     </LocalizationProvider>

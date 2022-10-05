@@ -1,13 +1,11 @@
 import React from 'react';
-import {Box, Grid, Paper, Typography} from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import Phenomenon from '../Phenomenon';
 import Polygon from '../Polygon';
 import Time from '../Time';
 import IncidentName from '../IncidentName';
 import CapTable from '../CapTable';
 import Buttons from '../Buttons';
-import Incidents from '../Incidents';
-import Severity from '../Severity';
 import Colour from '../Colour';
 import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 
@@ -50,10 +48,8 @@ const Home: React.FC = () => {
         </Grid>
 
         <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle} style={{height:400}}>
-            <Typography variant="h5">
-              Search parameters
-            </Typography>
+          <Paper sx={paperStyle} style={{ height: 400 }}>
+            <Typography variant="h5">Search parameters</Typography>
             <IncidentName
               searchObject={searchObject}
               setSearchObject={setSearchObject}
@@ -74,14 +70,14 @@ const Home: React.FC = () => {
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />
-            <Buttons
-              setWarning={setWarning}
-              searchObject={searchObject}
-            />
+            <Buttons setWarning={setWarning} searchObject={searchObject} />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle} style={{height:400, maxHeight: 400, overflow: 'auto'}}>
+          <Paper
+            sx={paperStyle}
+            style={{ height: 400, maxHeight: 400, overflow: 'auto' }}
+          >
             <CapTable warning={warning} />
           </Paper>
         </Grid>

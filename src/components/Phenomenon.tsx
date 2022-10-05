@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Box, Typography} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import databaseFunctions from '../utils/databaseFunctions';
 import Select from 'react-select';
 
@@ -26,6 +26,12 @@ const Phenomenon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   }
 
   const onChange = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
     const phenomSearch = { ...searchObject, phenomenon: option.value };
     setSearchObject(phenomSearch);
   };
@@ -38,12 +44,13 @@ const Phenomenon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       }}
     >
       <Select
+          isClearable
         placeholder={'Phenomenon'}
         options={optionList}
         onChange={onChange}
       />
       <Typography variant="caption">
-        Tabellen viser ikke ekte observasjoner
+        Different kinds of meteorological weather conditions
       </Typography>
     </Box>
   );

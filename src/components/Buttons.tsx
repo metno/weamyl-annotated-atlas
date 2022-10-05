@@ -7,10 +7,7 @@ type Props = {
   searchObject: object;
 };
 
-const Buttons: React.FC<Props> = ({
-  setWarning,
-  searchObject,
-}) => {
+const Buttons: React.FC<Props> = ({ setWarning, searchObject }) => {
   const onSearchClick = () => {
     databaseFunctions
       .getOpenSearch(searchObject)

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import {Box, Typography} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import databaseFunctions from '../utils/databaseFunctions';
 
 type Props = {
@@ -26,6 +26,12 @@ const Colour: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   }
 
   const onChange = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
     const phenomSearch = { ...searchObject, colour: option.value };
     setSearchObject(phenomSearch);
   };
@@ -38,12 +44,13 @@ const Colour: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       }}
     >
       <CreatableSelect
+        isClearable
         placeholder={'Colour'}
         options={optionList}
         onChange={onChange}
       />
       <Typography variant="caption">
-        Tabellen viser ikke ekte observasjoner
+        Colour is a combination of certainty and severity
       </Typography>
     </Box>
   );
