@@ -18,7 +18,8 @@ If you need access to the group, contact someone@met.no
 
 ## Test it out
 
-We recommend using the latest stabile version of node and npm in this project. If you want to test it without development tools, see description on how to run with docker below.
+We recommend using the latest stabile version of node and npm in this project. If you want to test it without 
+development tools, see description on how to run with docker below.
 
 ### Build and run with node
 

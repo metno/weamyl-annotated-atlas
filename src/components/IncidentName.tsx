@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import databaseFunctions from '../utils/databaseFunctions';
-import { Box } from '@mui/material';
+import {Box, Typography} from '@mui/material';
 
 type Props = {
   searchObject: object;
@@ -38,6 +38,9 @@ const IncidentName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         options={optionList}
         isDisabled
       />
+      <Typography variant="caption">
+        Tabellen viser ikke ekte observasjoner
+      </Typography>
     </Box>
   );
 };

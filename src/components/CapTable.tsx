@@ -32,14 +32,16 @@ const ObservationTable: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Typography variant="h5">Liste over CAP-filer({warning.length})</Typography>
+      <Typography variant="h5">
+        Results ({warning.length})
+      </Typography>
       <TableContainer component={Paper} sx={styles.table}>
         <Table aria-label="CAP-filer">
           <TableHead>
             <TableRow>
               <TableCell sx={styles.tableHead}>Phenomenon</TableCell>
               <TableCell sx={styles.tableHead} align="right">
-                Severity
+                Colour
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
                 Area
@@ -61,7 +63,9 @@ const ObservationTable: React.FC<Props> = (props) => {
                 <TableCell align="right">{item.colour} </TableCell>
                 <TableCell align="right">{item.areaDesc.en} </TableCell>
                 <TableCell align="right">{item.status} </TableCell>
-                <TableCell align="right">{item.onset} / {item.expires} </TableCell>
+                <TableCell align="right">
+                  {item.onset} / {item.expires}{' '}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

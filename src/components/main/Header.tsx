@@ -36,7 +36,16 @@ const Header: React.FC = () => {
               width: 200,
             }}
           />
-          <Box component="div" sx={{ flexGrow: 1 }} />
+          <Box
+            component="div"
+            sx={{ flexGrow: 1 }}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            fontSize={35}
+          >
+            Annotated Atlas
+          </Box>
           <IconButton
             sx={{ color: 'primary.contrastText' }}
             aria-label="Open drawer"

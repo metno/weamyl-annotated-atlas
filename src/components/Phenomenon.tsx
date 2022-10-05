@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box } from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import databaseFunctions from '../utils/databaseFunctions';
 import Select from 'react-select';
 
@@ -42,6 +42,9 @@ const Phenomenon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         options={optionList}
         onChange={onChange}
       />
+      <Typography variant="caption">
+        Tabellen viser ikke ekte observasjoner
+      </Typography>
     </Box>
   );
 };

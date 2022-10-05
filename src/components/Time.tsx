@@ -13,8 +13,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 type Props = {
   searchObject: object;
   setSearchObject: any;
-  nullObject: boolean;
-  setNullObject: any;
 };
 
 const localeMap = {
@@ -25,8 +23,6 @@ const localeMap = {
 const Time: React.FC<Props> = ({
   searchObject,
   setSearchObject,
-  setNullObject,
-  nullObject,
 }) => {
   const [locale, setLocale] = React.useState<keyof typeof localeMap>('nb');
   const [startValue, setStartValue] = React.useState<Date | null>(null);
@@ -56,7 +52,7 @@ const Time: React.FC<Props> = ({
       adapterLocale={localeMap[locale]}
     >
       <Stack spacing={3}>
-        <Stack direction="row" spacing={3}>
+       {/* <Stack direction="row" spacing={3}>
           <ToggleButtonGroup value={locale} exclusive sx={{ display: 'block' }}>
             {Object.keys(localeMap).map((localeItem) => (
               <ToggleButton
@@ -68,7 +64,7 @@ const Time: React.FC<Props> = ({
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
-        </Stack>
+        </Stack>*/}
 
         <Stack direction="row" spacing={3}>
           <DateTimePicker

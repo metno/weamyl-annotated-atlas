@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import { Box } from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import databaseFunctions from '../utils/databaseFunctions';
 
 type Props = {
@@ -42,6 +42,9 @@ const Colour: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         options={optionList}
         onChange={onChange}
       />
+      <Typography variant="caption">
+        Tabellen viser ikke ekte observasjoner
+      </Typography>
     </Box>
   );
 };

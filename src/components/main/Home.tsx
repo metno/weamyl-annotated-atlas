@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Paper } from '@mui/material';
+import {Box, Grid, Paper, Typography} from '@mui/material';
 import Phenomenon from '../Phenomenon';
 import Polygon from '../Polygon';
 import Time from '../Time';
@@ -19,7 +19,6 @@ const paperStyle = {
 const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<CapFileEntryList>([]);
   const [searchObject, setSearchObject] = React.useState<object>({});
-  const [nullObject, setNullObject] = React.useState<boolean>(false);
 
   return (
     <Box
@@ -52,6 +51,9 @@ const Home: React.FC = () => {
 
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle} style={{height:400}}>
+            <Typography variant="h5">
+              Search parameters
+            </Typography>
             <IncidentName
               searchObject={searchObject}
               setSearchObject={setSearchObject}
@@ -71,14 +73,10 @@ const Home: React.FC = () => {
             <Time
               searchObject={searchObject}
               setSearchObject={setSearchObject}
-              nullObject={nullObject}
-              setNullObject={setNullObject}
             />
             <Buttons
               setWarning={setWarning}
               searchObject={searchObject}
-              nullObject={nullObject}
-              setNullObject={setNullObject}
             />
           </Paper>
         </Grid>

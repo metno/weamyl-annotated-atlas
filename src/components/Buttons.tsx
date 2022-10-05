@@ -5,15 +5,11 @@ import databaseFunctions from '../utils/databaseFunctions';
 type Props = {
   setWarning: any;
   searchObject: object;
-  nullObject: boolean;
-  setNullObject: any;
 };
 
 const Buttons: React.FC<Props> = ({
   setWarning,
   searchObject,
-  setNullObject,
-  nullObject,
 }) => {
   const onSearchClick = () => {
     databaseFunctions
@@ -22,7 +18,7 @@ const Buttons: React.FC<Props> = ({
   };
 
   const onClearClick = () => {
-    setNullObject(true);
+    window.location.reload();
   };
 
   return (
