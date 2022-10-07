@@ -95,6 +95,9 @@ const Home: React.FC = () => {
               src={'images/MapPolygon.png'}
               sx={{ maxWidth: '100%' }}
             />
+            <Typography variant="caption">
+              Concept of selected polygon in map
+            </Typography>
           </Paper>
         </Grid>
       </Grid>

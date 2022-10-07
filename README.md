@@ -21,6 +21,9 @@ If you need access to the group, contact someone@met.no
 We recommend using the latest stabile version of node and npm in this project. If you want to test it without 
 development tools, see description on how to run with docker below.
 
+If you need to run against another backend/database you have set up on your own system you have to edit 
+the .env-file to point to the right address.
+
 ### Build and run with node
 
 #### `npm ci`

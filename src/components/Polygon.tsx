@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Stack from '@mui/material/Stack';
-import { Box, TextField, Typography } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import mapCoordinates from 'geojson-apply-right-hand-rule';
 // @ts-ignore
 import toBBox from 'geojson-bounding-box';
@@ -26,14 +26,13 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     let corners = array.map((item) => item[0].split(', ').reverse());
 
     if (corners.length > 2) {
-      const latlon = corners.map((corner) => [
+      const latitudeLongitude = corners.map((corner) => [
         parseFloat(corner[0]),
         parseFloat(corner[1]),
       ]);
 
-      let geometry = mapCoordinates(latlon);
+      let geometry = mapCoordinates(latitudeLongitude);
       geometry = { ...geometry, bbox: toBBox(geometry) };
-      console.log('SEARCH: ', geometry);
       const phenomSearch = {
         ...searchObject,
         cutoff: 0.5,

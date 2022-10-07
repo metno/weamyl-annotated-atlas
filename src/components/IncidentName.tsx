@@ -37,7 +37,6 @@ const IncidentName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         placeholder={'Incident Names (None functional in prototype)'}
         onChange={onChange}
         options={optionList}
-        /*isDisabled*/
       />
       <Typography variant="caption">
         A list of named extreme weather conditions
