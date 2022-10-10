@@ -44,7 +44,7 @@ const Phenomenon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       }}
     >
       <Select
-          isClearable
+        isClearable
         placeholder={'Phenomenon'}
         options={optionList}
         onChange={onChange}

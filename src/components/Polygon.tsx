@@ -45,7 +45,6 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
           },
         ],
       };
-      console.log('SEARCH: ', phenomSearch);
       setSearchObject(phenomSearch);
     }
   }

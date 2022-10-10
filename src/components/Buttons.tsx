@@ -9,8 +9,16 @@ type Props = {
 
 const Buttons: React.FC<Props> = ({ setWarning, searchObject }) => {
   const onSearchClick = () => {
+    // filter out empty elements from the json
+    const filteredData = Object.entries(searchObject).reduce((x, [k, v]) => {
+      if (v) {
+        // not ( null, undefined, empty string)
+        x[k] = v;
+      }
+      return x;
+    }, {} as any);
     databaseFunctions
-      .getOpenSearch(searchObject)
+      .getOpenSearch(filteredData)
       .then((response) => setWarning(response.data));
   };
 
