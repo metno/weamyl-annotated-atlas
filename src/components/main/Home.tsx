@@ -8,6 +8,7 @@ import CapTable from '../CapTable';
 import Buttons from '../Buttons';
 import Colour from '../Colour';
 import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
+import MapLeaf from '../MapLeaf';
 
 const paperStyle = {
   padding: 2,
@@ -83,21 +84,10 @@ const Home: React.FC = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Paper
-            sx={{
-              textAlign: 'center',
-              padding: 2,
-            }}
-          >
-            <Box
-              component="img"
-              alt={'description of example image'}
-              src={'images/MapPolygon.png'}
-              sx={{ maxWidth: '100%' }}
-            />
-            <Typography variant="caption">
-              Concept of selected polygon in map
-            </Typography>
+          <Paper>
+            <Box>
+              <MapLeaf />
+            </Box>
           </Paper>
         </Grid>
       </Grid>

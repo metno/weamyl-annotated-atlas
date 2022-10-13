@@ -5,6 +5,7 @@ import { black_palette, teal_palette } from '../../utils/metMuiThemes';
 import Footer from './Footer';
 import Header from './Header';
 import Home from './Home';
+import './App.css';
 import bgImage from '../../images/waves.png';
 
 const App: React.FC = () => {

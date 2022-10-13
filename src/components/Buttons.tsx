@@ -17,6 +17,7 @@ const Buttons: React.FC<Props> = ({ setWarning, searchObject }) => {
       }
       return x;
     }, {} as any);
+    // console.log(filteredData);
     databaseFunctions
       .getOpenSearch(filteredData)
       .then((response) => setWarning(response.data));
