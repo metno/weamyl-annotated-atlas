@@ -9,6 +9,8 @@ import Buttons from '../Buttons';
 import Colour from '../Colour';
 import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
+import test from '../../config/test1.json';
+
 
 const paperStyle = {
   padding: 2,
@@ -18,6 +20,7 @@ const paperStyle = {
 const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<CapFileEntryList>([]);
   const [searchObject, setSearchObject] = React.useState<object>({});
+  const [polygonObject, setPolygonObject] = React.useState<object>(test);
 
   return (
     <Box
@@ -79,14 +82,14 @@ const Home: React.FC = () => {
             sx={paperStyle}
             style={{ height: 400, maxHeight: 400, overflow: 'auto' }}
           >
-            <CapTable warning={warning} />
+            <CapTable warning={warning} setPolygonObject={setPolygonObject} />
           </Paper>
         </Grid>
 
         <Grid item xs={12}>
           <Paper>
             <Box>
-              <MapLeaf />
+              <MapLeaf polygonObject={polygonObject} />
             </Box>
           </Paper>
         </Grid>

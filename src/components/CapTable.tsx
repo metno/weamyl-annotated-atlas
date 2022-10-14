@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Paper,
   Table,
@@ -8,7 +9,6 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import React from 'react';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 
 const styles = {
@@ -25,10 +25,16 @@ const styles = {
 
 type Props = {
   warning: CapFileEntryList;
+  setPolygonObject: any;
 };
 
 const ObservationTable: React.FC<Props> = (props) => {
-  const { warning } = props;
+  const { warning, setPolygonObject } = props;
+
+  // Sends selected CAP to be shown in map.
+  const onClickTableRow = (item: CapFilEntries) => {
+    setPolygonObject(item.features[0]);
+  };
 
   return (
     <>
@@ -54,7 +60,11 @@ const ObservationTable: React.FC<Props> = (props) => {
           </TableHead>
           <TableBody>
             {warning.map((item: CapFilEntries) => (
-              <TableRow key={item._id} hover>
+              <TableRow
+                key={item._id}
+                hover
+                onClick={() => onClickTableRow(item)}
+              >
                 <TableCell component="th" scope="row" sx={styles.tableTime}>
                   {item.phenomenon}
                 </TableCell>

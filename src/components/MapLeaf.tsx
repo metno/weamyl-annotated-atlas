@@ -1,18 +1,23 @@
 import React from 'react';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, Polygon, TileLayer } from 'react-leaflet';
+import { GeoJSON, MapContainer, TileLayer } from 'react-leaflet';
+// import test from '../config/test1.json';
 
-export default function MapLeaf() {
-  // Default coordinates set to Oslo central station
-  const position: LatLngExpression = [59.91174337077401, 10.750425582038146];
-  const zoom: number = 4;
+type Props = {
+  polygonObject: object;
+};
 
-  const polygon: [number, number][] = [
-    [51.515, -0.09],
-    [62.52, -0.1],
-    [51.52, 10.12],
-  ];
+const MapLeaf: React.FC<Props> = (props) => {
+  const { polygonObject } = props;
+  // const position: LatLngExpression = [52.5200066, 6.8801032]; // Berlin
+  const position: LatLngExpression = [64, 11]; // Namsos
+  const zoom: number = 4.5;
+
+  // @ts-ignore
+  const data: GeoJSON.Feature = polygonObject;
+
+  console.log('PollyObject: ', polygonObject);
 
   return (
     <MapContainer center={position} zoom={zoom} scrollWheelZoom={true}>
@@ -23,7 +28,8 @@ export default function MapLeaf() {
       {
         // Placeholder, we'll put our markers here
       }
-      <Polygon positions={polygon} />
+      <GeoJSON data={data} />
     </MapContainer>
   );
-}
+};
+export default MapLeaf;
