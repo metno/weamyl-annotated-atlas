@@ -11,7 +11,6 @@ import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
 
-
 const paperStyle = {
   padding: 2,
   textAlign: 'left',

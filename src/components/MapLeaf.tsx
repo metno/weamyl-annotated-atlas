@@ -2,7 +2,6 @@ import React from 'react';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { GeoJSON, MapContainer, TileLayer } from 'react-leaflet';
-// import test from '../config/test1.json';
 
 type Props = {
   polygonObject: object;
@@ -14,10 +13,22 @@ const MapLeaf: React.FC<Props> = (props) => {
   const position: LatLngExpression = [64, 11]; // Namsos
   const zoom: number = 4.5;
 
-  // @ts-ignore
-  const data: GeoJSON.Feature = polygonObject;
+  const MyData = () => {
+    const [data, setData] = React.useState();
 
-  console.log('PollyObject: ', polygonObject);
+    React.useEffect(() => {
+      // @ts-ignore
+      const data: GeoJSON.Feature = polygonObject;
+      // @ts-ignore
+      setData(data);
+    }, []);
+
+    if (data) {
+      return <GeoJSON data={data} />;
+    } else {
+      return null;
+    }
+  };
 
   return (
     <MapContainer center={position} zoom={zoom} scrollWheelZoom={true}>
@@ -28,7 +39,7 @@ const MapLeaf: React.FC<Props> = (props) => {
       {
         // Placeholder, we'll put our markers here
       }
-      <GeoJSON data={data} />
+      <MyData />
     </MapContainer>
   );
 };
