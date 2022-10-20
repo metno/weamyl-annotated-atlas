@@ -33,7 +33,7 @@ const ObservationTable: React.FC<Props> = (props) => {
 
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
-    setPolygonObject(item.features[0]);
+    setPolygonObject(item);
   };
 
   return (

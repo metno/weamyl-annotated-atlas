@@ -15,16 +15,21 @@ const MapLeaf: React.FC<Props> = (props) => {
 
   const MyData = () => {
     const [data, setData] = React.useState();
+    const [colour, setColour] = React.useState();
 
     React.useEffect(() => {
       // @ts-ignore
-      const data: GeoJSON.Feature = polygonObject;
+      const data: GeoJSON.Feature = polygonObject.features[0];
+      // @ts-ignore
+      const colour: GeoJSON.Feature = polygonObject.colour;
       // @ts-ignore
       setData(data);
+      // @ts-ignore
+      setColour(colour);
     }, []);
 
     if (data) {
-      return <GeoJSON data={data} />;
+      return <GeoJSON pathOptions={{ color: colour }} data={data} />;
     } else {
       return null;
     }
