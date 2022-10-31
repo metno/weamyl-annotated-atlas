@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
+import databaseFunctions from "../utils/databaseFunctions";
 
 const styles = {
   table: {
@@ -34,6 +35,7 @@ const ObservationTable: React.FC<Props> = (props) => {
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
     setPolygonObject(item);
+    databaseFunctions.getModelData().then(r => console.log(r));
   };
 
   return (
