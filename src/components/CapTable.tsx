@@ -1,5 +1,8 @@
 import React from 'react';
 import {
+  Box,
+  Collapse,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -9,8 +12,10 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
-import databaseFunctions from "../utils/databaseFunctions";
+import databaseFunctions from '../utils/databaseFunctions';
 
 const styles = {
   table: {
@@ -31,11 +36,15 @@ type Props = {
 
 const ObservationTable: React.FC<Props> = (props) => {
   const { warning, setPolygonObject } = props;
+  const [open, setOpen] = React.useState(-1);
+  const tempLink =
+    'https://thredds.met.no/thredds/dodsC/remotesensingsatellite/polar-swath/2022/09/13/metopc-avhrr-20220913153618-20220913154329.nc';
 
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
     setPolygonObject(item);
-    databaseFunctions.getModelData().then(r => console.log(r));
+    console.log(item._id);
+    databaseFunctions.getModelData().then((r) => console.log(r));
   };
 
   return (
@@ -45,6 +54,7 @@ const ObservationTable: React.FC<Props> = (props) => {
         <Table aria-label="CAP-filer">
           <TableHead>
             <TableRow>
+              <TableCell sx={styles.tableHead} />
               <TableCell sx={styles.tableHead}>Phenomenon</TableCell>
               <TableCell sx={styles.tableHead} align="right">
                 Colour
@@ -61,22 +71,47 @@ const ObservationTable: React.FC<Props> = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {warning.map((item: CapFilEntries) => (
-              <TableRow
-                key={item._id}
-                hover
-                onClick={() => onClickTableRow(item)}
-              >
-                <TableCell component="th" scope="row" sx={styles.tableTime}>
-                  {item.phenomenon}
-                </TableCell>
-                <TableCell align="right">{item.colour} </TableCell>
-                <TableCell align="right">{item.areaDesc.en} </TableCell>
-                <TableCell align="right">{item.status} </TableCell>
-                <TableCell align="right">
-                  {item.onset} / {item.expires}{' '}
-                </TableCell>
-              </TableRow>
+            {warning.map((item: CapFilEntries, index) => (
+              <>
+                <TableRow
+                  key={item._id}
+                  hover
+                  onClick={() => onClickTableRow(item)}
+                >
+                  <TableCell>
+                    <IconButton
+                      aria-label="expand row"
+                      size="small"
+                      onClick={() => setOpen(open === index ? -1 : index)}
+                    >
+                      {open === index ? (
+                        <KeyboardArrowUpIcon />
+                      ) : (
+                        <KeyboardArrowDownIcon />
+                      )}
+                    </IconButton>
+                  </TableCell>
+                  <TableCell component="th" scope="row" sx={styles.tableTime}>
+                    {item.phenomenon}
+                  </TableCell>
+                  <TableCell align="right">{item.colour} </TableCell>
+                  <TableCell align="right">{item.areaDesc.en} </TableCell>
+                  <TableCell align="right">{item.status} </TableCell>
+                  <TableCell align="right">
+                    {item.onset} / {item.expires}{' '}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell
+                    style={{ paddingBottom: 0, paddingTop: 0 }}
+                    colSpan={6}
+                  >
+                    <Collapse in={open === index} timeout="auto" unmountOnExit>
+                      <Box sx={{ margin: 1 }}>{tempLink}</Box>
+                    </Collapse>
+                  </TableCell>
+                </TableRow>
+              </>
             ))}
           </TableBody>
         </Table>
