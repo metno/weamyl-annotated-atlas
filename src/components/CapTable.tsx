@@ -14,8 +14,10 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import FloodOutlinedIcon from '@mui/icons-material/FloodOutlined';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 import databaseFunctions from '../utils/databaseFunctions';
+import CapDialog from './CapDialog';
 
 const styles = {
   table: {
@@ -37,6 +39,7 @@ type Props = {
 const ObservationTable: React.FC<Props> = (props) => {
   const { warning, setPolygonObject } = props;
   const [open, setOpen] = React.useState(-1);
+  const [openDialog, setOpenDialog] = React.useState(false);
   const tempLink =
     'https://thredds.met.no/thredds/dodsC/remotesensingsatellite/polar-swath/2022/09/13/metopc-avhrr-20220913153618-20220913154329.nc';
 
@@ -68,6 +71,7 @@ const ObservationTable: React.FC<Props> = (props) => {
               <TableCell sx={styles.tableHead} align="right">
                 Duration
               </TableCell>
+              <TableCell sx={styles.tableHead} />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -99,6 +103,16 @@ const ObservationTable: React.FC<Props> = (props) => {
                   <TableCell align="right">{item.status} </TableCell>
                   <TableCell align="right">
                     {item.onset} / {item.expires}{' '}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      aria-label="expand row"
+                      size="small"
+                      onClick={() => setOpenDialog(!openDialog)}
+                    >
+                      <FloodOutlinedIcon />
+                    </IconButton>
+                    <CapDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
                   </TableCell>
                 </TableRow>
                 <TableRow>
