@@ -15,6 +15,7 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import FloodOutlinedIcon from '@mui/icons-material/FloodOutlined';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
@@ -46,8 +47,8 @@ const ObservationTable: React.FC<Props> = (props) => {
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
     setPolygonObject(item);
-    console.log(item._id);
-    databaseFunctions.getModelData().then((r) => console.log(r));
+    console.log('WHAT DID I CLICK ', item._id);
+    databaseFunctions.getModelData().then((r) => console.log('SENDA? ', r));
   };
 
   return (
@@ -110,9 +111,12 @@ const ObservationTable: React.FC<Props> = (props) => {
                       size="small"
                       onClick={() => setOpenDialog(!openDialog)}
                     >
-                      <FloodOutlinedIcon />
+                      <WarningAmberIcon color="warning" />
                     </IconButton>
-                    <CapDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
+                    <CapDialog
+                      openDialog={openDialog}
+                      setOpenDialog={setOpenDialog}
+                    />
                   </TableCell>
                 </TableRow>
                 <TableRow>

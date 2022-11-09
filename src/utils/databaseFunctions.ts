@@ -12,6 +12,13 @@ const modelDAtaClient = axios.create({
   baseURL: cswURL,
 });
 
+async function getCapFiles(cap: string) {
+  const url = `/incident/${cap}`;
+  const response = await client.get(url);
+  console.log(response.data);
+  return response;
+}
+
 async function getIncidentNamesList() {
   const url = `/incident/name/list/`;
   const response = await client.get(url);
@@ -97,6 +104,7 @@ async function getModelData() {
 }
 
 export default {
+  getCapFiles,
   getIncidentNamesList,
   getPhenomenaList,
   getColourList,
