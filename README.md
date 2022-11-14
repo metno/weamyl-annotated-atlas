@@ -28,7 +28,7 @@ the `.env`-file to point to the right address.
 
 #### `npm ci`
 
-Installs all dependencies (based on package-lock.json).\
+Installs all dependencies (based on package-lock.json).
 
 #### `npm start`
 
@@ -53,10 +53,7 @@ The docker image is suitable for production in k8s.met.no.
 
 You will need to fork this repo and make your own. Further we reccomend:
 
-- Remove example code that you do not need in your app.
-- Apply for k8s.met.no project and extend current CI pipeline with deployment.
-- Use provided docker file as a starting point for your app.
-- Add appropriate license. Be aware that proveded fonts, part of Met Norway visual profile, are propietary.
+- Add appropriate license.
 
 ## Documentation
 
