@@ -99,7 +99,7 @@ var xTest = '<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>\n' +
 async function getModelData() {
   const url = `/`;
   const response = await modelDAtaClient.post(url, xTest);
-  //console.log('OpenSearch: ', response);
+  console.log('SENDASearch: ', response);
   return response;
 }
 

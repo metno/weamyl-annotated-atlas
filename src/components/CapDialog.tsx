@@ -33,6 +33,7 @@ const CapDialog: React.FC<Props> = (props) => {
 
   const handleClose = () => {
     setOpenDialog(false);
+    console.log('hei');
   };
 
   /*const displayCAP = databaseFunctions
@@ -81,7 +82,6 @@ const CapDialog: React.FC<Props> = (props) => {
         PaperProps={{ sx: { width: "75%", height: "100%" } }}
         open={openDialog}
         onClose={handleClose}
-        PaperComponent={PaperComponent}
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">

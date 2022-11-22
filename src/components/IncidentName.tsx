@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import databaseFunctions from '../utils/databaseFunctions';
 import { Box, Typography } from '@mui/material';
+import Select from 'react-select';
 
 type Props = {
   searchObject: object;
@@ -25,16 +26,22 @@ const IncidentName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     };
   }
 
-  const onChange = () => {
-    const phenomSearch = { ...searchObject };
+  const onChange = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    const phenomSearch = { ...searchObject, incidentName: option.value };
     setSearchObject(phenomSearch);
   };
 
   return (
     <Box>
-      <CreatableSelect
+      <Select
         isClearable
-        placeholder={'Incident Names (None functional in prototype)'}
+        placeholder={'Incident Names'}
         onChange={onChange}
         options={optionList}
       />

@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import FloodOutlinedIcon from '@mui/icons-material/FloodOutlined';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 import databaseFunctions from '../utils/databaseFunctions';
@@ -42,7 +41,7 @@ const ObservationTable: React.FC<Props> = (props) => {
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const tempLink =
-    'https://thredds.met.no/thredds/dodsC/remotesensingsatellite/polar-swath/2022/09/13/metopc-avhrr-20220913153618-20220913154329.nc';
+    'https://thredds.met.no/thredds/fileServer/remotesensingsatellite/polar-swath/2022/09/21/noaa20-viirs-mband-20220921054420-20220921055251.nc';
 
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
