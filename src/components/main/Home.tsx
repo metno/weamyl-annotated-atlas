@@ -21,6 +21,8 @@ const Home: React.FC = () => {
   const [searchObject, setSearchObject] = React.useState<object>({});
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
 
+  let showAnnotation: boolean = true;
+
   return (
     <Box
       component="div"
@@ -85,13 +87,29 @@ const Home: React.FC = () => {
           </Paper>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={showAnnotation ? 6 : 12}>
           <Paper>
             <Box>
               <MapLeaf polygonObject={polygonObject} />
             </Box>
           </Paper>
         </Grid>
+        { showAnnotation ? <Grid item xs={6}>
+          <Paper
+            sx={{
+              textAlign: 'center',
+              padding: 2,
+            }}
+          >
+            <Typography variant="h5">Selected warning to annotate</Typography>
+            <Box
+              component="img"
+              alt={'description of example image'}
+              src={'images/example.png'}
+              sx={{ maxWidth: '100%' }}
+            />
+          </Paper>
+        </Grid> : null}
       </Grid>
     </Box>
   );

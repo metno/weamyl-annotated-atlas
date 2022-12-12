@@ -40,6 +40,7 @@ const ObservationTable: React.FC<Props> = (props) => {
   const { warning, setPolygonObject } = props;
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [warningAttachment, setWarningAttachment] = React.useState('');
   const tempLink =
     'https://thredds.met.no/thredds/fileServer/remotesensingsatellite/polar-swath/2022/09/21/noaa20-viirs-mband-20220921054420-20220921055251.nc';
 
@@ -48,6 +49,13 @@ const ObservationTable: React.FC<Props> = (props) => {
     setPolygonObject(item);
     console.log('WHAT DID I CLICK ', item._id);
     databaseFunctions.getModelData().then((r) => console.log('SENDA? ', r));
+  };
+
+  const onClickCapDialog = (item: CapFilEntries) => {
+    setOpenDialog(!openDialog);
+    databaseFunctions
+      .getCapAttachmentXML(item._id)
+      .then((r) => setWarningAttachment(r));
   };
 
   return (
@@ -108,11 +116,12 @@ const ObservationTable: React.FC<Props> = (props) => {
                     <IconButton
                       aria-label="expand row"
                       size="small"
-                      onClick={() => setOpenDialog(!openDialog)}
+                      onClick={() => onClickCapDialog(item)}
                     >
                       <WarningAmberIcon color="warning" />
                     </IconButton>
                     <CapDialog
+                      warningAttachment={warningAttachment}
                       openDialog={openDialog}
                       setOpenDialog={setOpenDialog}
                     />
