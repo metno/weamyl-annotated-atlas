@@ -88,6 +88,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                 <TableRow
                   key={item._id}
                   hover
+                  selected={true}
                   onClick={() => onClickTableRow(item)}
                 >
                   <TableCell>

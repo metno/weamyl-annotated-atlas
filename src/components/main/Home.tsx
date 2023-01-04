@@ -10,6 +10,7 @@ import Colour from '../Colour';
 import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
+import ValidationForm from "../ValidationForm";
 
 const paperStyle = {
   padding: 2,
@@ -102,12 +103,7 @@ const Home: React.FC = () => {
             }}
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
-            <Box
-              component="img"
-              alt={'description of example image'}
-              src={'images/example.png'}
-              sx={{ maxWidth: '100%' }}
-            />
+            <ValidationForm />
           </Paper>
         </Grid> : null}
       </Grid>
