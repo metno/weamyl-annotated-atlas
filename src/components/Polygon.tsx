@@ -91,11 +91,12 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         onChange={onChange}
       />
       <Stack>
-        <TextField placeholder={'Polygon'} onChange={onPolygonChange} />
-        <Typography variant="caption">
-          Only works on polygons of this format (61.2481, 5.45023) (58.9953,
-          9.23162) (61.6041, 11.5993)
-        </Typography>
+        <TextField
+          placeholder={'Polygon'}
+          onChange={onPolygonChange}
+          helperText="Only works on polygons of this format (61.2481, 5.45023) (58.9953,
+          9.23162) (61.6041, 11.5993)"
+        />
       </Stack>
     </Stack>
   );

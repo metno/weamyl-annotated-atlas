@@ -10,7 +10,7 @@ import Colour from '../Colour';
 import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
-import ValidationForm from "../ValidationForm";
+import ValidationForm from '../ValidationForm';
 
 const paperStyle = {
   padding: 2,
@@ -21,8 +21,7 @@ const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<CapFileEntryList>([]);
   const [searchObject, setSearchObject] = React.useState<object>({});
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
-
-  let showAnnotation: boolean = true;
+  const [attachmentJSON, setAttachmentJSON] = React.useState<object>([]);
 
   return (
     <Box
@@ -37,22 +36,6 @@ const Home: React.FC = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          {/*<Paper
-            sx={{
-              textAlign: 'center',
-              padding: 2,
-            }}
-          >
-            <Box
-              component="img"
-              alt={'description of example image'}
-              src={'images/example.png'}
-              sx={{ maxWidth: '100%' }}
-            />
-          </Paper>*/}
-        </Grid>
-
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle} style={{ height: 400 }}>
             <Typography variant="h5">Search parameters</Typography>
@@ -84,18 +67,23 @@ const Home: React.FC = () => {
             sx={paperStyle}
             style={{ height: 400, maxHeight: 400, overflow: 'auto' }}
           >
-            <CapTable warning={warning} setPolygonObject={setPolygonObject} />
+            <CapTable
+              warning={warning}
+              setPolygonObject={setPolygonObject}
+              setAttachmentJSON={setAttachmentJSON}
+            />
           </Paper>
         </Grid>
 
-        <Grid item xs={showAnnotation ? 6 : 12}>
+        <Grid item xs={6}>
           <Paper>
             <Box>
               <MapLeaf polygonObject={polygonObject} />
             </Box>
           </Paper>
         </Grid>
-        { showAnnotation ? <Grid item xs={6}>
+
+        <Grid item xs={6}>
           <Paper
             sx={{
               textAlign: 'center',
@@ -103,9 +91,9 @@ const Home: React.FC = () => {
             }}
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
-            <ValidationForm />
+            <ValidationForm attachmentJSON={attachmentJSON} />
           </Paper>
-        </Grid> : null}
+        </Grid>
       </Grid>
     </Box>
   );

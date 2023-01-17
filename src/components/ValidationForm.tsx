@@ -1,54 +1,65 @@
 import React from 'react';
-import { Box, Grid, Paper, Typography } from '@mui/material';
-import Phenomenon from './Phenomenon';
+import { Box, TextField, Typography } from '@mui/material';
 import Select from 'react-select';
+import Stack from '@mui/material/Stack';
 
 const paperStyle = {
   padding: 2,
   textAlign: 'left',
 };
-const ValidationForm: React.FC = () => {
+
+type Props = {
+  attachmentJSON: any;
+};
+
+const ValidationForm: React.FC<Props> = (props) => {
+  const { attachmentJSON } = props;
+
+  console.log(attachmentJSON);
+
+  /*const optionList = [{
+    value: green,
+    label: green,
+    value: customAreaNames[i],
+    label: customAreaNames[i],
+    value: customAreaNames[i],
+    label: customAreaNames[i],
+  }];
+*/
   return (
-    <Box
-      component="div"
-      sx={{
-        flexGrow: 1,
-        margin: 0,
-        paddingTop: 1,
-        paddingBottom: 1,
-        paddingLeft: 2,
-        paddingRight: 1,
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle} style={{ height: 400 }}>
-            <Typography variant="h5">Search parameters</Typography>
-            <Box
-              sx={{
-                width: 500,
-                maxWidth: '100%',
-              }}
-            >
-              <Select isClearable placeholder={'Phenomenon'} />
-              <Typography variant="caption">
-                Different kinds of meteorological weather conditions
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: 500,
-                maxWidth: '100%',
-              }}
-            >
-              <Select isClearable placeholder={'Phenomenon'} />
-              <Typography variant="caption">
-                Different kinds of meteorological weather conditions
-              </Typography>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
+    <Box>
+      <Stack spacing={3}>
+        <Stack direction="row" spacing={3}>
+          <TextField
+            label="Phenomena of current warning"
+            value={attachmentJSON.phenom}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Stack>
+        <Stack direction="row" spacing={3}>
+          <TextField
+            value={attachmentJSON.colour}
+            label="Colour of current warning"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <Select placeholder={'Korrigert verdi'} />
+        </Stack>
+        <Stack direction="row" spacing={3}>
+          <TextField
+            id="no"
+            label={'Fritekst'}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            multiline
+            minRows={6}
+          />
+        </Stack>
+      </Stack>
     </Box>
   );
 };

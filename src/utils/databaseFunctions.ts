@@ -99,7 +99,7 @@ var xTest =
   '            <gml:exterior>\n' +
   '              <gml:LinearRing>\n' +
   '                <gml:posList>\n' +
-  '                  62.0896 8.56313 60.4449 6.00234 60.128 10.2408 62.0896 8.56313\n' +
+  '                  63.3984 7.65173 60.7546 5.0449 59.0639 10.187 62.9065 12.4944 63.3984 7.65173\n' +
   '                </gml:posList>\n' +
   '              </gml:LinearRing>\n' +
   '            </gml:exterior>\n' +
@@ -113,7 +113,7 @@ var xTest =
 async function getModelData() {
   const url = `/`;
   const response = await modelDAtaClient.post(url, xTest);
-  console.log('SENDASearch: ', response);
+  // console.log('SENDASearch: ', response);
   return response;
 }
 

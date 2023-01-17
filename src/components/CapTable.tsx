@@ -34,13 +34,15 @@ const styles = {
 type Props = {
   warning: CapFileEntryList;
   setPolygonObject: any;
+  setAttachmentJSON: any;
 };
 
 const ObservationTable: React.FC<Props> = (props) => {
-  const { warning, setPolygonObject } = props;
+  const { warning, setPolygonObject, setAttachmentJSON } = props;
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
+  const [modelData, setModelDAta] = React.useState('');
   const tempLink =
     'https://thredds.met.no/thredds/fileServer/remotesensingsatellite/polar-swath/2022/09/21/noaa20-viirs-mband-20220921054420-20220921055251.nc';
 
@@ -48,7 +50,8 @@ const ObservationTable: React.FC<Props> = (props) => {
   const onClickTableRow = (item: CapFilEntries) => {
     setPolygonObject(item);
     console.log('WHAT DID I CLICK ', item._id);
-    databaseFunctions.getModelData().then((r) => console.log('SENDA? ', r));
+    databaseFunctions.getModelData().then((r) => setModelDAta(r.data));
+    databaseFunctions.getCapAttachmentJSON(item._id).then((r)=> setAttachmentJSON(r));
   };
 
   const onClickCapDialog = (item: CapFilEntries) => {
@@ -79,7 +82,7 @@ const ObservationTable: React.FC<Props> = (props) => {
               <TableCell sx={styles.tableHead} align="right">
                 Duration
               </TableCell>
-              <TableCell sx={styles.tableHead} />
+              <TableCell sx={styles.tableHead}>CAP</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -88,7 +91,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                 <TableRow
                   key={item._id}
                   hover
-                  selected={true}
+                  selected={false}
                   onClick={() => onClickTableRow(item)}
                 >
                   <TableCell>
@@ -134,7 +137,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                     colSpan={6}
                   >
                     <Collapse in={open === index} timeout="auto" unmountOnExit>
-                      <Box sx={{ margin: 1 }}>{tempLink}</Box>
+                      <Box sx={{ margin: 1 }}>{modelData}</Box>
                     </Collapse>
                   </TableCell>
                 </TableRow>
