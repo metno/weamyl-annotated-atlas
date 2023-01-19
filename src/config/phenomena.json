@@ -1,0 +1,190 @@
+{
+  "wind":{
+    "value": "wind",
+    "guiName": {
+      "nb": "Vindkast",
+      "nn": "Vindkast",
+      "en": "Wind gust"
+    },
+    "severities": ["Moderate", "Severe", "Extreme"],
+    "thresholds": ["17.5m/s","20m/s","22.5m/s","25m/s","27.5m/s","30m/s","32.5m/s","35m/s","37.5m/s","40m/s","42.5m/s","45m/s","47.5m/s","50m/s","52.5m/s","55m/s","57.5m/s","60m/s"],
+    "ceilings": ["100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft","4500ft","5000ft","5500ft","6000ft","7000ft","8000ft","9000ft"],
+    "altitudes": ["0ft","100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/vind-over-land",
+    "eventEnding":true,
+    "areas": ["0710","34","30","03","38","42","11","46","15","50","18","54","21"]
+  },
+  "rain":{
+    "value": "rain",
+    "guiName": {
+      "nb": "Regn",
+      "nn": "Regn",
+      "en": "Rain"
+    },
+    "severities": ["Moderate", "Severe", "Extreme"],
+    "thresholds": ["25mm/6h","30mm/6h","35mm/6h","40mm/6h","50mm/6h","60mm/6h","30mm/12h","35mm/12h","40mm/12h","50mm/12h","60mm/12h","70mm/12h","80mm/12h","90mm/12h","40mm/24h","50mm/24h","60mm/24h","70mm/24h","80mm/24h","90mm/24h","100mm/24h","120mm/24h","150mm/24h","180mm/24h","200mm/24h","250mm/24h"],
+    "ceilings": ["100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft","4500ft","5000ft","5500ft","6000ft","7000ft","8000ft","9000ft"],
+    "altitudes": ["0ft","100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/farevarsel-for-nedbor",
+    "eventEnding":true,
+    "areas": ["34","30","03","38","42","11","46","15","50","18","54","21"]
+  },
+"snow":{
+    "value": "snow",
+    "guiName": {
+      "nb": "Snø",
+      "nn": "Snø",
+      "en": "Snow"
+    },
+    "severities": ["Moderate", "Severe", "Extreme"],
+    "thresholds": ["3cm/24h", "5cm/24h","10cm/24h","15cm/24h","20cm/24h","25cm/24h","30cm/24h","40cm/24h","50cm/24h","60cm/24h","70cm/24h","80cm/24h","90cm/24h","100cm/24h"],
+    "ceilings": ["100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft","4500ft","5000ft","5500ft","6000ft","7000ft","8000ft","9000ft"],
+    "altitudes": ["0ft","100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/sno",
+    "eventEnding":true,
+    "areas": ["0710","34","30","03","38","42","11","46","15","50","18","54"]
+  },
+  "ice":{
+    "value": "ice",
+    "guiName": {
+      "nb": "Is",
+      "nn": "Is",
+      "en": "Ice"
+    },
+    "severities": ["Moderate", "Severe"],
+    "thresholds": ["0,2mm/3h", "0,5mm/3h","1mm/3h","2mm/3h","3mm/3h","4mm/3h","5mm/3h"],
+    "ceilings": ["100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft","4500ft","5000ft","5500ft","6000ft","7000ft","8000ft","9000ft"],
+    "altitudes": ["0ft","100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/is",
+    "eventEnding":true,
+    "areas": ["0710","34","30","03","38","42","11","46","15","50","18","54"]
+  },
+ "rainFlood": {
+    "value": "rainFlood",
+    "guiName": {
+      "nb": "Styrtregn",
+      "nn": "Styrtregn",
+      "en": "Rain flood"
+    },
+    "severities": ["Moderate", "Severe"],
+    "thresholds": ["15mm/h", "20mm/h","25mm/h","30mm/h","35mm/h"],
+    "ceilings": ["100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft","4500ft","5000ft","5500ft","6000ft","7000ft","8000ft","9000ft"],
+    "altitudes": ["0ft","100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/styrtregn",
+    "eventEnding":true,
+    "areas": ["34","30","03","38","42","11","46","15","50","18","54","21"]
+  },
+ "lightning": {
+    "value": "lightning",
+    "guiName": {
+      "nb": "Mye lyn",
+      "nn": "Mykje lyn",
+      "en": "Frequent lightning"
+    },
+    "severities": ["Moderate"],
+    "thresholds": [],
+    "ceilings": ["9000ft"],
+    "altitudes": ["0ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/lyn",
+    "eventEnding":true,
+    "areas": ["34","30","03","38","42","11","46","15","50","18","54","21"]
+  },
+  "blowingSnow":{
+    "value": "blowingSnow",
+    "guiName": {
+      "nb": "Snøfokk",
+      "nn": "Snøfokk",
+      "en": "Blowing snow"
+    },
+    "severities": ["Moderate"],
+    "thresholds": [],
+    "ceilings": ["100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft","4500ft","5000ft","5500ft","6000ft","7000ft","8000ft","9000ft"],
+    "altitudes": ["0ft","100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/snofokk",
+    "eventEnding":true,
+    "areas": ["0710","34","30","03","38","42","11","46","15","50","18","54"]
+  },
+  "stormSurge":{
+    "value": "stormSurge",
+    "guiName": {
+      "nb": "Vannstand",
+      "nn": "Vannstand",
+      "en": "Water level"
+    },
+    "severities": ["Moderate", "Severe", "Extreme"],
+    "thresholds": [],
+    "ceilings": ["80ft"],
+    "altitudes": ["0ft"],
+    "defaultCeiling":"80ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/varsel-om-hoy-vannstand",
+    "eventEnding":true,
+    "areas": ["416677653","416677652", "416677651","2070529520","2070529519","2070529518","2070529517","2070529516","1072030096","1072030095","1072030094","416677649","374115392","374115391"]
+  },
+  "polarLow":{
+    "value": "polarLow",
+    "id": "polarLow",
+    "guiName": {
+      "nb": "Polare lavtrykk",
+      "nn": "Polare lavtrykk",
+      "en": "Polar low"
+    },
+    "severities": ["Minor", "Moderate", "Severe"],
+    "thresholds": [],
+    "ceilings": ["9000ft"],
+    "altitudes": ["0ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/polare-lavtrykk",
+    "eventEnding":true,
+    "areas": ["34","30","03","38","42","11","46","15","50","18","54","21"]
+  },
+  "forestFire":{
+    "value": "forestFire",
+    "guiName": {
+      "nb": "Skogbrannfare",
+      "nn": "Skogbrannfare",
+      "en": "Forest fire danger"
+    },
+    "severities": ["Moderate", "Severe"],
+    "thresholds": [],
+    "ceilings": ["100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft","4500ft","5000ft","5500ft","6000ft","7000ft","8000ft","9000ft"],
+    "altitudes": ["0ft","100ft","200ft","300ft","400ft","600ft","800ft","1000ft","1500ft","2000ft","2500ft","3000ft","3500ft","4000ft"],
+    "defaultCeiling":"9000ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/varsel-om-skogbrannfare",
+    "eventEnding":false,
+    "areas": ["34","30","03","38","42","11","46","15","50","18","54"]
+  },
+  "icing":{
+    "value": "icing",
+    "guiName": {
+      "nb": "Ising",
+      "nn": "Ising",
+      "en": "Icing"
+    },
+    "severities": ["Moderate", "Severe"],
+    "thresholds": ["0.5cm/h", "1.34cm/h"],
+    "ceilings": ["80ft"],
+    "altitudes": ["0ft"],
+    "defaultCeiling":"80ft",
+    "defaultAltitude":"0ft",
+    "link":"https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler/vaerfenomener-som-kan-gi-farevarsel-fra-met/ising-pa-fartoyer",
+    "eventEnding":true,
+    "areas": ["416677653","416677652", "416677651","2070529520","2070529519","2070529518","2070529517","2070529516","1072030096","1072030095","1072030094","416677649","374115392","374115391"]
+ }
+}

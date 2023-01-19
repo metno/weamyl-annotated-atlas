@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 import Select from 'react-select';
 import Stack from '@mui/material/Stack';
+import phenomena from '../config/phenomena.json';
 
 const paperStyle = {
   padding: 2,
@@ -15,17 +16,34 @@ type Props = {
 const ValidationForm: React.FC<Props> = (props) => {
   const { attachmentJSON } = props;
 
+  const selectedPhenom = attachmentJSON.phenom;
+  const thresholdsList = phenomena["ice"].thresholds;
+
+  console.log(selectedPhenom);
+
+  console.log(thresholdsList);
+
   console.log(attachmentJSON);
 
-  /*const optionList = [{
-    value: green,
-    label: green,
-    value: customAreaNames[i],
-    label: customAreaNames[i],
-    value: customAreaNames[i],
-    label: customAreaNames[i],
-  }];
-*/
+  const optionList = [
+    {
+      value: 'Green',
+      label: 'Green',
+    },
+    {
+      value: 'Yellow',
+      label: 'Yellow',
+    },
+    {
+      value: 'Orange',
+      label: 'Orange',
+    },
+    {
+      value: 'Red',
+      label: 'Red',
+    },
+  ];
+
   return (
     <Box>
       <Stack spacing={3}>
@@ -46,19 +64,43 @@ const ValidationForm: React.FC<Props> = (props) => {
               shrink: true,
             }}
           />
-          <Select placeholder={'Korrigert verdi'} />
+          <Select placeholder={'Corrected value'} options={optionList} />
         </Stack>
         <Stack direction="row" spacing={3}>
           <TextField
-            id="no"
-            label={'Fritekst'}
+            value={attachmentJSON.threshold}
+            label="Threshold of current warning"
             InputLabelProps={{
               shrink: true,
             }}
-            multiline
-            minRows={6}
+          />
+          <Select placeholder={'Corrected value'} options={optionList} />
+        </Stack>
+        <Stack direction="row" spacing={3}>
+          <TextField
+            value={attachmentJSON.identifier}
+            label="Consequences of selected warning"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            value={attachmentJSON.identifier}
+            label="Corrected value"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Stack>
+        <TextField
+          id="no"
+          label={'Comment to selected warning'}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          multiline
+          minRows={6}
+        />
       </Stack>
     </Box>
   );
