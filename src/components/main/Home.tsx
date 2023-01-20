@@ -76,7 +76,9 @@ const Home: React.FC = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <Paper>
+          <Paper
+            sx={paperStyle}
+            style={{ height: 700, maxHeight: 700, overflow: 'auto' }}>
             <Box>
               <MapLeaf polygonObject={polygonObject} />
             </Box>
@@ -89,6 +91,7 @@ const Home: React.FC = () => {
               textAlign: 'center',
               padding: 2,
             }}
+            style={{ height: 700, maxHeight: 700, overflow: 'auto' }}
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
             <ValidationForm attachmentJSON={attachmentJSON} />

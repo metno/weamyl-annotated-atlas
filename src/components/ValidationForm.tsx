@@ -16,14 +16,13 @@ type Props = {
 const ValidationForm: React.FC<Props> = (props) => {
   const { attachmentJSON } = props;
 
-  const selectedPhenom = attachmentJSON.phenom;
-  const thresholdsList = phenomena["ice"].thresholds;
+  type phenomKey = keyof typeof phenomena;
+  let selectedPhenom: phenomKey = attachmentJSON.phenom;
+  const thresholdsList = phenomena[selectedPhenom];
 
   console.log(selectedPhenom);
 
   console.log(thresholdsList);
-
-  console.log(attachmentJSON);
 
   const optionList = [
     {
@@ -74,7 +73,7 @@ const ValidationForm: React.FC<Props> = (props) => {
               shrink: true,
             }}
           />
-          <Select placeholder={'Corrected value'} options={optionList} />
+          <Select placeholder={'Corrected value'} />
         </Stack>
         <Stack direction="row" spacing={3}>
           <TextField
