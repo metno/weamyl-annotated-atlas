@@ -43,8 +43,6 @@ const ObservationTable: React.FC<Props> = (props) => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
   const [modelData, setModelDAta] = React.useState('');
-  const tempLink =
-    'https://thredds.met.no/thredds/fileServer/remotesensingsatellite/polar-swath/2022/09/21/noaa20-viirs-mband-20220921054420-20220921055251.nc';
 
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {

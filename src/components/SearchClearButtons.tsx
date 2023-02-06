@@ -7,7 +7,7 @@ type Props = {
   searchObject: object;
 };
 
-const Buttons: React.FC<Props> = ({ setWarning, searchObject }) => {
+const SearchClearButtons: React.FC<Props> = ({ setWarning, searchObject }) => {
   const onSearchClick = () => {
     // filter out empty elements from the json
     const filteredData = Object.entries(searchObject).reduce((x, [k, v]) => {
@@ -39,4 +39,4 @@ const Buttons: React.FC<Props> = ({ setWarning, searchObject }) => {
   );
 };
 
-export default Buttons;
+export default SearchClearButtons;

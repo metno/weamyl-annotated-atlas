@@ -5,7 +5,7 @@ import Polygon from '../Polygon';
 import Time from '../Time';
 import IncidentName from '../IncidentName';
 import CapTable from '../CapTable';
-import Buttons from '../Buttons';
+import SearchClearButtons from '../SearchClearButtons';
 import Colour from '../Colour';
 import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />
-            <Buttons setWarning={setWarning} searchObject={searchObject} />
+            <SearchClearButtons setWarning={setWarning} searchObject={searchObject} />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>
