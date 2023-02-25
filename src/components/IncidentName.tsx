@@ -38,7 +38,12 @@ const IncidentName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   };
 
   return (
-    <Box>
+    <Box
+     sx={{
+        width: 500,
+        maxWidth: '100%',
+      }}
+    >
       <Select
         isClearable
         placeholder={'Incident Names'}

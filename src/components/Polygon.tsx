@@ -30,9 +30,11 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         parseFloat(corner[0]),
         parseFloat(corner[1]),
       ]);
-
+      console.log('latln: ', latitudeLongitude);
       let geometry = mapCoordinates(latitudeLongitude);
       geometry = { ...geometry, bbox: toBBox(geometry) };
+      console.log('latln: ', geometry);
+      console.log('latln: ', geometry.type);
       const phenomSearch = {
         ...searchObject,
         cutoff: 0.5,
@@ -84,12 +86,12 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
 
   return (
     <Stack direction="row" spacing={3}>
-      <Select
+      {/*<Select
         isClearable
         placeholder={'Area name (None functional in prototype)'}
         options={optionList}
         onChange={onChange}
-      />
+  />*/}
       <Stack>
         <TextField
           placeholder={'Polygon'}

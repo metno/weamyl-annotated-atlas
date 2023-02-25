@@ -39,11 +39,11 @@ const Home: React.FC = () => {
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle} style={{ height: 400 }}>
             <Typography variant="h5">Search parameters</Typography>
-            <IncidentName
+            <Phenomenon
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />
-            <Phenomenon
+            <IncidentName
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />

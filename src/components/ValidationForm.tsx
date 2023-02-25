@@ -115,31 +115,9 @@ const ValidationForm: React.FC<Props> = (props) => {
                 shrink: true,
               }}
             >
-              {optionList.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
             </TextField>
           </Stack>
 
-          <Stack direction="row" spacing={3}>
-            <TextField
-              value={attachmentJSON.identifier}
-              label="Consequences of selected warning"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              select
-              value={attachmentJSON.identifier}
-              label="Corrected value"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Stack>
         </Box>
         <TextField
           id="no"
