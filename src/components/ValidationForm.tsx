@@ -9,6 +9,14 @@ const paperStyle = {
   textAlign: 'left',
 };
 
+interface phen {
+  test: 'rain' | 'wind'
+}
+
+enum PHEN {
+  WIND = 'wind'
+}
+
 type Props = {
   attachmentJSON: any;
 };
@@ -26,13 +34,19 @@ const ValidationForm: React.FC<Props> = (props) => {
     console.log('saved');
   };
 
-  type phenomKey = keyof typeof phenomena;
-  let selectedPhenom: phenomKey = attachmentJSON.phenom;
-  const thresholdsList = phenomena[selectedPhenom];
+  // console.log('AJSON ', attachmentJSON);
 
-  console.log(selectedPhenom);
 
-  console.log(thresholdsList);
+let y: PHEN = attachmentJSON.phenom ;
+const x = 'ice';
+//console.log(typeof y, y, typeof x, x);
+
+  //console.log('test1', phenomena[x].thresholds);
+  //console.log(phenomena);
+
+
+
+
 
   const annotated = {
     comment: '',
@@ -115,6 +129,11 @@ const ValidationForm: React.FC<Props> = (props) => {
                 shrink: true,
               }}
             >
+              {phenomena.rain.thresholds.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
             </TextField>
           </Stack>
 

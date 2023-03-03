@@ -18,6 +18,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
+import { XMLParser } from 'fast-xml-parser';
 
 const styles = {
   table: {
@@ -47,9 +48,21 @@ const ObservationTable: React.FC<Props> = (props) => {
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
     setPolygonObject(item);
-    console.log('WHAT DID I CLICK ', item._id);
-    databaseFunctions.getModelData().then((r) => setModelDAta(r.data));
-    databaseFunctions.getCapAttachmentJSON(item._id).then((r)=> setAttachmentJSON(r));
+    databaseFunctions.getModelData().then((r) => {
+
+      const options = {
+        ignoreAttributes: false,
+      };
+      const parser = new XMLParser(options);
+      let jsonObj = parser.parse(r);
+      let ncResults = jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:Record'][0]
+          ['dct:references'][0]['#text'];
+
+      setModelDAta(ncResults);
+    });
+    databaseFunctions
+      .getCapAttachmentJSON(item._id)
+      .then((r) => setAttachmentJSON(r));
   };
 
   const onClickCapDialog = (item: CapFilEntries) => {
