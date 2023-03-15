@@ -3,19 +3,12 @@ import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import Select from 'react-select';
 import Stack from '@mui/material/Stack';
 import phenomena from '../config/phenomena.json';
+import databaseFunctions from '../utils/databaseFunctions';
 
 const paperStyle = {
   padding: 2,
   textAlign: 'left',
 };
-
-interface phen {
-  test: 'rain' | 'wind'
-}
-
-enum PHEN {
-  WIND = 'wind'
-}
 
 type Props = {
   attachmentJSON: any;
@@ -23,53 +16,73 @@ type Props = {
 
 const ValidationForm: React.FC<Props> = (props) => {
   const { attachmentJSON } = props;
-  const [commentOnCAP, setCommentOnCAP] = useState({});
-
-  const onChange = (option: string) => {
-    const saveComment = { ...commentOnCAP, option };
-    setCommentOnCAP(saveComment);
-  };
+  const [evaluationForm, setEvaluationForm] = React.useState<object>({});
+  const colourOptionList = ['Green', 'Yellow', 'Orange', 'Red'];
+  const evaluationList = [1, 2, 3, 4, 5];
+  let evaluationObject = {};
 
   const onClickSave = () => {
-    console.log('saved');
+    evaluationObject = {
+      ...evaluationForm,
+      _id: attachmentJSON.identifier,
+      phenomenon: attachmentJSON.phenom,
+    };
+    console.log(evaluationObject);
+    databaseFunctions
+      .putEvaluationForm(evaluationObject)
+      .then((r) => console.log(r));
   };
 
-  // console.log('AJSON ', attachmentJSON);
-
-
-let y: PHEN = attachmentJSON.phenom ;
-const x = 'ice';
-//console.log(typeof y, y, typeof x, x);
-
-  //console.log('test1', phenomena[x].thresholds);
-  //console.log(phenomena);
-
-
-
-
-
-  const annotated = {
-    comment: '',
+  const onChangeColour = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    evaluationObject = { ...evaluationForm, colour: option.target.value };
+    setEvaluationForm(evaluationObject);
+    console.log(evaluationObject);
   };
 
-  const optionList = [
-    {
-      value: 'Green',
-      label: 'Green',
-    },
-    {
-      value: 'Yellow',
-      label: 'Yellow',
-    },
-    {
-      value: 'Orange',
-      label: 'Orange',
-    },
-    {
-      value: 'Red',
-      label: 'Red',
-    },
-  ];
+  const onChangeThreshold = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    evaluationObject = { ...evaluationForm, threshold: option.target.value };
+    setEvaluationForm(evaluationObject);
+    console.log(evaluationObject);
+  };
+
+  const onChangeComments = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    evaluationObject = {
+      ...evaluationForm,
+      comments: option.target.value,
+    };
+    setEvaluationForm(evaluationObject);
+    console.log(evaluationForm);
+  };
+
+  const onChangeOverall = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    evaluationObject = { ...evaluationForm, evaluation: option.target.value };
+    setEvaluationForm(evaluationObject);
+    console.log(evaluationObject);
+  };
 
   return (
     <Box>
@@ -106,10 +119,11 @@ const x = 'ice';
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={onChangeColour}
             >
-              {optionList.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {colourOptionList.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
                 </MenuItem>
               ))}
             </TextField>
@@ -128,6 +142,7 @@ const x = 'ice';
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={onChangeThreshold}
             >
               {phenomena.rain.thresholds.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -136,7 +151,6 @@ const x = 'ice';
               ))}
             </TextField>
           </Stack>
-
         </Box>
         <TextField
           id="no"
@@ -146,15 +160,22 @@ const x = 'ice';
           }}
           multiline
           minRows={6}
+          onChange={onChangeComments}
         />
         <TextField
           select
-          defaultValue={attachmentJSON.identifier}
           label="Overall evaluation"
           InputLabelProps={{
             shrink: true,
           }}
-        />
+          onChange={onChangeOverall}
+        >
+          {evaluationList.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
       </Stack>
 
       <Button variant={'contained'} color={'success'} onClick={onClickSave}>

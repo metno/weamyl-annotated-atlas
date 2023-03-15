@@ -116,6 +116,19 @@ async function getModelData() {
   return response.data;
 }
 
+async function getEvaluationForm(cap_id: string) {
+  const url = `/evaluation/${cap_id}`;
+  const response = await client.get(url);
+  return response.data;
+}
+
+async function putEvaluationForm(evaluationObject: object) {
+  console.log('OBJECT: ', evaluationObject);
+  const url = `/evaluation/`;
+  const response = await client.put(url, evaluationObject);
+  return response.data;
+}
+
 export default {
   getCapAttachmentXML,
   getCapAttachmentJSON,
@@ -127,4 +140,6 @@ export default {
   getWarningsFromIncidentNames,
   getOpenSearch,
   getModelData,
+  getEvaluationForm,
+  putEvaluationForm,
 };

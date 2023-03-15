@@ -49,20 +49,27 @@ const ObservationTable: React.FC<Props> = (props) => {
   const onClickTableRow = (item: CapFilEntries) => {
     setPolygonObject(item);
     databaseFunctions.getModelData().then((r) => {
-
       const options = {
         ignoreAttributes: false,
       };
       const parser = new XMLParser(options);
       let jsonObj = parser.parse(r);
-      let ncResults = jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:Record'][0]
-          ['dct:references'][0]['#text'];
+      let ncResults =
+        jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:Record'][0][
+          'dct:references'
+        ][0]['#text'];
 
       setModelDAta(ncResults);
     });
-    databaseFunctions
-      .getCapAttachmentJSON(item._id)
-      .then((r) => setAttachmentJSON(r));
+
+    databaseFunctions.getEvaluationForm(item._id).then((r) => {
+      console.log('EV: ', r);
+
+    });
+
+    databaseFunctions.getCapAttachmentJSON(item._id).then((r) => {
+      setAttachmentJSON(r);
+    });
   };
 
   const onClickCapDialog = (item: CapFilEntries) => {

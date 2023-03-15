@@ -94,7 +94,8 @@ const Home: React.FC = () => {
             style={{ height: 700, maxHeight: 700, overflow: 'auto' }}
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
-            <ValidationForm attachmentJSON={attachmentJSON} />
+            <ValidationForm
+                attachmentJSON={attachmentJSON} />
           </Paper>
         </Grid>
       </Grid>
