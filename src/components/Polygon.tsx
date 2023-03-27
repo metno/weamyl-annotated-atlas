@@ -32,9 +32,8 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       ]);
       console.log('latln: ', latitudeLongitude);
       let geometry = mapCoordinates(latitudeLongitude);
-      geometry = { ...geometry, bbox: toBBox(geometry) };
       console.log('latln: ', geometry);
-      console.log('latln: ', geometry.type);
+      geometry = { ...geometry, bbox: toBBox(geometry) };
       const phenomSearch = {
         ...searchObject,
         cutoff: 0.5,

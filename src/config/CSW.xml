@@ -7,26 +7,36 @@
     service="CSW"
     version="2.0.2"
     resultType="results"
-    maxRecords="10"
+    maxRecords="100"
     outputFormat="application/xml"
     outputSchema="http://www.opengis.net/cat/csw/2.0.2"
     xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd" >
   <csw:Query typeNames="csw:Record">
-    <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:ElementSetName>summary</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
       <ogc:Filter>
-        <ogc:Intersects>
-          <ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>
-          <gml:Polygon>
-            <gml:exterior>
-              <gml:LinearRing>
-                <gml:posList>
-                  62.0896 8.56313 60.4449 6.00234 60.128 10.2408 62.0896 8.56313
-                </gml:posList>
-              </gml:LinearRing>
-            </gml:exterior>
-          </gml:Polygon>
-        </ogc:Intersects>
+        <ogc:And>
+          <ogc:Intersects>
+            <ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>
+            <gml:Polygon>
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>
+                    63.3984 7.65173 60.7546 5.0449 59.0639 10.187 62.9065 12.4944 63.3984 7.65173
+                  </gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </ogc:Intersects>
+          <ogc:PropertyIsGreaterThanOrEqualTo>
+            <ogc:PropertyName>apiso:TempExtent_begin</ogc:PropertyName>
+            <ogc:Literal>2022-03-01 00:00</ogc:Literal>
+          </ogc:PropertyIsGreaterThanOrEqualTo>
+          <ogc:PropertyIsLessThanOrEqualTo>
+            <ogc:PropertyName>apiso:TempExtent_end</ogc:PropertyName>
+            <ogc:Literal>2023-03-08 00:00</ogc:Literal>
+          </ogc:PropertyIsLessThanOrEqualTo>
+        </ogc:And>
       </ogc:Filter>
     </csw:Constraint>
   </csw:Query>

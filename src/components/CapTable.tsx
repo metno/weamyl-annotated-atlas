@@ -54,20 +54,25 @@ const ObservationTable: React.FC<Props> = (props) => {
       };
       const parser = new XMLParser(options);
       let jsonObj = parser.parse(r);
-      let ncResults =
-        jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:Record'][0][
-          'dct:references'
-        ][0]['#text'];
-
-      setModelDAta(ncResults);
+      let ncResults = [];
+      console.log(jsonObj);
+      for (let i = 0; i < jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'].length; i++) {
+        let intermediate =
+            jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][i][
+            'dct:references'][0]['#text'];
+        ncResults.push(intermediate);
+      }
+      console.log(ncResults);
+      setModelDAta('ncResults');
     });
 
-    databaseFunctions.getEvaluationForm(item._id).then((r) => {
+    databaseFunctions.getEvaluationForm('2.49.0.1.578.0.20230310103141.039').then((r) => {
       console.log('EV: ', r);
 
     });
 
     databaseFunctions.getCapAttachmentJSON(item._id).then((r) => {
+      console.log('CAPattachJSON ', r);
       setAttachmentJSON(r);
     });
   };
