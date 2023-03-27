@@ -11,6 +11,7 @@ import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
 import ValidationForm from '../ValidationForm';
+import dayjs from "dayjs";
 
 const paperStyle = {
   padding: 2,
@@ -19,7 +20,7 @@ const paperStyle = {
 
 const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<CapFileEntryList>([]);
-  const [searchObject, setSearchObject] = React.useState<object>({});
+  const [searchObject, setSearchObject] = React.useState<object>({onset: '2016-01-01T00:00', expires: dayjs().format('YYYY-MM-DDTHH:mm')});
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
   const [attachmentJSON, setAttachmentJSON] = React.useState<object>([]);
 

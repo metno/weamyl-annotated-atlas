@@ -22,12 +22,8 @@ const localeMap = {
 
 const Time: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   const [startValue, setStartValue] = React.useState<Dayjs | null>(null);
-  const [endValue, setEndValue] = React.useState<Dayjs | null>(dayjs());
-  let phenomSearch = {
-    ...searchObject,
-    onset: '2016-01-01T00:00',
-    expires: '',
-  };
+  const [endValue, setEndValue] = React.useState<Dayjs | null>(null);
+  let phenomSearch = { ...searchObject };
 
   const onChangeStartTime = (option: any) => {
     const newDate = dayjs(option).format('YYYY-MM-DDTHH:mm');
