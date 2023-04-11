@@ -44,7 +44,7 @@ If you have docker you can build and run the app without any other dependencies 
 
 ```
 docker build -t annotated-atlas .
-docker run -p 8080:8080 annotated-atlas
+docker run --name annotaded-atlas -p 8080:8080 annotated-atlas
 ```
 
 The docker image is suitable for production in k8s.met.no.

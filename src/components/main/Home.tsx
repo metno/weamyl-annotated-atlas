@@ -23,6 +23,7 @@ const Home: React.FC = () => {
   const [searchObject, setSearchObject] = React.useState<object>({onset: '2016-01-01T00:00', expires: dayjs().format('YYYY-MM-DDTHH:mm')});
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
   const [attachmentJSON, setAttachmentJSON] = React.useState<object>([]);
+  const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>([]);
 
   return (
     <Box
@@ -72,6 +73,7 @@ const Home: React.FC = () => {
               warning={warning}
               setPolygonObject={setPolygonObject}
               setAttachmentJSON={setAttachmentJSON}
+              setSavedEvaluationForm={setSavedEvaluationForm}
             />
           </Paper>
         </Grid>
@@ -96,7 +98,9 @@ const Home: React.FC = () => {
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
             <ValidationForm
-                attachmentJSON={attachmentJSON} />
+                attachmentJSON={attachmentJSON}
+                savedEvaluationForm={savedEvaluationForm}
+            />
           </Paper>
         </Grid>
       </Grid>

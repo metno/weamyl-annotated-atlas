@@ -36,10 +36,11 @@ type Props = {
   warning: CapFileEntryList;
   setPolygonObject: any;
   setAttachmentJSON: any;
+  setSavedEvaluationForm: any;
 };
 
 const ObservationTable: React.FC<Props> = (props) => {
-  const { warning, setPolygonObject, setAttachmentJSON } = props;
+  const { warning, setPolygonObject, setAttachmentJSON, setSavedEvaluationForm } = props;
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
@@ -66,9 +67,9 @@ const ObservationTable: React.FC<Props> = (props) => {
       setModelDAta('ncResults');
     });
 
-    databaseFunctions.getEvaluationForm('2.49.0.1.578.0.20230310103141.039').then((r) => {
+    databaseFunctions.getEvaluationForm(item._id).then((r) => {
       console.log('EV: ', r);
-
+      setSavedEvaluationForm(r);
     });
 
     databaseFunctions.getCapAttachmentJSON(item._id).then((r) => {

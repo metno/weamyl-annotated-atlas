@@ -12,10 +12,11 @@ const paperStyle = {
 
 type Props = {
   attachmentJSON: any;
+  savedEvaluationForm: any;
 };
 
 const ValidationForm: React.FC<Props> = (props) => {
-  const { attachmentJSON } = props;
+  const { attachmentJSON, savedEvaluationForm } = props;
   const [evaluationForm, setEvaluationForm] = React.useState<object>({});
   const colourOptionList = ['Green', 'Yellow', 'Orange', 'Red'];
   const evaluationList = [1, 2, 3, 4, 5];
@@ -114,7 +115,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             />
             <TextField
               select
-              defaultValue={attachmentJSON.identifier}
+              defaultValue={savedEvaluationForm.colour}
               label="Corrected value"
               InputLabelProps={{
                 shrink: true,
