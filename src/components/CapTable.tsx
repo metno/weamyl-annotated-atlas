@@ -44,45 +44,52 @@ const ObservationTable: React.FC<Props> = (props) => {
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
-  const [modelData, setModelDAta] = React.useState('');
+  const [modelData, setModelDAta] = React.useState<string[]>([]);
 
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
     setPolygonObject(item);
-    databaseFunctions.getModelData().then((r) => {
-      const options = {
-        ignoreAttributes: false,
-      };
-      const parser = new XMLParser(options);
-      let jsonObj = parser.parse(r);
-      let ncResults = [];
-      console.log(jsonObj);
-      for (let i = 0; i < jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'].length; i++) {
-        let intermediate =
-            jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][i][
-            'dct:references'][0]['#text'];
-        ncResults.push(intermediate);
-      }
-      console.log(ncResults);
-      setModelDAta('ncResults');
-    });
+    databaseFunctions
+        .getModelData()
+        .then((r) => {
+          const options = {
+            ignoreAttributes: false,
+          };
+        const parser = new XMLParser(options);
+        let jsonObj = parser.parse(r);
+        let ncResults: string[] = [];
+        for (let i = 0; i < jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'].length; i++) {
+          let intermediate =
+              jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][i][
+              'dct:references'][0]['#text'];
+          ncResults.push(intermediate);
+        }
+        setModelDAta(ncResults);
+      });
 
-    databaseFunctions.getEvaluationForm(item._id).then((r) => {
-      console.log('EV: ', r);
-      setSavedEvaluationForm(r);
-    });
+      databaseFunctions
+          .getEvaluationForm(item._id)
+          .then((r) => {
+            console.log('EV: ', r);
+            setSavedEvaluationForm(r);
+          });
 
-    databaseFunctions.getCapAttachmentJSON(item._id).then((r) => {
-      console.log('CAPattachJSON ', r);
-      setAttachmentJSON(r);
-    });
+      databaseFunctions
+          .getCapAttachmentJSON(item._id)
+          .then((r) => {
+            console.log('CAPattachJSON ', r);
+            setAttachmentJSON(r);
+          });
   };
 
   const onClickCapDialog = (item: CapFilEntries) => {
     setOpenDialog(!openDialog);
     databaseFunctions
-      .getCapAttachmentXML(item._id)
-      .then((r) => setWarningAttachment(r));
+        .getCapAttachmentXML(item._id)
+        .then((r) => {
+          setWarningAttachment(r)
+          console.log(r)
+        });
   };
 
   return (
@@ -161,7 +168,10 @@ const ObservationTable: React.FC<Props> = (props) => {
                     colSpan={6}
                   >
                     <Collapse in={open === index} timeout="auto" unmountOnExit>
-                      <Box sx={{ margin: 1 }}>{modelData}</Box>
+                      <Box sx={{ margin: 1 }}>
+                          {modelData.map((item) =>
+                              <li key={index} value={item} >{item}</li>)}
+                      </Box>
                     </Collapse>
                   </TableCell>
                 </TableRow>
