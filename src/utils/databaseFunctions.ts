@@ -76,7 +76,8 @@ async function getOpenSearch(input: object) {
   return response;
 }
 
-var xTest =
+function xTest(sendaPolygon:any, startTime: string, endTime: string) {
+    return (
 '<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>\n<csw:GetRecords\n    ' +
   'xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
   'xmlns:gml="http://www.opengis.net/gml"\n    ' +
@@ -100,7 +101,7 @@ var xTest =
   '<gml:exterior>\n                ' +
   '<gml:LinearRing>\n                  ' +
   '<gml:posList>\n                    ' +
-  '63.3984 7.65173 60.7546 5.0449 59.0639 10.187 62.9065 12.4944 63.3984 7.65173\n                  ' +
+  sendaPolygon                  +
   '</gml:posList>\n                ' +
   '</gml:LinearRing>\n              ' +
   '</gml:exterior>\n            ' +
@@ -108,21 +109,24 @@ var xTest =
   '</ogc:Intersects>\n          ' +
   '<ogc:PropertyIsGreaterThanOrEqualTo>\n            ' +
   '<ogc:PropertyName>apiso:TempExtent_begin</ogc:PropertyName>\n            ' +
-  '<ogc:Literal>2022-03-01 00:00</ogc:Literal>\n          ' +
+  '<ogc:Literal>'+ startTime + '</ogc:Literal>\n          ' +
   '</ogc:PropertyIsGreaterThanOrEqualTo>\n          ' +
   '<ogc:PropertyIsLessThanOrEqualTo>\n            ' +
   '<ogc:PropertyName>apiso:TempExtent_end</ogc:PropertyName>\n            ' +
-  '<ogc:Literal>2023-03-08 00:00</ogc:Literal>\n          ' +
+  '<ogc:Literal>'+ endTime + '</ogc:Literal>\n          ' +
   '</ogc:PropertyIsLessThanOrEqualTo>\n        ' +
   '</ogc:And>\n      ' +
   '</ogc:Filter>\n    ' +
   '</csw:Constraint>\n  ' +
   '</csw:Query>\n' +
-  '</csw:GetRecords>';
+  '</csw:GetRecords>')}
 
-async function getModelData() {
+async function getModelData(polygon:any, startTime: string, endTime: string) {
+  let polyObj = xTest(polygon, startTime, endTime);
+  // console.log('xml ', polyObj);
   const url = `/`;
-  const response = await modelDAtaClient.post(url, xTest);
+  const response = await modelDAtaClient.post(url, polyObj);
+  // console.log(response.data);
   return response.data;
 }
 

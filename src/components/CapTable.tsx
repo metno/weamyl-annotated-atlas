@@ -19,6 +19,7 @@ import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
 import { XMLParser } from 'fast-xml-parser';
+import dayjs from "dayjs";
 
 const styles = {
   table: {
@@ -48,16 +49,32 @@ const ObservationTable: React.FC<Props> = (props) => {
 
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
-    setPolygonObject(item);
+      let currentPolygon = item.features[0].geometry.coordinates as unknown as number[][];
+      let currentOnset  = dayjs(item.onset).subtract(72,"hours").format('YYYY-MM-DD HH:mm').toString();
+      let currentExpires  = dayjs(item.expires).format('YYYY-MM-DD HH:mm').toString();
+      let ncResults: string[] = [];
+
+/* Manipulates the coordinates into correct format */
+      let polygonString = currentPolygon.join('');
+      let polygonStringWithoutCommas = polygonString.replace(/,/g, ' ');
+      let polygonArray = polygonStringWithoutCommas.split(" ").map(parseFloat);
+      for (let i = 0; i < polygonArray.length - 1; i += 2) {
+          let temp = polygonArray[i];
+          polygonArray[i] = polygonArray[i + 1];
+          polygonArray[i + 1] = temp;
+      }
+      let transposedPolygonString = polygonArray.join(" ");
+
+      setPolygonObject(item);
+
     databaseFunctions
-        .getModelData()
+        .getModelData(transposedPolygonString, currentOnset, currentExpires)
         .then((r) => {
           const options = {
             ignoreAttributes: false,
           };
         const parser = new XMLParser(options);
         let jsonObj = parser.parse(r);
-        let ncResults: string[] = [];
         for (let i = 0; i < jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'].length; i++) {
           let intermediate =
               jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][i][
@@ -65,19 +82,23 @@ const ObservationTable: React.FC<Props> = (props) => {
           ncResults.push(intermediate);
         }
         setModelDAta(ncResults);
-      });
+        })
+        .catch(()=> {
+            //console.log(e);
+            setModelDAta(['Empty dataset']);
+        });
 
       databaseFunctions
           .getEvaluationForm(item._id)
           .then((r) => {
-            console.log('EV: ', r);
+            //console.log('EV: ', r);
             setSavedEvaluationForm(r);
           });
 
       databaseFunctions
           .getCapAttachmentJSON(item._id)
           .then((r) => {
-            console.log('CAPattachJSON ', r);
+            //console.log('CAPattachJSON ', r);
             setAttachmentJSON(r);
           });
   };
@@ -105,7 +126,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                 Colour
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
-                Area
+                Area Description
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
                 Status
