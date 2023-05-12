@@ -23,6 +23,7 @@ const Home: React.FC = () => {
   const [searchObject, setSearchObject] = React.useState<object>({onset: '2016-01-01T00:00', expires: dayjs().format('YYYY-MM-DDTHH:mm')});
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
   const [attachmentJSON, setAttachmentJSON] = React.useState<object>([]);
+  const [attachmentXML, setAttachmentXML] = React.useState<object>([]);
   const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>([]);
 
   return (
@@ -73,6 +74,7 @@ const Home: React.FC = () => {
               warning={warning}
               setPolygonObject={setPolygonObject}
               setAttachmentJSON={setAttachmentJSON}
+              setAttachmentXML={setAttachmentXML}
               setSavedEvaluationForm={setSavedEvaluationForm}
             />
           </Paper>

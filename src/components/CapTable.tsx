@@ -37,11 +37,12 @@ type Props = {
   warning: CapFileEntryList;
   setPolygonObject: any;
   setAttachmentJSON: any;
+    setAttachmentXML: any;
   setSavedEvaluationForm: any;
 };
 
 const ObservationTable: React.FC<Props> = (props) => {
-  const { warning, setPolygonObject, setAttachmentJSON, setSavedEvaluationForm } = props;
+  const { warning, setPolygonObject, setAttachmentJSON, setAttachmentXML, setSavedEvaluationForm } = props;
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
@@ -53,6 +54,7 @@ const ObservationTable: React.FC<Props> = (props) => {
       let currentOnset  = dayjs(item.onset).subtract(72,"hours").format('YYYY-MM-DD HH:mm').toString();
       let currentExpires  = dayjs(item.expires).format('YYYY-MM-DD HH:mm').toString();
       let ncResults: string[] = [];
+      let resultList = {};
 
 /* Manipulates the coordinates into correct format */
       let polygonString = currentPolygon.join('');
@@ -70,11 +72,13 @@ const ObservationTable: React.FC<Props> = (props) => {
     databaseFunctions
         .getModelData(transposedPolygonString, currentOnset, currentExpires)
         .then((r) => {
+            //console.log(r);
           const options = {
             ignoreAttributes: false,
           };
         const parser = new XMLParser(options);
         let jsonObj = parser.parse(r);
+        console.log('WHAT TO CHOOSE? ', jsonObj);
         for (let i = 0; i < jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'].length; i++) {
           let intermediate =
               jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][i][
@@ -98,8 +102,28 @@ const ObservationTable: React.FC<Props> = (props) => {
       databaseFunctions
           .getCapAttachmentJSON(item._id)
           .then((r) => {
-            //console.log('CAPattachJSON ', r);
+              console.log('CAPattachJSON ', r);
             setAttachmentJSON(r);
+          });
+
+      databaseFunctions
+          .getCapAttachmentXML(item._id)
+          .then((r) => {
+              const options = {
+                  ignoreAttributes: false,
+              };
+              const parser = new XMLParser(options);
+              let jsonObj = parser.parse(r);
+
+              resultList = {
+                  phenomenon: jsonObj['alert']['info'][1]['event'],
+                  colour: (jsonObj['alert']['info'][1]['parameter'][3]['value']).split(";")[1].trim(),
+                  area: jsonObj['alert']['info'][1]['area']['areaDesc'],
+                  onset: dayjs(jsonObj['alert']['info'][1]['onset']).format('YYYY-MM-DD HH:mm').toString(),
+                  expires: dayjs(jsonObj['alert']['info'][1]['expires']).format('YYYY-MM-DD HH:mm').toString(),
+              }
+
+              console.log('ResultatListe: ', resultList);
           });
   };
 
@@ -129,7 +153,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                 Area Description
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
-                Status
+                Annotated?
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
                 Duration

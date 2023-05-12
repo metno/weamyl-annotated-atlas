@@ -69,7 +69,7 @@ async function getWarningsFromIncidentNames(names: string) {
 }
 
 async function getOpenSearch(input: object) {
-  console.log('SearchObject ', input);
+  //console.log('SearchObject ', input);
   const url = `/`;
   const response = await client.post(url, input);
   //console.log('OpenSearch: ', response);
