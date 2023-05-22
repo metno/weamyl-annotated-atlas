@@ -153,7 +153,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                 Area Description
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
-                Annotated?
+                Annotated
               </TableCell>
               <TableCell sx={styles.tableHead} align="right">
                 Duration

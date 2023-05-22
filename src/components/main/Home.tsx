@@ -11,7 +11,8 @@ import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
 import ValidationForm from '../ValidationForm';
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
+import UserInfo from "../UserInfo";
 
 const paperStyle = {
   padding: 2,
@@ -20,11 +21,16 @@ const paperStyle = {
 
 const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<CapFileEntryList>([]);
-  const [searchObject, setSearchObject] = React.useState<object>({onset: '2016-01-01T00:00', expires: dayjs().format('YYYY-MM-DDTHH:mm')});
+  const [searchObject, setSearchObject] = React.useState<object>({
+    onset: '2016-01-01T00:00',
+    expires: dayjs().format('YYYY-MM-DDTHH:mm'),
+  });
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
   const [attachmentJSON, setAttachmentJSON] = React.useState<object>([]);
   const [attachmentXML, setAttachmentXML] = React.useState<object>([]);
-  const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>([]);
+  const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>(
+    [],
+  );
 
   return (
     <Box
@@ -39,6 +45,12 @@ const Home: React.FC = () => {
       }}
     >
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Paper sx={paperStyle}>
+            <UserInfo />
+          </Paper>
+        </Grid>
+
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle} style={{ height: 400 }}>
             <Typography variant="h5">Search parameters</Typography>
@@ -62,7 +74,10 @@ const Home: React.FC = () => {
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />
-            <SearchClearButtons setWarning={setWarning} searchObject={searchObject} />
+            <SearchClearButtons
+              setWarning={setWarning}
+              searchObject={searchObject}
+            />
           </Paper>
         </Grid>
         <Grid item md={12} lg={6}>
@@ -83,7 +98,8 @@ const Home: React.FC = () => {
         <Grid item xs={6}>
           <Paper
             sx={paperStyle}
-            style={{ height: 700, maxHeight: 700, overflow: 'auto' }}>
+            style={{ height: 700, maxHeight: 700, overflow: 'auto' }}
+          >
             <Box>
               <MapLeaf polygonObject={polygonObject} />
             </Box>
@@ -100,8 +116,8 @@ const Home: React.FC = () => {
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
             <ValidationForm
-                attachmentJSON={attachmentJSON}
-                savedEvaluationForm={savedEvaluationForm}
+              attachmentJSON={attachmentJSON}
+              savedEvaluationForm={savedEvaluationForm}
             />
           </Paper>
         </Grid>
