@@ -12,7 +12,6 @@ import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
 import ValidationForm from '../ValidationForm';
 import dayjs from 'dayjs';
-import UserInfo from "../UserInfo";
 
 const paperStyle = {
   padding: 2,
@@ -45,12 +44,6 @@ const Home: React.FC = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Paper sx={paperStyle}>
-            <UserInfo />
-          </Paper>
-        </Grid>
-
         <Grid item md={12} lg={6}>
           <Paper sx={paperStyle} style={{ height: 400 }}>
             <Typography variant="h5">Search parameters</Typography>

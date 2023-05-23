@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { pageSpacing } from '../../utils/metMuiThemes';
 import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
 import metLogo from '../../images/met_logo.png';
+import UserInfo from '../UserInfo';
 
 const Header: React.FC = () => {
   return (
@@ -53,6 +54,7 @@ const Header: React.FC = () => {
             <SearchIcon />
           </IconButton>
           <Menu />
+          <UserInfo />
         </Toolbar>
       </AppBar>
     </Box>
