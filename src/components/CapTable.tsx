@@ -19,7 +19,7 @@ import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
 import { XMLParser } from 'fast-xml-parser';
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 const styles = {
   table: {
@@ -37,12 +37,18 @@ type Props = {
   warning: CapFileEntryList;
   setPolygonObject: any;
   setAttachmentJSON: any;
-    setAttachmentXML: any;
+  setAttachmentXML: any;
   setSavedEvaluationForm: any;
 };
 
 const ObservationTable: React.FC<Props> = (props) => {
-  const { warning, setPolygonObject, setAttachmentJSON, setAttachmentXML, setSavedEvaluationForm } = props;
+  const {
+    warning,
+    setPolygonObject,
+    setAttachmentJSON,
+    setAttachmentXML,
+    setSavedEvaluationForm,
+  } = props;
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
@@ -50,91 +56,105 @@ const ObservationTable: React.FC<Props> = (props) => {
 
   // Sends selected CAP to be shown in map.
   const onClickTableRow = (item: CapFilEntries) => {
-      let currentPolygon = item.features[0].geometry.coordinates as unknown as number[][];
-      let currentOnset  = dayjs(item.onset).subtract(72,"hours").format('YYYY-MM-DD HH:mm').toString();
-      let currentExpires  = dayjs(item.expires).format('YYYY-MM-DD HH:mm').toString();
-      let ncResults: string[] = [];
-      let resultList = {};
+    let currentPolygon = item.features[0].geometry
+      .coordinates as unknown as number[][];
+    let currentOnset = dayjs(item.onset)
+      .subtract(72, 'hours')
+      .format('YYYY-MM-DD HH:mm')
+      .toString();
+    let currentExpires = dayjs(item.expires)
+      .format('YYYY-MM-DD HH:mm')
+      .toString();
+    let ncResults: string[] = [];
+    let resultList = {};
 
-/* Manipulates the coordinates into correct format */
-      let polygonString = currentPolygon.join('');
-      let polygonStringWithoutCommas = polygonString.replace(/,/g, ' ');
-      let polygonArray = polygonStringWithoutCommas.split(" ").map(parseFloat);
-      for (let i = 0; i < polygonArray.length - 1; i += 2) {
-          let temp = polygonArray[i];
-          polygonArray[i] = polygonArray[i + 1];
-          polygonArray[i + 1] = temp;
-      }
-      let transposedPolygonString = polygonArray.join(" ");
+    /* Manipulates the coordinates into correct format */
+    let polygonString = currentPolygon.join('');
+    let polygonStringWithoutCommas = polygonString.replace(/,/g, ' ');
+    let polygonArray = polygonStringWithoutCommas.split(' ').map(parseFloat);
+    for (let i = 0; i < polygonArray.length - 1; i += 2) {
+      let temp = polygonArray[i];
+      polygonArray[i] = polygonArray[i + 1];
+      polygonArray[i + 1] = temp;
+    }
+    let transposedPolygonString = polygonArray.join(' ');
 
-      setPolygonObject(item);
+    setPolygonObject(item);
 
     databaseFunctions
-        .getModelData(transposedPolygonString, currentOnset, currentExpires)
-        .then((r) => {
-            //console.log(r);
-          const options = {
-            ignoreAttributes: false,
-          };
+      .getModelData(transposedPolygonString, currentOnset, currentExpires)
+      .then((r) => {
+        //console.log(r);
+        const options = {
+          ignoreAttributes: false,
+        };
         const parser = new XMLParser(options);
         let jsonObj = parser.parse(r);
         console.log('WHAT TO CHOOSE? ', jsonObj);
-        for (let i = 0; i < jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'].length; i++) {
+        for (
+          let i = 0;
+          i <
+          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+            'csw:SummaryRecord'
+          ].length;
+          i++
+        ) {
           let intermediate =
-              jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][i][
-              'dct:references'][0]['#text'];
+            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+              'csw:SummaryRecord'
+            ][i]['dct:references'][0]['#text'];
           ncResults.push(intermediate);
         }
         setModelDAta(ncResults);
-        })
-        .catch(()=> {
-            //console.log(e);
-            setModelDAta(['Empty dataset']);
-        });
+      })
+      .catch(() => {
+        //console.log(e);
+        setModelDAta(['Empty dataset']);
+      });
 
-      databaseFunctions
-          .getEvaluationForm(item._id)
-          .then((r) => {
-            //console.log('EV: ', r);
-            setSavedEvaluationForm(r);
-          });
+    databaseFunctions.getEvaluationForm(item._id).then((r) => {
+      //console.log('EV: ', r);
+      setSavedEvaluationForm(r);
+    });
 
-      databaseFunctions
-          .getCapAttachmentJSON(item._id)
-          .then((r) => {
-              console.log('CAPattachJSON ', r);
-            setAttachmentJSON(r);
-          });
+    /* databaseFunctions.getCapAttachmentJSON(item._id).then((r) => {
+      console.log('CAPattachJSON ', r);
+      //setAttachmentJSON(r);
+    }); */
 
-      databaseFunctions
-          .getCapAttachmentXML(item._id)
-          .then((r) => {
-              const options = {
-                  ignoreAttributes: false,
-              };
-              const parser = new XMLParser(options);
-              let jsonObj = parser.parse(r);
+    databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
+      const options = {
+        ignoreAttributes: false,
+      };
+      const parser = new XMLParser(options);
+      let jsonObj = parser.parse(r);
+      console.log('THRESHOLD?? ',jsonObj);
 
-              resultList = {
-                  phenomenon: jsonObj['alert']['info'][1]['event'],
-                  colour: (jsonObj['alert']['info'][1]['parameter'][3]['value']).split(";")[1].trim(),
-                  area: jsonObj['alert']['info'][1]['area']['areaDesc'],
-                  onset: dayjs(jsonObj['alert']['info'][1]['onset']).format('YYYY-MM-DD HH:mm').toString(),
-                  expires: dayjs(jsonObj['alert']['info'][1]['expires']).format('YYYY-MM-DD HH:mm').toString(),
-              }
-
-              console.log('ResultatListe: ', resultList);
-          });
+      resultList = {
+        phenomenon: jsonObj['alert']['info'][1]['event'],
+        colour: jsonObj['alert']['info'][1]['parameter'][3]['value']
+          .split(';')[1]
+          .trim(),
+        area: jsonObj['alert']['info'][1]['area']['areaDesc'],
+        onset: dayjs(jsonObj['alert']['info'][1]['onset'])
+          .format('YYYY-MM-DD HH:mm')
+          .toString(),
+        expires: dayjs(jsonObj['alert']['info'][1]['expires'])
+          .format('YYYY-MM-DD HH:mm')
+          .toString(),
+        threshold: jsonObj['alert']['info'][1]['parameter'][6]['value'],
+      };
+      setAttachmentXML(resultList);
+      console.log('ResultatListe: ', resultList);
+    });
   };
 
   const onClickCapDialog = (item: CapFilEntries) => {
     setOpenDialog(!openDialog);
-    databaseFunctions
-        .getCapAttachmentXML(item._id)
-        .then((r) => {
-          setWarningAttachment(r)
-          console.log(r)
-        });
+    databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
+      setWarningAttachment(r);
+      console.log('getCapAt ',r);
+    });
   };
 
   return (
@@ -214,8 +234,11 @@ const ObservationTable: React.FC<Props> = (props) => {
                   >
                     <Collapse in={open === index} timeout="auto" unmountOnExit>
                       <Box sx={{ margin: 1 }}>
-                          {modelData.map((item) =>
-                              <li key={index} value={item} >{item}</li>)}
+                        {modelData.map((item) => (
+                          <li key={index} value={item}>
+                            {item}
+                          </li>
+                        ))}
                       </Box>
                     </Collapse>
                   </TableCell>

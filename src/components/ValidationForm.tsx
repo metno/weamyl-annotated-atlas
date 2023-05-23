@@ -12,11 +12,12 @@ const paperStyle = {
 
 type Props = {
   attachmentJSON: any;
+  attachmentXML: any;
   savedEvaluationForm: any;
 };
 
 const ValidationForm: React.FC<Props> = (props) => {
-  const { attachmentJSON, savedEvaluationForm } = props;
+  const { attachmentJSON, attachmentXML, savedEvaluationForm } = props;
   const [evaluationForm, setEvaluationForm] = React.useState<object>({});
   const colourOptionList = ['Green', 'Yellow', 'Orange', 'Red'];
   const evaluationList = [1, 2, 3, 4, 5];
@@ -25,8 +26,8 @@ const ValidationForm: React.FC<Props> = (props) => {
   const onClickSave = () => {
     evaluationObject = {
       ...evaluationForm,
-      _id: attachmentJSON.identifier,
-      phenomenon: attachmentJSON.phenom,
+      _id: attachmentXML.identifier,
+      phenomenon: attachmentXML.phenomenon,
     };
     console.log(evaluationObject);
     databaseFunctions
@@ -99,15 +100,16 @@ const ValidationForm: React.FC<Props> = (props) => {
           <Stack>
             <TextField
               label="Phenomena of current warning"
-              value={attachmentJSON.phenom}
+              value={attachmentXML.phenomenon}
               InputLabelProps={{
                 shrink: true,
               }}
             />
           </Stack>
+
           <Stack direction="row" spacing={3}>
             <TextField
-              value={attachmentJSON.colour}
+              value={attachmentXML.colour}
               label="Colour of current warning"
               InputLabelProps={{
                 shrink: true,
@@ -129,9 +131,10 @@ const ValidationForm: React.FC<Props> = (props) => {
               ))}
             </TextField>
           </Stack>
+
           <Stack direction="row" spacing={3}>
             <TextField
-              value={attachmentJSON.threshold}
+              value={attachmentXML.threshold}
               label="Threshold of current warning"
               InputLabelProps={{
                 shrink: true,
@@ -152,6 +155,7 @@ const ValidationForm: React.FC<Props> = (props) => {
               ))}
             </TextField>
           </Stack>
+          
         </Box>
         <TextField
           id="no"

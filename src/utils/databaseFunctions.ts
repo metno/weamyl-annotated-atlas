@@ -1,11 +1,16 @@
 const axios = require('axios');
 
 // change this in the .env-file to use another backend/SENDA-setup
-let url = `${process.env.REACT_APP_BASEURL}`;
+let url = `${process.env.REACT_APP_BASE_CAP_URL}`;
+let mapURL = `${process.env.REACT_APP_BASE_MAP_URL}`;
 let cswURL = `${process.env.REACT_APP_SENDA_URL}`;
 
 const client = axios.create({
   baseURL: url,
+});
+
+const mapClient = axios.create({
+  baseURL: mapURL,
 });
 
 const modelDAtaClient = axios.create({
@@ -19,12 +24,12 @@ async function getCapAttachmentXML(id: string) {
   return response.data;
 }
 
-async function getCapAttachmentJSON(id: string) {
+/* async function getCapAttachmentJSON(id: string) {
   const url = `/json/${id}`;
   const response = await client.get(url);
   // console.log('Attachment ', response.data);
   return response.data;
-}
+} */
 
 async function getCapFiles(cap: string) {
   const url = `/incident/${cap}`;
@@ -37,6 +42,13 @@ async function getIncidentNamesList() {
   const url = `/incident/name/list/`;
   const response = await client.get(url);
   // console.log('Navneliste: ', response.data);
+  return response;
+}
+
+async function getCountyList() {
+  const url = `/lowres/fylke/list/`;
+  const response = await mapClient.get(url);
+  // console.log('Fylkesliste: ', response.data);
   return response;
 }
 
@@ -145,9 +157,10 @@ async function putEvaluationForm(evaluationObject: object) {
 
 export default {
   getCapAttachmentXML,
-  getCapAttachmentJSON,
+  //getCapAttachmentJSON,
   getCapFiles,
   getIncidentNamesList,
+  getCountyList,
   getPhenomenaList,
   getColourList,
   getCustomAreaList,

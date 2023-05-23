@@ -110,6 +110,7 @@ const Home: React.FC = () => {
             <Typography variant="h5">Selected warning to annotate</Typography>
             <ValidationForm
               attachmentJSON={attachmentJSON}
+              attachmentXML={attachmentXML}
               savedEvaluationForm={savedEvaluationForm}
             />
           </Paper>
