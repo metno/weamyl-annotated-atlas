@@ -132,6 +132,7 @@ const ObservationTable: React.FC<Props> = (props) => {
 
       resultList = {
         phenomenon: jsonObj['alert']['info'][1]['event'],
+        identifier: jsonObj['alert']['identifier'],
         colour: jsonObj['alert']['info'][1]['parameter'][3]['value']
           .split(';')[1]
           .trim(),
