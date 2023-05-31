@@ -8,7 +8,8 @@ const UserInfo: React.FC = () => {
     return (
       <ul>
         <li>Name: {auth.user?.profile.name}</li>
-        <li>Username: {auth.user?.profile.preferred_username}</li>
+      {//  <li>Username: {auth.user?.profile.preferred_username}</li> 
+      }
         <li>Email: {auth.user?.profile.email}</li>
       </ul>
     );

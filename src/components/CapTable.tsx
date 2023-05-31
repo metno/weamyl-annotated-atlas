@@ -90,7 +90,9 @@ const ObservationTable: React.FC<Props> = (props) => {
         };
         const parser = new XMLParser(options);
         let jsonObj = parser.parse(r);
-        console.log('WHAT TO CHOOSE? ', jsonObj);
+        console.log('WHAT TO CHOOSE? ', jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+          'csw:SummaryRecord'
+        ][0]['dct:references']);
         for (
           let i = 0;
           i <
@@ -102,7 +104,7 @@ const ObservationTable: React.FC<Props> = (props) => {
           let intermediate =
             jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
               'csw:SummaryRecord'
-            ][i]['dct:references'][0]['#text'];
+            ][i]['dct:references'][1]['#text'];
           ncResults.push(intermediate);
         }
         setModelDAta(ncResults);
@@ -128,22 +130,19 @@ const ObservationTable: React.FC<Props> = (props) => {
       };
       const parser = new XMLParser(options);
       let jsonObj = parser.parse(r);
-      console.log('THRESHOLD?? ',jsonObj);
+      console.log('?? ',jsonObj['alert']['info'][1]['parameter']);
 
+
+
+      // ['info[0/1]'] is norsk/english
       resultList = {
-        phenomenon: jsonObj['alert']['info'][1]['event'],
         identifier: jsonObj['alert']['identifier'],
-        colour: jsonObj['alert']['info'][1]['parameter'][3]['value']
-          .split(';')[1]
-          .trim(),
-        area: jsonObj['alert']['info'][1]['area']['areaDesc'],
-        onset: dayjs(jsonObj['alert']['info'][1]['onset'])
-          .format('YYYY-MM-DD HH:mm')
-          .toString(),
-        expires: dayjs(jsonObj['alert']['info'][1]['expires'])
-          .format('YYYY-MM-DD HH:mm')
-          .toString(),
-        threshold: jsonObj['alert']['info'][1]['parameter'][6]['value'],
+        phenomenon: jsonObj['alert']['info'][1]['event'],
+        colour:     jsonObj['alert']['info'][1]['parameter'][3]['value'].split(';')[1].trim(),
+        threshold:  jsonObj['alert']['info'][1]['parameter'][6]['value'],
+        area:       jsonObj['alert']['info'][1]['area']['areaDesc'],
+        onset: dayjs(jsonObj['alert']['info'][1]['onset']).format('YYYY-MM-DD HH:mm').toString(),
+        expires: dayjs(jsonObj['alert']['info'][1]['expires']).format('YYYY-MM-DD HH:mm').toString(),
       };
       setAttachmentXML(resultList);
       console.log('ResultatListe: ', resultList);
@@ -154,7 +153,7 @@ const ObservationTable: React.FC<Props> = (props) => {
     setOpenDialog(!openDialog);
     databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
       setWarningAttachment(r);
-      console.log('getCapAt ',r);
+      //console.log('getCapAt ',r);
     });
   };
 

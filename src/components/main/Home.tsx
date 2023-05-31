@@ -12,6 +12,7 @@ import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
 import ValidationForm from '../ValidationForm';
 import dayjs from 'dayjs';
+import CountyName from '../CountyList';
 
 const paperStyle = {
   padding: 2,
@@ -51,7 +52,7 @@ const Home: React.FC = () => {
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />
-            <IncidentName
+            <CountyName
               searchObject={searchObject}
               setSearchObject={setSearchObject}
             />

@@ -15,14 +15,17 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   useEffect(() => {
     databaseFunctions
     .getCountyList()
-      .then((response) => setCounty(response.data));
+      .then((response) => {
+        setCounty(response.data);
+        console.log(response.data);
+    });
   }, []);
 
   const optionList = [];
   for (let i = 0; i < county.length; i += 1) {
     optionList[i] = {
-      value: county[i],
-      label: county[i],
+      value: county[i][0],
+      label: county[i][0],
     };
   }
 
@@ -33,8 +36,9 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         value: '',
       };
     }
-    const phenomSearch = { ...searchObject, incidentName: option.value };
+    const phenomSearch = { ...searchObject, countyName: option.value };
     setSearchObject(phenomSearch);
+    console.log(phenomSearch);
   };
 
   return (

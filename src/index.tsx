@@ -7,7 +7,7 @@ import { AuthProvider } from 'react-oidc-context';
 
 const oidcConfig = {
   authority: 'https://login.met.no/auth/realms/Internal/',
-  client_id: 'devuke-frontend',
+  client_id: 'annotatedatlas',
   redirect_uri: 'http://localhost:8080/',
   realm: 'Internal',
   onSigninCallback: () => {

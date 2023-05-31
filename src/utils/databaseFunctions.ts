@@ -52,6 +52,12 @@ async function getCountyList() {
   return response;
 }
 
+async function getlowresCountyPolygon(county_id: string) {
+  const url = `/lowres/fylke/${county_id}`;
+  const response = await mapClient.get(url);
+  return response;
+}
+
 async function getPhenomenaList() {
   const url = `/phenomenon/list/`;
   const response = await client.get(url);
@@ -161,6 +167,7 @@ export default {
   getCapFiles,
   getIncidentNamesList,
   getCountyList,
+  getlowresCountyPolygon,
   getPhenomenaList,
   getColourList,
   getCustomAreaList,
