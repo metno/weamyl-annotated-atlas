@@ -17,7 +17,7 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     .getCountyList()
       .then((response) => {
         setCounty(response.data);
-        console.log(response.data);
+        //console.log(response.data);
     });
   }, []);
 

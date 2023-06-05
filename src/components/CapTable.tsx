@@ -90,9 +90,7 @@ const ObservationTable: React.FC<Props> = (props) => {
         };
         const parser = new XMLParser(options);
         let jsonObj = parser.parse(r);
-        console.log('WHAT TO CHOOSE? ', jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-          'csw:SummaryRecord'
-        ][0]['dct:references']);
+        //console.log('WHAT TO CHOOSE? ', jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][0]['dct:references']);
         for (
           let i = 0;
           i <
@@ -130,22 +128,30 @@ const ObservationTable: React.FC<Props> = (props) => {
       };
       const parser = new XMLParser(options);
       let jsonObj = parser.parse(r);
-      console.log('?? ',jsonObj['alert']['info'][1]['parameter']);
+      //console.log(jsonObj);
 
+      const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
+        (param: any) => param.valueName === 'triggerLevel'
+      )?.value;
+      //console.log('threshold: : ',threshold);
 
+      const colour =jsonObj?.alert?.info[1]?.parameter?.find(
+        (param: any) => param.valueName === 'awareness_level'
+      )?.value;
+      //console.log('colour: ',colour);
 
       // ['info[0/1]'] is norsk/english
       resultList = {
         identifier: jsonObj['alert']['identifier'],
         phenomenon: jsonObj['alert']['info'][1]['event'],
-        colour:     jsonObj['alert']['info'][1]['parameter'][3]['value'].split(';')[1].trim(),
-        threshold:  jsonObj['alert']['info'][1]['parameter'][6]['value'],
+        colour:     colour.split(';')[1].trim(),
+        threshold:  threshold ? threshold : 'no value given',
         area:       jsonObj['alert']['info'][1]['area']['areaDesc'],
         onset: dayjs(jsonObj['alert']['info'][1]['onset']).format('YYYY-MM-DD HH:mm').toString(),
         expires: dayjs(jsonObj['alert']['info'][1]['expires']).format('YYYY-MM-DD HH:mm').toString(),
       };
       setAttachmentXML(resultList);
-      console.log('ResultatListe: ', resultList);
+      //console.log('ResultatListe: ', resultList);
     });
   };
 
