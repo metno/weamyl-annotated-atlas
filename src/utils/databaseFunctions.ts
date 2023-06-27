@@ -24,13 +24,6 @@ async function getCapAttachmentXML(id: string) {
   return response.data;
 }
 
-/* async function getCapAttachmentJSON(id: string) {
-  const url = `/json/${id}`;
-  const response = await client.get(url);
-  // console.log('Attachment ', response.data);
-  return response.data;
-} */
-
 async function getCapFiles(cap: string) {
   const url = `/incident/${cap}`;
   const response = await client.get(url);
@@ -104,7 +97,7 @@ function xTest(sendaPolygon:any, startTime: string, endTime: string) {
   'service="CSW"\n    ' +
   'version="2.0.2"\n    ' +
   'resultType="results"\n    ' +
-  'maxRecords="100"\n    ' +
+  'maxRecords="20"\n    ' +
   'outputFormat="application/xml"\n    ' +
   'outputSchema="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
   'xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd" >\n  ' +
@@ -144,7 +137,8 @@ async function getModelData(polygon:any, startTime: string, endTime: string) {
   // console.log('xml ', polyObj);
   const url = `/`;
   const response = await modelDAtaClient.post(url, polyObj);
-  // console.log(response.data);
+  //console.log(response.data);
+  //console.log(11111);
   return response.data;
 }
 
@@ -163,7 +157,6 @@ async function putEvaluationForm(evaluationObject: object) {
 
 export default {
   getCapAttachmentXML,
-  //getCapAttachmentJSON,
   getCapFiles,
   getIncidentNamesList,
   getCountyList,

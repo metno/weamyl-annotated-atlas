@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
-import Select from 'react-select';
+import {
+  Alert,
+  Box,
+  Button,
+  Collapse,
+  IconButton,
+  MenuItem,
+  TextField,
+} from '@mui/material';
 import Stack from '@mui/material/Stack';
 import phenomena from '../config/phenomena.json';
 import databaseFunctions from '../utils/databaseFunctions';
+import { useAuth } from 'react-oidc-context';
+import CloseIcon from '@mui/icons-material/Close';
 
 const paperStyle = {
   padding: 2,
@@ -11,28 +20,33 @@ const paperStyle = {
 };
 
 type Props = {
-  attachmentJSON: any;
   attachmentXML: any;
   savedEvaluationForm: any;
 };
 
 const ValidationForm: React.FC<Props> = (props) => {
-  const { attachmentJSON, attachmentXML, savedEvaluationForm } = props;
+  const { attachmentXML, savedEvaluationForm } = props;
   const [evaluationForm, setEvaluationForm] = React.useState<object>({});
+  const [open, setOpen] = React.useState<boolean>(false);
   const colourOptionList = ['Green', 'Yellow', 'Orange', 'Red'];
   const evaluationList = [1, 2, 3, 4, 5];
   let evaluationObject = {};
+  const auth = useAuth();
 
   const onClickSave = () => {
-    evaluationObject = {
-      ...evaluationForm,
-      _id: attachmentXML.identifier,
-      phenomenon: attachmentXML.phenomenon,
-    };
-    console.log(evaluationObject);
-    databaseFunctions
-      .putEvaluationForm(evaluationObject)
-      .then((r) => console.log(r));
+    if (auth.isAuthenticated) {
+      evaluationObject = {
+        ...evaluationForm,
+        _id: attachmentXML.identifier,
+        phenomenon: attachmentXML.phenomenon,
+      };
+      console.log(evaluationObject);
+      databaseFunctions
+        .putEvaluationForm(evaluationObject)
+        .then((r) => console.log(r));
+    } else {
+      setOpen(true);
+    }
   };
 
   const onChangeColour = (option: any) => {
@@ -148,14 +162,13 @@ const ValidationForm: React.FC<Props> = (props) => {
               }}
               onChange={onChangeThreshold}
             >
-              {phenomena.rain.thresholds.map((option) => (
+              {phenomena.icing.thresholds.map((option: any) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </TextField>
           </Stack>
-          
         </Box>
         <TextField
           id="no"
@@ -189,6 +202,29 @@ const ValidationForm: React.FC<Props> = (props) => {
       <Button variant={'contained'} color={'error'}>
         Cancel
       </Button>
+      <Box sx={{ width: '100%' }}>
+        <Collapse in={open}>
+          <Alert
+            variant="filled"
+            severity="warning"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            You have to be logged in to save annotations!
+          </Alert>
+        </Collapse>
+      </Box>
     </Box>
   );
 };

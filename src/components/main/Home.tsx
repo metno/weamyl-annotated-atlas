@@ -3,7 +3,6 @@ import { Box, Grid, Paper, Typography } from '@mui/material';
 import Phenomenon from '../Phenomenon';
 import Polygon from '../Polygon';
 import Time from '../Time';
-import IncidentName from '../IncidentName';
 import CapTable from '../CapTable';
 import SearchClearButtons from '../SearchClearButtons';
 import Colour from '../Colour';
@@ -26,7 +25,6 @@ const Home: React.FC = () => {
     expires: dayjs().format('YYYY-MM-DDTHH:mm'),
   });
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
-  const [attachmentJSON, setAttachmentJSON] = React.useState<object>([]);
   const [attachmentXML, setAttachmentXML] = React.useState<object>([]);
   const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>(
     [],
@@ -82,7 +80,6 @@ const Home: React.FC = () => {
             <CapTable
               warning={warning}
               setPolygonObject={setPolygonObject}
-              setAttachmentJSON={setAttachmentJSON}
               setAttachmentXML={setAttachmentXML}
               setSavedEvaluationForm={setSavedEvaluationForm}
             />
@@ -110,7 +107,6 @@ const Home: React.FC = () => {
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
             <ValidationForm
-              attachmentJSON={attachmentJSON}
               attachmentXML={attachmentXML}
               savedEvaluationForm={savedEvaluationForm}
             />

@@ -15,11 +15,14 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import Checkbox from '@mui/material/Checkbox';
 import { CapFilEntries, CapFileEntryList } from '../@customTypes/CapFilEntries';
 import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
 import { XMLParser } from 'fast-xml-parser';
 import dayjs from 'dayjs';
+import { tr } from 'date-fns/locale';
+import { CheckBox } from '@mui/icons-material';
 
 const styles = {
   table: {
@@ -36,7 +39,6 @@ const styles = {
 type Props = {
   warning: CapFileEntryList;
   setPolygonObject: any;
-  setAttachmentJSON: any;
   setAttachmentXML: any;
   setSavedEvaluationForm: any;
 };
@@ -45,7 +47,6 @@ const ObservationTable: React.FC<Props> = (props) => {
   const {
     warning,
     setPolygonObject,
-    setAttachmentJSON,
     setAttachmentXML,
     setSavedEvaluationForm,
   } = props;
@@ -53,8 +54,9 @@ const ObservationTable: React.FC<Props> = (props) => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
   const [modelData, setModelDAta] = React.useState<string[]>([]);
+  const [checkmark, setCheckmark] = React.useState<boolean>(true);
 
-  // Sends selected CAP to be shown in map.
+  /* Sends selected CAP to be shown in map. */
   const onClickTableRow = (item: CapFilEntries) => {
     let currentPolygon = item.features[0].geometry
       .coordinates as unknown as number[][];
@@ -84,13 +86,39 @@ const ObservationTable: React.FC<Props> = (props) => {
     databaseFunctions
       .getModelData(transposedPolygonString, currentOnset, currentExpires)
       .then((r) => {
-        //console.log(r);
+        //console.log('222222');
         const options = {
           ignoreAttributes: false,
         };
         const parser = new XMLParser(options);
+
         let jsonObj = parser.parse(r);
-        //console.log('WHAT TO CHOOSE? ', jsonObj['csw:GetRecordsResponse']['csw:SearchResults']['csw:SummaryRecord'][0]['dct:references']);
+       /*  console.log(
+          'WHAT TO CHOOSE? ',
+          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+            'csw:SummaryRecord'
+          ][0]['dct:references'],
+        ); */
+
+        const summaryRecords =
+          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+            'csw:SummaryRecord'
+          ][0]['dct:references'];
+        //console.log('summary: ', summaryRecords);
+        const opendapLinks: string[] = [];
+        summaryRecords.forEach((ref: any) => {
+          //console.log('summaryTEXT: ', summaryRecords['@_scheme']);
+          if (summaryRecords['@_scheme'] === 'OGC:WMS') {
+          //  console.log('1113311');
+            opendapLinks.push(ref._);
+          }
+        });
+
+        //console.log('OPENDAP Links:');
+        opendapLinks.forEach((link) => {
+          //console.log(link);
+        });
+
         for (
           let i = 0;
           i <
@@ -105,6 +133,7 @@ const ObservationTable: React.FC<Props> = (props) => {
             ][i]['dct:references'][1]['#text'];
           ncResults.push(intermediate);
         }
+        //console.log('This should be in THREDDS: ', ncResults);
         setModelDAta(ncResults);
       })
       .catch(() => {
@@ -113,14 +142,10 @@ const ObservationTable: React.FC<Props> = (props) => {
       });
 
     databaseFunctions.getEvaluationForm(item._id).then((r) => {
-      //console.log('EV: ', r);
-      setSavedEvaluationForm(r);
+      console.log('EV: ', r);
+      if (r.error === 'not_found') setSavedEvaluationForm('');
+      else setSavedEvaluationForm(r);
     });
-
-    /* databaseFunctions.getCapAttachmentJSON(item._id).then((r) => {
-      console.log('CAPattachJSON ', r);
-      //setAttachmentJSON(r);
-    }); */
 
     databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
       const options = {
@@ -131,12 +156,12 @@ const ObservationTable: React.FC<Props> = (props) => {
       //console.log(jsonObj);
 
       const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
-        (param: any) => param.valueName === 'triggerLevel'
+        (param: any) => param.valueName === 'triggerLevel',
       )?.value;
-      //console.log('threshold: : ',threshold);
+      //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
 
-      const colour =jsonObj?.alert?.info[1]?.parameter?.find(
-        (param: any) => param.valueName === 'awareness_level'
+      const colour = jsonObj?.alert?.info[1]?.parameter?.find(
+        (param: any) => param.valueName === 'awareness_level',
       )?.value;
       //console.log('colour: ',colour);
 
@@ -144,16 +169,22 @@ const ObservationTable: React.FC<Props> = (props) => {
       resultList = {
         identifier: jsonObj['alert']['identifier'],
         phenomenon: jsonObj['alert']['info'][1]['event'],
-        colour:     colour.split(';')[1].trim(),
-        threshold:  threshold ? threshold : 'no value given',
-        area:       jsonObj['alert']['info'][1]['area']['areaDesc'],
-        onset: dayjs(jsonObj['alert']['info'][1]['onset']).format('YYYY-MM-DD HH:mm').toString(),
-        expires: dayjs(jsonObj['alert']['info'][1]['expires']).format('YYYY-MM-DD HH:mm').toString(),
+        colour: colour.split(';')[1].trim(),
+        threshold: threshold ? threshold : 'no value given',
+        area: jsonObj['alert']['info'][1]['area']['areaDesc'],
+        onset: dayjs(jsonObj['alert']['info'][1]['onset'])
+          .format('YYYY-MM-DD HH:mm')
+          .toString(),
+        expires: dayjs(jsonObj['alert']['info'][1]['expires'])
+          .format('YYYY-MM-DD HH:mm')
+          .toString(),
       };
       setAttachmentXML(resultList);
       //console.log('ResultatListe: ', resultList);
     });
   };
+
+  const onOpenDropdownList = () => {};
 
   const onClickCapDialog = (item: CapFilEntries) => {
     setOpenDialog(!openDialog);
@@ -161,6 +192,17 @@ const ObservationTable: React.FC<Props> = (props) => {
       setWarningAttachment(r);
       //console.log('getCapAt ',r);
     });
+  };
+
+  const verifiedCAP = (item_id: string) => {
+    // databaseFunctions.getEvaluationForm(item_id).then((r)=> {
+    //  if (r._id)
+    //   setCheckmark(true);
+    //   else
+    //  setCheckmark(false);
+    // })
+    // console.log(checkmark);
+    return <Checkbox />;
   };
 
   return (
@@ -214,7 +256,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                   </TableCell>
                   <TableCell align="right">{item.colour} </TableCell>
                   <TableCell align="right">{item.areaDesc.en} </TableCell>
-                  <TableCell align="right">{item.status} </TableCell>
+                  <TableCell align="right">{verifiedCAP(item._id)} </TableCell>
                   <TableCell align="right">
                     {item.onset} / {item.expires}{' '}
                   </TableCell>
