@@ -137,8 +137,7 @@ async function getModelData(polygon:any, startTime: string, endTime: string) {
   // console.log('xml ', polyObj);
   const url = `/`;
   const response = await modelDAtaClient.post(url, polyObj);
-  //console.log(response.data);
-  //console.log(11111);
+  //console.log('Senda response: ', response.data);
   return response.data;
 }
 
