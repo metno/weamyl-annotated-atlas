@@ -13,6 +13,7 @@ import phenomena from '../config/phenomena.json';
 import databaseFunctions from '../utils/databaseFunctions';
 import { useAuth } from 'react-oidc-context';
 import CloseIcon from '@mui/icons-material/Close';
+import { WidthFull } from '@mui/icons-material';
 
 const paperStyle = {
   padding: 2,
@@ -171,19 +172,28 @@ const ValidationForm: React.FC<Props> = (props) => {
               ))}
             </TextField>
           </Stack>
-        
+        </Box>
+
         <TextField
-          id="no"
           label={'Comment to selected warning'}
           InputLabelProps={{
-            shrink: true,
+          shrink: true,
           }}
           multiline
           minRows={6}
           onChange={onChangeComments}
         />
+
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '30ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
         <Stack direction="row" spacing={3}>
-        <TextField
+          <TextField
             select
             label="Overall evaluation"
             InputLabelProps={{
@@ -197,6 +207,7 @@ const ValidationForm: React.FC<Props> = (props) => {
               </MenuItem>
             ))}
           </TextField>
+
           <TextField
             select
             label="Accuracy of timing"
@@ -211,6 +222,7 @@ const ValidationForm: React.FC<Props> = (props) => {
               </MenuItem>
             ))}
           </TextField>
+
           <TextField
             select
             label="Accuracy of area"
@@ -225,6 +237,7 @@ const ValidationForm: React.FC<Props> = (props) => {
               </MenuItem>
             ))}
           </TextField>
+
           <TextField
             select
             label="When was waring sent out"
@@ -239,6 +252,7 @@ const ValidationForm: React.FC<Props> = (props) => {
               </MenuItem>
             ))}
           </TextField>
+
         </Stack>
         </Box>
       </Stack>

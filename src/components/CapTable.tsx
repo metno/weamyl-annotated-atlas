@@ -209,7 +209,7 @@ const ObservationTable: React.FC<Props> = (props) => {
     <>
       <Typography variant="h5">Results ({warning.length})</Typography>
       <TableContainer component={Paper} sx={styles.table}>
-        <Table aria-label="CAP-filer">
+        <Table size="small" aria-label="CAP-filer">
           <TableHead>
             <TableRow>
               <TableCell sx={styles.tableHead} />
