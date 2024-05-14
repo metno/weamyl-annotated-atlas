@@ -13,6 +13,7 @@ import phenomena from '../config/phenomena.json';
 import databaseFunctions from '../utils/databaseFunctions';
 import { useAuth } from 'react-oidc-context';
 import CloseIcon from '@mui/icons-material/Close';
+import { WidthFull } from '@mui/icons-material';
 
 const paperStyle = {
   padding: 2,
@@ -32,6 +33,8 @@ const ValidationForm: React.FC<Props> = (props) => {
   const evaluationList = [1, 2, 3, 4, 5];
   let evaluationObject = {};
   const auth = useAuth();
+  console.log('INITIAL: ', savedEvaluationForm.colour);
+  console.log('OBJ ', Object.values(phenomena))
 
   const onClickSave = () => {
     if (auth.isAuthenticated) {
@@ -131,7 +134,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             />
             <TextField
               select
-              defaultValue={savedEvaluationForm.colour}
+              value={savedEvaluationForm.colour}
               label="Corrected value"
               InputLabelProps={{
                 shrink: true,
@@ -170,30 +173,88 @@ const ValidationForm: React.FC<Props> = (props) => {
             </TextField>
           </Stack>
         </Box>
+
         <TextField
-          id="no"
           label={'Comment to selected warning'}
           InputLabelProps={{
-            shrink: true,
+          shrink: true,
           }}
           multiline
           minRows={6}
           onChange={onChangeComments}
         />
-        <TextField
-          select
-          label="Overall evaluation"
-          InputLabelProps={{
-            shrink: true,
+
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '30ch' },
           }}
-          onChange={onChangeOverall}
+          noValidate
+          autoComplete="off"
         >
-          {evaluationList.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </TextField>
+        <Stack direction="row" spacing={3}>
+          <TextField
+            select
+            label="Overall evaluation"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={onChangeOverall}
+          >
+            {evaluationList.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            select
+            label="Accuracy of timing"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={onChangeOverall}
+          >
+            {evaluationList.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            select
+            label="Accuracy of area"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={onChangeOverall}
+          >
+            {evaluationList.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            select
+            label="When was waring sent out"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={onChangeOverall}
+          >
+            {evaluationList.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
+        </Stack>
+        </Box>
       </Stack>
 
       <Button variant={'contained'} color={'success'} onClick={onClickSave}>
