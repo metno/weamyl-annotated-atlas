@@ -1,4 +1,4 @@
-FROM registry.met.no/baseimg/ubuntu:24.04 as build-stage
+FROM node:16 as build-stage
 
 WORKDIR /app
 
