@@ -26,9 +26,7 @@ const Home: React.FC = () => {
   });
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
   const [attachmentXML, setAttachmentXML] = React.useState<object>([]);
-  const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>(
-    [],
-  );
+  const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>([]);
 
   return (
     <Box

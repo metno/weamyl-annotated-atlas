@@ -13,7 +13,7 @@ import phenomena from '../config/phenomena.json';
 import databaseFunctions from '../utils/databaseFunctions';
 import { useAuth } from 'react-oidc-context';
 import CloseIcon from '@mui/icons-material/Close';
-import { WidthFull } from '@mui/icons-material';
+import { Phenomena } from '../@customTypes/Phenomena';
 
 const paperStyle = {
   padding: 2,
@@ -29,12 +29,82 @@ const ValidationForm: React.FC<Props> = (props) => {
   const { attachmentXML, savedEvaluationForm } = props;
   const [evaluationForm, setEvaluationForm] = React.useState<object>({});
   const [open, setOpen] = React.useState<boolean>(false);
-  const colourOptionList = ['Green', 'Yellow', 'Orange', 'Red'];
-  const evaluationList = [1, 2, 3, 4, 5];
+  const colourOptionList = [
+    {
+        value: 'Green',
+        label: 'Green',
+    },
+    {
+        value: 'Yellow',
+        label: 'Yellow',
+    },
+    {
+        value: 'Orange',
+        label: 'Orange',
+    },
+    {
+        value: 'Red',
+        label: 'Red',
+    }
+  ];
+  const evaluationList = [
+    {
+        value: '1',
+        label: '1',
+    },
+    {
+        value: '2',
+        label: '2',
+    },
+    {
+        value: '3',
+        label: '3',
+    },
+    {
+        value: '4',
+        label: '4',
+    },
+    {
+        value: '5',
+        label: '5',
+    }
+  ];
+  const windDirection = [
+    {
+        value: 'N',
+        label: 'N',
+    },
+    {
+        value: 'NE',
+        label: 'NE',
+    },
+    {
+        value: 'E',
+        label: 'E',
+    },
+    {
+        value: 'SE',
+        label: 'SE',
+    },
+    {
+        value: 'S',
+        label: 'S',
+    },
+    {
+        value: 'SW',
+        label: 'SW',
+    },
+    {
+        value: 'W',
+        label: 'W',
+    },
+    {
+        value: 'NW',
+        label: 'NW',
+    }
+  ];
   let evaluationObject = {};
   const auth = useAuth();
-  console.log('INITIAL: ', savedEvaluationForm.colour);
-  console.log('OBJ ', Object.values(phenomena))
 
   const onClickSave = () => {
     if (auth.isAuthenticated) {
@@ -52,6 +122,18 @@ const ValidationForm: React.FC<Props> = (props) => {
     }
   };
 
+  const onChangewindDirection = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    evaluationObject = { ...evaluationForm, windDirection: option.target.value };
+    setEvaluationForm(evaluationObject);
+    //console.log(evaluationObject);    
+  };
+
   const onChangeColour = (option: any) => {
     if (!option) {
       option = {
@@ -61,7 +143,7 @@ const ValidationForm: React.FC<Props> = (props) => {
     }
     evaluationObject = { ...evaluationForm, colour: option.target.value };
     setEvaluationForm(evaluationObject);
-    console.log(evaluationObject);
+    //console.log(evaluationObject);
   };
 
   const onChangeThreshold = (option: any) => {
@@ -73,7 +155,7 @@ const ValidationForm: React.FC<Props> = (props) => {
     }
     evaluationObject = { ...evaluationForm, threshold: option.target.value };
     setEvaluationForm(evaluationObject);
-    console.log(evaluationObject);
+    //console.log(evaluationObject);
   };
 
   const onChangeComments = (option: any) => {
@@ -88,7 +170,7 @@ const ValidationForm: React.FC<Props> = (props) => {
       comments: option.target.value,
     };
     setEvaluationForm(evaluationObject);
-    console.log(evaluationForm);
+    //console.log(evaluationForm);
   };
 
   const onChangeOverall = (option: any) => {
@@ -98,10 +180,47 @@ const ValidationForm: React.FC<Props> = (props) => {
         value: '',
       };
     }
-    evaluationObject = { ...evaluationForm, evaluation: option.target.value };
+    evaluationObject = { ...evaluationForm, overallEvaluation: option.target.value };
     setEvaluationForm(evaluationObject);
-    console.log(evaluationObject);
+    //console.log(evaluationObject);
   };
+
+  const onChangeTimeAccuracy = (option: any) => {
+      if (!option) {
+        option = {
+          target: option,
+          value: '',
+        };
+      }
+      evaluationObject = { ...evaluationForm, timeEvaluation: option.target.value };
+      setEvaluationForm(evaluationObject);
+      //console.log(evaluationObject);
+    };
+
+  const onChangeAreaAccuracy = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    evaluationObject = { ...evaluationForm, areaEvaluation: option.target.value };
+    setEvaluationForm(evaluationObject);
+    //console.log(evaluationObject);
+  };
+
+  const onChangeWarningSentOut = (option: any) => {
+    if (!option) {
+      option = {
+        target: option,
+        value: '',
+      };
+    }
+    evaluationObject = { ...evaluationForm, warningSentOutEvaluation: option.target.value };
+    setEvaluationForm(evaluationObject);
+    //console.log(evaluationObject);
+  };
+
 
   return (
     <Box>
@@ -114,7 +233,7 @@ const ValidationForm: React.FC<Props> = (props) => {
           noValidate
           autoComplete="off"
         >
-          <Stack>
+          <Stack direction="row" spacing={3}>
             <TextField
               label="Phenomena of current warning"
               value={attachmentXML.phenomenon}
@@ -122,6 +241,20 @@ const ValidationForm: React.FC<Props> = (props) => {
                 shrink: true,
               }}
             />
+            <TextField
+              select
+              label="Wind direction"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={onChangewindDirection}
+            >
+              {windDirection.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+              ))}
+            </TextField>
           </Stack>
 
           <Stack direction="row" spacing={3}>
@@ -134,7 +267,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             />
             <TextField
               select
-              value={savedEvaluationForm.colour}
+              defaultValue=''
               label="Corrected value"
               InputLabelProps={{
                 shrink: true,
@@ -142,8 +275,8 @@ const ValidationForm: React.FC<Props> = (props) => {
               onChange={onChangeColour}
             >
               {colourOptionList.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -165,7 +298,7 @@ const ValidationForm: React.FC<Props> = (props) => {
               }}
               onChange={onChangeThreshold}
             >
-              {phenomena.icing.thresholds.map((option: any) => (
+              {phenomena.ice.thresholds.map((option: any) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
@@ -181,6 +314,7 @@ const ValidationForm: React.FC<Props> = (props) => {
           }}
           multiline
           minRows={6}
+          defaultValue={savedEvaluationForm.comments}
           onChange={onChangeComments}
         />
 
@@ -202,8 +336,8 @@ const ValidationForm: React.FC<Props> = (props) => {
             onChange={onChangeOverall}
           >
             {evaluationList.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
@@ -214,11 +348,11 @@ const ValidationForm: React.FC<Props> = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={onChangeOverall}
+            onChange={onChangeTimeAccuracy}
           >
             {evaluationList.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
@@ -229,11 +363,11 @@ const ValidationForm: React.FC<Props> = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={onChangeOverall}
+            onChange={onChangeAreaAccuracy}
           >
             {evaluationList.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
@@ -244,11 +378,11 @@ const ValidationForm: React.FC<Props> = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={onChangeOverall}
+            onChange={onChangeWarningSentOut}
           >
             {evaluationList.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
@@ -263,6 +397,7 @@ const ValidationForm: React.FC<Props> = (props) => {
       <Button variant={'contained'} color={'error'}>
         Cancel
       </Button>
+
       <Box sx={{ width: '100%' }}>
         <Collapse in={open}>
           <Alert
@@ -286,6 +421,7 @@ const ValidationForm: React.FC<Props> = (props) => {
           </Alert>
         </Collapse>
       </Box>
+
     </Box>
   );
 };

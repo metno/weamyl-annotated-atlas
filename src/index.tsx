@@ -8,8 +8,8 @@ import { AuthProvider } from 'react-oidc-context';
 const oidcConfig = {
   authority: 'https://login.met.no/auth/realms/Internal/',
   client_id: 'annotatedatlas',
-  redirect_uri: 'https://annotated-atlas-dev.k8s.met.no/',
-//  redirect_uri: 'http://localhost:8080/',
+//  redirect_uri: 'https://annotated-atlas-dev.k8s.met.no/',
+  redirect_uri: 'http://localhost:8080/',
   realm: 'Internal',
   onSigninCallback: () => {
     const redirectLocation = sessionStorage.getItem('path');

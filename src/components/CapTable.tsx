@@ -143,7 +143,7 @@ const ObservationTable: React.FC<Props> = (props) => {
 
     databaseFunctions.getEvaluationForm(item._id).then((r) => {
       console.log('EV: ', r);
-      if (r.error === 'not_found') setSavedEvaluationForm('');
+      if (r.error === 'not_found') setSavedEvaluationForm([]);
       else setSavedEvaluationForm(r);
     });
 
