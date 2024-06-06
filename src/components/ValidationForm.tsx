@@ -29,6 +29,9 @@ const ValidationForm: React.FC<Props> = (props) => {
   const { attachmentXML, savedEvaluationForm } = props;
   const [evaluationForm, setEvaluationForm] = React.useState<object>({});
   const [open, setOpen] = React.useState<boolean>(false);
+
+  console.log('atXML: ', attachmentXML)
+
   const colourOptionList = [
     {
         value: 'Green',
@@ -49,24 +52,28 @@ const ValidationForm: React.FC<Props> = (props) => {
   ];
   const evaluationList = [
     {
-        value: '1',
-        label: '1',
+        value: 0,
+        label: 0,
     },
     {
-        value: '2',
-        label: '2',
+        value: 1,
+        label: 1,
     },
     {
-        value: '3',
-        label: '3',
+        value: 2,
+        label: 2,
     },
     {
-        value: '4',
-        label: '4',
+        value: 3,
+        label: 3,
     },
     {
-        value: '5',
-        label: '5',
+        value: 4,
+        label: 4,
+    },
+    {
+        value: 5,
+        label: 5,
     }
   ];
   const windDirection = [
@@ -255,11 +262,12 @@ const ValidationForm: React.FC<Props> = (props) => {
                   </MenuItem>
               ))}
             </TextField>
+            {savedEvaluationForm.windDirection}             
           </Stack>
 
           <Stack direction="row" spacing={3}>
             <TextField
-              value={attachmentXML.colour}
+              value={attachmentXML.colour + ' (' + attachmentXML.severity + '/' + attachmentXML.certainty + ')'}
               label="Colour of current warning"
               InputLabelProps={{
                 shrink: true,
@@ -268,7 +276,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             <TextField
               select
               defaultValue=''
-              label="Corrected value"
+              label="Annotated correct colour of warning level"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -280,6 +288,7 @@ const ValidationForm: React.FC<Props> = (props) => {
                 </MenuItem>
               ))}
             </TextField>
+            {savedEvaluationForm.colour}          
           </Stack>
 
           <Stack direction="row" spacing={3}>
@@ -289,26 +298,12 @@ const ValidationForm: React.FC<Props> = (props) => {
               InputLabelProps={{
                 shrink: true,
               }}
-            />
-            <TextField
-              select
-              label="Corrected value"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={onChangeThreshold}
-            >
-              {phenomena.ice.thresholds.map((option: any) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+            />         
           </Stack>
         </Box>
 
         <TextField
-          label={'Comment to selected warning'}
+          label={'Comment to Annotation'}
           InputLabelProps={{
           shrink: true,
           }}
@@ -329,7 +324,7 @@ const ValidationForm: React.FC<Props> = (props) => {
         <Stack direction="row" spacing={3}>
           <TextField
             select
-            label="Overall evaluation"
+            label="Evaluation of consequences (of current warning level)"
             InputLabelProps={{
               shrink: true,
             }}
@@ -341,6 +336,8 @@ const ValidationForm: React.FC<Props> = (props) => {
               </MenuItem>
             ))}
           </TextField>
+
+          {savedEvaluationForm.overallEvaluation}
 
           <TextField
             select
@@ -357,6 +354,8 @@ const ValidationForm: React.FC<Props> = (props) => {
             ))}
           </TextField>
 
+          {savedEvaluationForm.timeEvaluation}
+
           <TextField
             select
             label="Accuracy of area"
@@ -372,6 +371,8 @@ const ValidationForm: React.FC<Props> = (props) => {
             ))}
           </TextField>
 
+          {savedEvaluationForm.areaEvaluation}
+
           <TextField
             select
             label="When was waring sent out"
@@ -386,6 +387,8 @@ const ValidationForm: React.FC<Props> = (props) => {
               </MenuItem>
             ))}
           </TextField>
+
+          {savedEvaluationForm.warningSentOutEvaluation}
 
         </Stack>
         </Box>

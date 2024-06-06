@@ -142,8 +142,11 @@ const ObservationTable: React.FC<Props> = (props) => {
       });
 
     databaseFunctions.getEvaluationForm(item._id).then((r) => {
-      console.log('EV: ', r);
-      if (r.error === 'not_found') setSavedEvaluationForm([]);
+      //console.log('EV: ', r);
+      //console.log('rrorV: ', r.error);
+      if (r.error === 'not_found') {
+        //console.log('Etter if: ', r.error);
+        setSavedEvaluationForm([]);}
       else setSavedEvaluationForm(r);
     });
 
@@ -153,7 +156,7 @@ const ObservationTable: React.FC<Props> = (props) => {
       };
       const parser = new XMLParser(options);
       let jsonObj = parser.parse(r);
-      //console.log(jsonObj);
+      console.log(jsonObj);
 
       const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
         (param: any) => param.valueName === 'triggerLevel',
@@ -170,6 +173,8 @@ const ObservationTable: React.FC<Props> = (props) => {
         identifier: jsonObj['alert']['identifier'],
         phenomenon: jsonObj['alert']['info'][1]['event'],
         colour: colour.split(';')[1].trim(),
+        certainty:  jsonObj['alert']['info'][1]['certainty'],
+        severity:  jsonObj['alert']['info'][1]['severity'],
         threshold: threshold ? threshold : 'no value given',
         area: jsonObj['alert']['info'][1]['area']['areaDesc'],
         onset: dayjs(jsonObj['alert']['info'][1]['onset'])
@@ -180,7 +185,7 @@ const ObservationTable: React.FC<Props> = (props) => {
           .toString(),
       };
       setAttachmentXML(resultList);
-      //console.log('ResultatListe: ', resultList);
+      console.log('ResultatListe: ', resultList);
     });
   };
 
