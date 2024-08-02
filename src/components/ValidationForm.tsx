@@ -228,6 +228,10 @@ const ValidationForm: React.FC<Props> = (props) => {
     //console.log(evaluationObject);
   };
 
+  const currentWarningColour = 
+  attachmentXML && attachmentXML.colour && attachmentXML.severity && attachmentXML.certainty
+    ? `${attachmentXML.colour} (${attachmentXML.severity}/${attachmentXML.certainty})`
+    : "";
 
   return (
     <Box>
@@ -248,26 +252,29 @@ const ValidationForm: React.FC<Props> = (props) => {
                 shrink: true,
               }}
             />
-            <TextField
-              select
-              label="Wind direction"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={onChangewindDirection}
-            >
-              {windDirection.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-              ))}
-            </TextField>
+            {attachmentXML?.phenomenon === 'Wind gusts' && (
+       
+              <TextField
+                select
+                label="Wind direction"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={onChangewindDirection}
+              >
+                {windDirection.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                ))}
+              </TextField>
+              )}
             {savedEvaluationForm.windDirection}             
           </Stack>
 
           <Stack direction="row" spacing={3}>
             <TextField
-              value={attachmentXML.colour + ' (' + attachmentXML.severity + '/' + attachmentXML.certainty + ')'}
+              value={currentWarningColour}
               label="Colour of current warning"
               InputLabelProps={{
                 shrink: true,
@@ -288,7 +295,7 @@ const ValidationForm: React.FC<Props> = (props) => {
                 </MenuItem>
               ))}
             </TextField>
-            {savedEvaluationForm.colour}          
+            {savedEvaluationForm.severity}          
           </Stack>
 
           <Stack direction="row" spacing={3}>
