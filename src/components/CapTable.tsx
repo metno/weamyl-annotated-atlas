@@ -147,45 +147,57 @@ const ObservationTable: React.FC<Props> = (props) => {
       if (r.error === 'not_found') {
         //console.log('Etter if: ', r.error);
         setSavedEvaluationForm([]);}
-      else setSavedEvaluationForm(r);
-    });
+      else {
+        console.log('Etter if: ', (r));
 
+        setSavedEvaluationForm(r);
+      }
+      
+    });
+    console.log('Etter if: ', item._id)
     databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
       const options = {
         ignoreAttributes: false,
       };
-      const parser = new XMLParser(options);
-      let jsonObj = parser.parse(r);
-      console.log(jsonObj);
+      console.log('Etter if: ', r.error);
+      if (r.error === 'AxiosError') {
+        
+        setAttachmentXML([]);}
+      else {
+      
+        const parser = new XMLParser(options);
+        let jsonObj = parser.parse(r);
+        console.log(jsonObj);
 
-      const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
-        (param: any) => param.valueName === 'triggerLevel',
-      )?.value;
-      //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
+        const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
+          (param: any) => param.valueName === 'triggerLevel',
+        )?.value;
+        //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
 
-      const colour = jsonObj?.alert?.info[1]?.parameter?.find(
-        (param: any) => param.valueName === 'awareness_level',
-      )?.value;
-      //console.log('colour: ',colour);
+        const colour = jsonObj?.alert?.info[1]?.parameter?.find(
+          (param: any) => param.valueName === 'awareness_level',
+        )?.value;
+        //console.log('colour: ',colour);
 
-      // ['info[0/1]'] is norsk/english
-      resultList = {
-        identifier: jsonObj['alert']['identifier'],
-        phenomenon: jsonObj['alert']['info'][1]['event'],
-        colour: colour.split(';')[1].trim(),
-        certainty:  jsonObj['alert']['info'][1]['certainty'],
-        severity:  jsonObj['alert']['info'][1]['severity'],
-        threshold: threshold ? threshold : 'no value given',
-        area: jsonObj['alert']['info'][1]['area']['areaDesc'],
-        onset: dayjs(jsonObj['alert']['info'][1]['onset'])
-          .format('YYYY-MM-DD HH:mm')
-          .toString(),
-        expires: dayjs(jsonObj['alert']['info'][1]['expires'])
-          .format('YYYY-MM-DD HH:mm')
-          .toString(),
-      };
-      setAttachmentXML(resultList);
-      console.log('ResultatListe: ', resultList);
+        // ['info[0/1]'] is norsk/english
+        resultList = {
+          identifier: jsonObj['alert']['identifier'],
+          phenomenon: jsonObj['alert']['info'][1]['event'],
+          colour: colour.split(';')[1].trim(),
+          certainty:  jsonObj['alert']['info'][1]['certainty'],
+          severity:  jsonObj['alert']['info'][1]['severity'],
+          threshold: threshold ? threshold : 'no value given',
+          area: jsonObj['alert']['info'][1]['area']['areaDesc'],
+          onset: dayjs(jsonObj['alert']['info'][1]['onset'])
+            .format('YYYY-MM-DD HH:mm')
+            .toString(),
+          expires: dayjs(jsonObj['alert']['info'][1]['expires'])
+            .format('YYYY-MM-DD HH:mm')
+            .toString(),
+        };
+        setAttachmentXML(resultList);
+        console.log('ResultatListe: ', resultList);  
+      }
     });
   };
 

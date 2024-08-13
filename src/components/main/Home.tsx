@@ -107,6 +107,7 @@ const Home: React.FC = () => {
             <ValidationForm
               attachmentXML={attachmentXML}
               savedEvaluationForm={savedEvaluationForm}
+              setSavedEvaluationForm={setSavedEvaluationForm}
             />
           </Paper>
         </Grid>
