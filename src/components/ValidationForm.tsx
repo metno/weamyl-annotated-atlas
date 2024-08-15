@@ -42,7 +42,7 @@ type Props = {
 };
 
 const ValidationForm: React.FC<Props> = (props) => {
-  const { attachmentXML, savedEvaluationForm,setSavedEvaluationForm } = props;
+  const { attachmentXML, savedEvaluationForm } = props;
   const [open, setOpen] = React.useState<boolean>(false);
   const [evaluationForm, setEvaluationForm] = React.useState<EvaluationFormType>(savedEvaluationForm || {});
   useEffect(() => {
@@ -50,12 +50,13 @@ const ValidationForm: React.FC<Props> = (props) => {
       setEvaluationForm(savedEvaluationForm);
     }
   }, [savedEvaluationForm]);
+  
   let evaluationObject = {};
   
 
 
-  console.log('atXML: ', savedEvaluationForm)
-  console.log('saved: ', evaluationForm)
+  console.log('atXML: ', evaluationForm)
+  console.log('saved: ', savedEvaluationForm)
 
 
   const colourOptionList = [
@@ -142,7 +143,7 @@ const ValidationForm: React.FC<Props> = (props) => {
   const onClickSave = () => {
     if (auth.isAuthenticated) {
       evaluationObject = {
-        ...savedEvaluationForm,
+        ...evaluationForm,
         _id: attachmentXML.identifier,
         phenomenon: attachmentXML.phenomenon,
       };
@@ -154,6 +155,13 @@ const ValidationForm: React.FC<Props> = (props) => {
       setOpen(true);
     }
   };
+  const onClickCancel = () => {
+    if (savedEvaluationForm) {
+      setEvaluationForm(savedEvaluationForm);
+      console.log('cancel',evaluationForm)
+    }
+    
+  };
   
   const handleDropdownChange = (field: keyof EvaluationFormType) => (newValue: string | number | null) => {
     console.log(`Field: ${field}, New Value: ${newValue}`);
@@ -164,19 +172,16 @@ const ValidationForm: React.FC<Props> = (props) => {
     }));
   };
 
-  const onChangeComments = (option: any) => {
-    if (!option) {
-      option = {
-        target: option,
-        value: '',
-      };
-    }
-    
-    setEvaluationForm((prevForm:Object) => ({
-      ...prevForm,
-      comments: option.target.value,
-    }));
-  };
+  const onChangeComments = (field: keyof EvaluationFormType) => 
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const newValue = event.target.value;
+      console.log(newValue)
+      setEvaluationForm((prevForm) => ({
+        ...prevForm,
+        [field]: newValue,
+      }));
+    };
+
 
   const currentWarningColour = 
   attachmentXML && attachmentXML.colour && attachmentXML.severity && attachmentXML.certainty
@@ -197,7 +202,7 @@ const ValidationForm: React.FC<Props> = (props) => {
           <Stack direction="row" spacing={3}>
             <TextField
               label="Phenomena of current warning"
-              value={attachmentXML.phenomenon}
+              value={attachmentXML.phenomenon||''}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -207,7 +212,7 @@ const ValidationForm: React.FC<Props> = (props) => {
              <CustomDropdown
               label="Wind Direction"
               options={windDirection}
-              value={evaluationForm.windDirection|| null}
+              value={evaluationForm.windDirection|| ''}
               onChange={handleDropdownChange('windDirection')}
             />
               )}
@@ -216,7 +221,7 @@ const ValidationForm: React.FC<Props> = (props) => {
 
           <Stack direction="row" spacing={3}>
             <TextField
-              value={currentWarningColour}
+              value={currentWarningColour||''}
               label="Colour of current warning"
               InputLabelProps={{
                 shrink: true,
@@ -225,7 +230,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             <CustomDropdown
               label="Annotated correct colour of warning level"
               options={colourOptionList}
-              value={evaluationForm.colour||null}
+              value={evaluationForm.colour||''}
               onChange={handleDropdownChange('colour')}
             />
                  
@@ -233,7 +238,7 @@ const ValidationForm: React.FC<Props> = (props) => {
 
           <Stack direction="row" spacing={3}>
             <TextField
-              value={attachmentXML.threshold}
+              value={attachmentXML.threshold||''}
               label="Threshold of current warning"
               InputLabelProps={{
                 shrink: true,
@@ -241,18 +246,31 @@ const ValidationForm: React.FC<Props> = (props) => {
             />         
           </Stack>
         </Box>
-
-        <TextField
-          label={'Comment to Annotation'}
-          InputLabelProps={{
-          shrink: true,
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '150ch' },
           }}
-          multiline
-          minRows={6}
-          defaultValue={evaluationForm.comments}
-          onBlur={onChangeComments}
-        />
+          noValidate
+          autoComplete="off"
+        >
+          <Stack direction="row" spacing={6}>
+            <TextField 
+            label={'Comment to Annotation'} 
+            variant="outlined" 
+            InputLabelProps={{
+            shrink: true,
+            }}
+            multiline
+            minRows={6}
+            value={evaluationForm.comments||''}
+            onChange={onChangeComments('comments')}
 
+            />
+        
+          </Stack>
+        </Box>
+          
         <Box
           component="form"
           sx={{
@@ -266,26 +284,26 @@ const ValidationForm: React.FC<Props> = (props) => {
           <CustomDropdown
               label="Evaluation of consequences (of current warning level)"
               options={evaluationList}
-              value={evaluationForm.overallEvaluation||null}
+              value={evaluationForm.overallEvaluation||''}
               onChange={handleDropdownChange('overallEvaluation')}
             />
           <CustomDropdown
               label="Accuracy of timing"
               options={evaluationList}
-              value={evaluationForm.timeEvaluation||null}
+              value={evaluationForm.timeEvaluation||''}
               onChange={handleDropdownChange('timeEvaluation')}
             />    
           <CustomDropdown
               label="Accuracy of area"
               options={evaluationList}
-              value={evaluationForm.areaEvaluation||null}
+              value={evaluationForm.areaEvaluation||''}
               onChange={handleDropdownChange('areaEvaluation')}
             />    
           
           <CustomDropdown
               label="When was warning sent out"
               options={evaluationList}
-              value={evaluationForm.warningSentOutEvaluation||null}
+              value={evaluationForm.warningSentOutEvaluation||''}
               onChange={handleDropdownChange('warningSentOutEvaluation')}
             />
           
@@ -297,7 +315,7 @@ const ValidationForm: React.FC<Props> = (props) => {
       <Button variant={'contained'} color={'success'} onClick={onClickSave}>
         Save
       </Button>
-      <Button variant={'contained'} color={'error'}>
+      <Button variant={'contained'} color={'error'}onClick={onClickCancel}>
         Cancel
       </Button>
 

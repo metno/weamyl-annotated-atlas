@@ -248,9 +248,9 @@ const ObservationTable: React.FC<Props> = (props) => {
           </TableHead>
           <TableBody>
             {warning.map((item: CapFilEntries, index) => (
-              <>
+                <React.Fragment key={item._id}>
+
                 <TableRow
-                  key={item._id}
                   hover
                   selected={false}
                   onClick={() => onClickTableRow(item)}
@@ -292,7 +292,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                     />
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow >
                   <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0 }}
                     colSpan={6}
@@ -308,9 +308,12 @@ const ObservationTable: React.FC<Props> = (props) => {
                     </Collapse>
                   </TableCell>
                 </TableRow>
-              </>
+              </React.Fragment>
+
             ))}
           </TableBody>
+         
+            
         </Table>
       </TableContainer>
       <Typography variant="caption">
