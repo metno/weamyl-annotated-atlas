@@ -19,6 +19,7 @@ export interface CapFilEntries {
   ceiling: string;
   msgType: string;
   type: string;
+  validated:boolean
   features: [
     {
       type: string;

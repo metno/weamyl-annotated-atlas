@@ -50,6 +50,7 @@ const ObservationTable: React.FC<Props> = (props) => {
     setAttachmentXML,
     setSavedEvaluationForm,
   } = props;
+  console.log(warning)
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
@@ -273,7 +274,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                   </TableCell>
                   <TableCell align="right">{item.colour} </TableCell>
                   <TableCell align="right">{item.areaDesc.en} </TableCell>
-                  <TableCell align="right">{verifiedCAP(item._id)} </TableCell>
+                  <TableCell align="right"><Checkbox checked={item.validated||false}/> </TableCell>
                   <TableCell align="right">
                     {item.onset} / {item.expires}{' '}
                   </TableCell>
