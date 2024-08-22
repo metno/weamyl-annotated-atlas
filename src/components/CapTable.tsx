@@ -274,7 +274,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                   </TableCell>
                   <TableCell align="right">{item.colour} </TableCell>
                   <TableCell align="right">{item.areaDesc.en} </TableCell>
-                  <TableCell align="right"><Checkbox checked={item.validated||false}/> </TableCell>
+                  <TableCell align="right"><Checkbox checked={false}/> </TableCell>
                   <TableCell align="right">
                     {item.onset} / {item.expires}{' '}
                   </TableCell>
