@@ -19,9 +19,16 @@ const modelDAtaClient = axios.create({
 
 async function getCapAttachmentXML(id: string) {
   const url = `/xml/${id}`;
-  const response = await client.get(url);
-  // console.log('Attachment ', response.data);
-  return response.data;
+  try {
+    const response = await client.get(url);
+    // console.log('Attachment ', response.data);
+    return response.data;
+  }catch (error) {
+    console.error('Error fetching CapAttachmentXML:', error);
+    // Handle the error appropriately based on your application's needs.
+    // For example, you could rethrow the error, return a default value, or return null.
+    throw error; // Rethrow the error to be handled by the caller.
+  }
 }
 
 async function getCapFiles(cap: string) {
@@ -143,8 +150,16 @@ async function getModelData(polygon:any, startTime: string, endTime: string) {
 
 async function getEvaluationForm(cap_id: string) {
   const url = `/evaluation/${cap_id}`;
-  const response = await client.get(url);
-  return response.data;
+  try {
+    const response = await client.get(url);
+    console.log('Evaluation response: ', response);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching evaluation form:', error);
+    // Handle the error appropriately based on your application's needs.
+    // For example, you could rethrow the error, return a default value, or return null.
+    throw error; // Rethrow the error to be handled by the caller.
+  }
 }
 
 async function putEvaluationForm(evaluationObject: object) {

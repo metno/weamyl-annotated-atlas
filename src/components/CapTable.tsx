@@ -50,6 +50,7 @@ const ObservationTable: React.FC<Props> = (props) => {
     setAttachmentXML,
     setSavedEvaluationForm,
   } = props;
+  console.log(warning)
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
@@ -147,45 +148,57 @@ const ObservationTable: React.FC<Props> = (props) => {
       if (r.error === 'not_found') {
         //console.log('Etter if: ', r.error);
         setSavedEvaluationForm([]);}
-      else setSavedEvaluationForm(r);
-    });
+      else {
+        console.log('Etter if: ', (r));
 
+        setSavedEvaluationForm(r);
+      }
+      
+    });
+    console.log('Etter if: ', item._id)
     databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
       const options = {
         ignoreAttributes: false,
       };
-      const parser = new XMLParser(options);
-      let jsonObj = parser.parse(r);
-      console.log(jsonObj);
+      console.log('Etter if: ', r.error);
+      if (r.error === 'AxiosError') {
+        
+        setAttachmentXML([]);}
+      else {
+      
+        const parser = new XMLParser(options);
+        let jsonObj = parser.parse(r);
+        console.log(jsonObj);
 
-      const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
-        (param: any) => param.valueName === 'triggerLevel',
-      )?.value;
-      //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
+        const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
+          (param: any) => param.valueName === 'triggerLevel',
+        )?.value;
+        //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
 
-      const colour = jsonObj?.alert?.info[1]?.parameter?.find(
-        (param: any) => param.valueName === 'awareness_level',
-      )?.value;
-      //console.log('colour: ',colour);
+        const colour = jsonObj?.alert?.info[1]?.parameter?.find(
+          (param: any) => param.valueName === 'awareness_level',
+        )?.value;
+        //console.log('colour: ',colour);
 
-      // ['info[0/1]'] is norsk/english
-      resultList = {
-        identifier: jsonObj['alert']['identifier'],
-        phenomenon: jsonObj['alert']['info'][1]['event'],
-        colour: colour.split(';')[1].trim(),
-        certainty:  jsonObj['alert']['info'][1]['certainty'],
-        severity:  jsonObj['alert']['info'][1]['severity'],
-        threshold: threshold ? threshold : 'no value given',
-        area: jsonObj['alert']['info'][1]['area']['areaDesc'],
-        onset: dayjs(jsonObj['alert']['info'][1]['onset'])
-          .format('YYYY-MM-DD HH:mm')
-          .toString(),
-        expires: dayjs(jsonObj['alert']['info'][1]['expires'])
-          .format('YYYY-MM-DD HH:mm')
-          .toString(),
-      };
-      setAttachmentXML(resultList);
-      console.log('ResultatListe: ', resultList);
+        // ['info[0/1]'] is norsk/english
+        resultList = {
+          identifier: jsonObj['alert']['identifier'],
+          phenomenon: jsonObj['alert']['info'][1]['event'],
+          colour: colour.split(';')[1].trim(),
+          certainty:  jsonObj['alert']['info'][1]['certainty'],
+          severity:  jsonObj['alert']['info'][1]['severity'],
+          threshold: threshold ? threshold : 'no value given',
+          area: jsonObj['alert']['info'][1]['area']['areaDesc'],
+          onset: dayjs(jsonObj['alert']['info'][1]['onset'])
+            .format('YYYY-MM-DD HH:mm')
+            .toString(),
+          expires: dayjs(jsonObj['alert']['info'][1]['expires'])
+            .format('YYYY-MM-DD HH:mm')
+            .toString(),
+        };
+        setAttachmentXML(resultList);
+        console.log('ResultatListe: ', resultList);  
+      }
     });
   };
 
@@ -236,9 +249,9 @@ const ObservationTable: React.FC<Props> = (props) => {
           </TableHead>
           <TableBody>
             {warning.map((item: CapFilEntries, index) => (
-              <>
+                <React.Fragment key={item._id}>
+
                 <TableRow
-                  key={item._id}
                   hover
                   selected={false}
                   onClick={() => onClickTableRow(item)}
@@ -261,7 +274,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                   </TableCell>
                   <TableCell align="right">{item.colour} </TableCell>
                   <TableCell align="right">{item.areaDesc.en} </TableCell>
-                  <TableCell align="right">{verifiedCAP(item._id)} </TableCell>
+                  <TableCell align="right"><Checkbox checked={false}/> </TableCell>
                   <TableCell align="right">
                     {item.onset} / {item.expires}{' '}
                   </TableCell>
@@ -280,7 +293,7 @@ const ObservationTable: React.FC<Props> = (props) => {
                     />
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow >
                   <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0 }}
                     colSpan={6}
@@ -296,9 +309,12 @@ const ObservationTable: React.FC<Props> = (props) => {
                     </Collapse>
                   </TableCell>
                 </TableRow>
-              </>
+              </React.Fragment>
+
             ))}
           </TableBody>
+         
+            
         </Table>
       </TableContainer>
       <Typography variant="caption">
