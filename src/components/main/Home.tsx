@@ -3,7 +3,7 @@ import { Box, Grid, Paper, Typography } from '@mui/material';
 import Phenomenon from '../Phenomenon';
 import Polygon from '../Polygon';
 import Time from '../Time';
-import CapTable from '../CapTable';
+import CapTableSort from '../CapTableSort';
 import SearchClearButtons from '../SearchClearButtons';
 import Colour from '../Colour';
 import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
@@ -73,9 +73,15 @@ const Home: React.FC = () => {
         <Grid item md={12} lg={6}>
           <Paper
             sx={paperStyle}
-            style={{ height: 400, maxHeight: 400, overflow: 'auto' }}
+            style={{ height: 400, maxHeight: 400 }}
           >
-            <CapTable
+            {/* <CapTable
+              warning={warning}
+              setPolygonObject={setPolygonObject}
+              setAttachmentXML={setAttachmentXML}
+              setSavedEvaluationForm={setSavedEvaluationForm}
+            /> */}
+            <CapTableSort
               warning={warning}
               setPolygonObject={setPolygonObject}
               setAttachmentXML={setAttachmentXML}
