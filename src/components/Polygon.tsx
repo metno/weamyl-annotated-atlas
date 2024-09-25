@@ -12,19 +12,18 @@ type Props = {
   setSearchObject: any;
 };
 
-const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
-  function parsePolygon(polygonString: any) {
+export function parsePolygon(polygonString: any, searchObject: any, setSearchObject: any) {
     // Parse polygon from Diana
     // example1
     // "(62.6145, 8.55212) (59.4469, 10.8924) (63.6052, 10.466) (63.7827, 10.3753) ";
     // example2
     // (63.1588, 6.49994) (62.7406, 4.13511)(60.3196, 8.44676) (61.4481, 9.74944) (61.311, 9.83574)
-
+    console.log('string?', polygonString)
     const pattern: RegExp = /\d{1,2}\d.{1,6}, -?\d{1,2}.\d{1,6}/g;
     const array = [...polygonString.matchAll(pattern)];
-
+    console.log('incoming array: ', array);
     let corners = array.map((item) => item[0].split(', ').reverse());
-
+    console.log('corners: ', corners);
     if (corners.length > 2) {
       const latitudeLongitude = corners.map((corner) => [
         parseFloat(corner[0]),
@@ -32,7 +31,6 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       ]);
       console.log('latln: ', latitudeLongitude);
       let geometry = mapCoordinates(latitudeLongitude);
-      console.log('latln: ', geometry);
       geometry = { ...geometry, bbox: toBBox(geometry) };
       const phenomSearch = {
         ...searchObject,
@@ -47,12 +45,16 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         ],
       };
       setSearchObject(phenomSearch);
+      console.log('inside parsPolygon', phenomSearch)
+
     }
   }
 
+const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
+  
   const onPolygonChange = (event: any) => {
     const newValue = event.target.value;
-    parsePolygon(newValue);
+    parsePolygon(newValue, searchObject, setSearchObject);
   };
 
   const [customAreaNames, setCustomAreaNames] = React.useState([]);

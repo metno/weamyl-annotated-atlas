@@ -3,6 +3,7 @@ import CreatableSelect from 'react-select/creatable';
 import databaseFunctions from '../utils/databaseFunctions';
 import { Box, responsiveFontSizes, Typography } from '@mui/material';
 import Select from 'react-select';
+import { parsePolygon } from '../components/Polygon'
 
 type Props = {
   searchObject: object;
@@ -17,7 +18,7 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     .getCountyList()
       .then((response) => {
         setCounty(response.data);
-        console.log(response.data);
+      //  console.log(response.data);
     });
   }, []);
 
@@ -42,12 +43,20 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     databaseFunctions
     .getlowresCountyPolygon(selectedCountyId)
       .then((response) =>{
-        console.log(response.data)
+        const coordinateArray = response.data.features[0].geometry.coordinates;
+        const formattedCoordinates = coordinateArray[0].map(
+          (coords: number[]) => `(${coords[0]}, ${coords[1]})`
+        ).join(' ');
+        
+        console.log('this:', formattedCoordinates);
+        
+        parsePolygon(formattedCoordinates, searchObject, setSearchObject)
+        //console.log('after county', searchObject)
       })
 
-    const phenomSearch = { ...searchObject, countyName: selectedCountyName };
-    setSearchObject(phenomSearch);
-    console.log(phenomSearch);
+    //const phenomSearch = { ...searchObject, countyName: selectedCountyName };
+    //setSearchObject(phenomSearch);
+    console.log(searchObject);
   };
 
   return (

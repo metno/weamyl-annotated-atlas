@@ -52,12 +52,9 @@ const ValidationForm: React.FC<Props> = (props) => {
   }, [savedEvaluationForm]);
   
   let evaluationObject = {};
-  
 
-
-  console.log('atXML: ', evaluationForm)
-  console.log('saved: ', savedEvaluationForm)
-
+  // console.log('atXML: ', evaluationForm)
+  // console.log('saved: ', savedEvaluationForm)
 
   const colourOptionList = [
     {
