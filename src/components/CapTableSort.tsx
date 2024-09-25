@@ -186,12 +186,8 @@ const EnhancedTable: React.FC<Props> = (props) => {
     const [modelData, setModelDAta] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(-1);
 
-
-
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof HeadCellFields>('areaDesc');
-    const [page, setPage] = React.useState(warning.length);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -202,28 +198,10 @@ const EnhancedTable: React.FC<Props> = (props) => {
         setOrderBy(property);
     };
 
-
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    //   const isSelected = (id: string) => selected.indexOf(_id) !== -1;
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - warning.length) : 0;
-
     const visibleRows = React.useMemo(
         () =>
-        [...warning]
-            .sort(getComparator(order, orderBy))
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-        [order, orderBy, page, rowsPerPage,warning],
+          [...warning].sort(getComparator(order, orderBy)),
+        [order, orderBy, warning],
     );
 
     const onClickCapDialog = (item: CapFilEntries) => {
@@ -381,7 +359,7 @@ const onClickTableRow = (item: CapFilEntries) => {
     <Typography variant="h5">Results ({warning.length})</Typography>
     <Paper sx={{ width: '100%', mb: 2 }}>
 
-        <TableContainer component={Paper} sx={{ maxHeight: 320,...styles.table }} >
+        <TableContainer component={Paper} sx={{ maxHeight: 360,...styles.table }} >
             <Table
                 stickyHeader={true}
                 sx={{ minWidth: 500 ,...styles.table}}
@@ -469,15 +447,6 @@ const onClickTableRow = (item: CapFilEntries) => {
                 </TableBody>
             </Table>
             </TableContainer>
-        <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={warning.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-        />
     </Paper>
   
     </Box>
