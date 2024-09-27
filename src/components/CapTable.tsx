@@ -50,7 +50,7 @@ const ObservationTable: React.FC<Props> = (props) => {
     setAttachmentXML,
     setSavedEvaluationForm,
   } = props;
-  console.log(warning)
+  //console.log(warning)
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
