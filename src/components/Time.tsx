@@ -30,7 +30,6 @@ const Time: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     phenomSearch = { ...phenomSearch, onset: newDate };
     setSearchObject(phenomSearch);
     setStartValue(option);
-    console.log(option);
   };
 
   const onChangeEndTime = (option: any) => {

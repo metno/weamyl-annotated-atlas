@@ -53,12 +53,6 @@ const ValidationForm: React.FC<Props> = (props) => {
   
   let evaluationObject = {};
   
-
-
-  console.log('atXML: ', evaluationForm)
-  console.log('saved: ', savedEvaluationForm)
-
-
   const colourOptionList = [
     {
         value: 'Green',
@@ -147,10 +141,9 @@ const ValidationForm: React.FC<Props> = (props) => {
         _id: attachmentXML.identifier,
         phenomenon: attachmentXML.phenomenon,
       };
-      console.log(evaluationObject);
       databaseFunctions
         .putEvaluationForm(evaluationObject)
-        .then((r) => console.log(r));
+        .then((r) => console.log('return value ', r));
     } else {
       setOpen(true);
     }
@@ -158,14 +151,11 @@ const ValidationForm: React.FC<Props> = (props) => {
   const onClickCancel = () => {
     if (savedEvaluationForm) {
       setEvaluationForm(savedEvaluationForm);
-      console.log('cancel',evaluationForm)
     }
     
   };
   
-  const handleDropdownChange = (field: keyof EvaluationFormType) => (newValue: string | number | null) => {
-    console.log(`Field: ${field}, New Value: ${newValue}`);
-  
+  const handleDropdownChange = (field: keyof EvaluationFormType) => (newValue: string | number | null) => {  
     setEvaluationForm((prevForm) => ({
       ...prevForm,
       [field]: newValue,
@@ -175,7 +165,6 @@ const ValidationForm: React.FC<Props> = (props) => {
   const onChangeComments = (field: keyof EvaluationFormType) => 
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const newValue = event.target.value;
-      console.log(newValue)
       setEvaluationForm((prevForm) => ({
         ...prevForm,
         [field]: newValue,
@@ -187,7 +176,6 @@ const ValidationForm: React.FC<Props> = (props) => {
   attachmentXML && attachmentXML.colour && attachmentXML.severity && attachmentXML.certainty
     ? `${attachmentXML.colour} (${attachmentXML.severity}/${attachmentXML.certainty})`
     : "";
-  console.log(evaluationForm)
   return (
     <Box>
       <Stack spacing={3}>

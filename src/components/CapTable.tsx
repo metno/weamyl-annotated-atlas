@@ -87,19 +87,12 @@ const ObservationTable: React.FC<Props> = (props) => {
     databaseFunctions
       .getModelData(transposedPolygonString, currentOnset, currentExpires)
       .then((r) => {
-        //console.log('222222');
         const options = {
           ignoreAttributes: false,
         };
         const parser = new XMLParser(options);
 
         let jsonObj = parser.parse(r);
-       /*  console.log(
-          'WHAT TO CHOOSE? ',
-          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-            'csw:SummaryRecord'
-          ][0]['dct:references'],
-        ); */
 
         const summaryRecords =
           jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
@@ -143,24 +136,17 @@ const ObservationTable: React.FC<Props> = (props) => {
       });
 
     databaseFunctions.getEvaluationForm(item._id).then((r) => {
-      //console.log('EV: ', r);
-      //console.log('rrorV: ', r.error);
       if (r.error === 'not_found') {
-        //console.log('Etter if: ', r.error);
         setSavedEvaluationForm([]);}
       else {
-        console.log('Etter if: ', (r));
-
         setSavedEvaluationForm(r);
       }
       
     });
-    console.log('Etter if: ', item._id)
     databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
       const options = {
         ignoreAttributes: false,
       };
-      console.log('Etter if: ', r.error);
       if (r.error === 'AxiosError') {
         
         setAttachmentXML([]);}
@@ -173,12 +159,10 @@ const ObservationTable: React.FC<Props> = (props) => {
         const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
           (param: any) => param.valueName === 'triggerLevel',
         )?.value;
-        //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
 
         const colour = jsonObj?.alert?.info[1]?.parameter?.find(
           (param: any) => param.valueName === 'awareness_level',
         )?.value;
-        //console.log('colour: ',colour);
 
         // ['info[0/1]'] is norsk/english
         resultList = {
