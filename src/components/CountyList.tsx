@@ -18,7 +18,6 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     .getCountyList()
       .then((response) => {
         setCounty(response.data);
-      //  console.log(response.data);
     });
   }, []);
 
@@ -45,18 +44,11 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       .then((response) =>{
         const coordinateArray = response.data.features[0].geometry.coordinates;
         const formattedCoordinates = coordinateArray[0].map(
-          (coords: number[]) => `(${coords[0]}, ${coords[1]})`
+          // Coordinates are switched to match same format as those copied from Diana
+          (coords: number[]) => `(${coords[1]}, ${coords[0]})`
         ).join(' ');
-        
-        console.log('this:', formattedCoordinates);
-        
         parsePolygon(formattedCoordinates, searchObject, setSearchObject)
-        //console.log('after county', searchObject)
       })
-
-    //const phenomSearch = { ...searchObject, countyName: selectedCountyName };
-    //setSearchObject(phenomSearch);
-    console.log(searchObject);
   };
 
   return (

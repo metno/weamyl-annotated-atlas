@@ -19,7 +19,8 @@ export function parsePolygon(polygonString: any, searchObject: any, setSearchObj
     // example2
     // (63.1588, 6.49994) (62.7406, 4.13511)(60.3196, 8.44676) (61.4481, 9.74944) (61.311, 9.83574)
     console.log('string?', polygonString)
-    const pattern: RegExp = /\d{1,2}\d.{1,6}, -?\d{1,2}.\d{1,6}/g;
+    // Got help with this Regex, don't really understand it  
+    const pattern: RegExp =  /[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?((1[0-7]\d|[1-9]?\d)(\.\d+)?|180(\.0+)?)/g;
     const array = [...polygonString.matchAll(pattern)];
     console.log('incoming array: ', array);
     let corners = array.map((item) => item[0].split(', ').reverse());
@@ -45,7 +46,7 @@ export function parsePolygon(polygonString: any, searchObject: any, setSearchObj
         ],
       };
       setSearchObject(phenomSearch);
-      console.log('inside parsPolygon', phenomSearch)
+      //console.log('inside parsPolygon', phenomSearch)
 
     }
   }
