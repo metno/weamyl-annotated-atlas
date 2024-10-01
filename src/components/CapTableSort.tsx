@@ -339,6 +339,7 @@ const onClickTableRow = (item: CapFilEntries) => {
     const { severity, certainty } = item;
   
     if  ((severity === 'Minor' && certainty === 'Likely') ||
+        (severity === 'Minor' && certainty === 'Observed') ||
         (severity === 'Moderate' && certainty === 'Possible')
       )
       return 'Green';
