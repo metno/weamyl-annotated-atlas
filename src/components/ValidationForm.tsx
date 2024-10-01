@@ -5,16 +5,12 @@ import {
   Button,
   Collapse,
   IconButton,
-  MenuItem,
   TextField,
-  Autocomplete,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import phenomena from '../config/phenomena.json';
 import databaseFunctions from '../utils/databaseFunctions';
 import { useAuth } from 'react-oidc-context';
 import CloseIcon from '@mui/icons-material/Close';
-import { Phenomena } from '../@customTypes/Phenomena';
 import CustomDropdown from './CustomDropdown';
 
 
@@ -53,8 +49,6 @@ const ValidationForm: React.FC<Props> = (props) => {
   
   let evaluationObject = {};
 
-  // console.log('atXML: ', evaluationForm)
-  // console.log('saved: ', savedEvaluationForm)
 
   const colourOptionList = [
     {
@@ -77,27 +71,55 @@ const ValidationForm: React.FC<Props> = (props) => {
   const evaluationList = [
     {
         value: 0,
-        label: 0,
+        label: "Unable to rate",
     },
     {
         value: 1,
-        label: 1,
+        label: "Very Poor",
     },
     {
         value: 2,
-        label: 2,
+        label: "Poor",
     },
     {
         value: 3,
-        label: 3,
+        label: "Average",
     },
     {
         value: 4,
-        label: 4,
+        label: "Good",
+
     },
     {
         value: 5,
-        label: 5,
+        label: "Very Good",
+    }
+  ];
+  const consequencesEvaluationList = [
+    {
+        value: 0,
+        label: "Unable to rate",
+    },
+    {
+        value: 1,
+        label: "Much less than expected or insignificant",
+    },
+    {
+        value: 2,
+        label: "Less than expected",
+    },
+    {
+        value: 3,
+        label: "As expected",
+    },
+    {
+        value: 4,
+        label: "More than expected",
+
+    },
+    {
+        value: 5,
+        label: "Much more than expected",
     }
   ];
   const windDirection = [
@@ -144,7 +166,6 @@ const ValidationForm: React.FC<Props> = (props) => {
         _id: attachmentXML.identifier,
         phenomenon: attachmentXML.phenomenon,
       };
-      console.log(evaluationObject);
       databaseFunctions
         .putEvaluationForm(evaluationObject)
         .then((r) => console.log(r));
@@ -155,13 +176,11 @@ const ValidationForm: React.FC<Props> = (props) => {
   const onClickCancel = () => {
     if (savedEvaluationForm) {
       setEvaluationForm(savedEvaluationForm);
-      console.log('cancel',evaluationForm)
     }
     
   };
   
   const handleDropdownChange = (field: keyof EvaluationFormType) => (newValue: string | number | null) => {
-    console.log(`Field: ${field}, New Value: ${newValue}`);
   
     setEvaluationForm((prevForm) => ({
       ...prevForm,
@@ -172,7 +191,6 @@ const ValidationForm: React.FC<Props> = (props) => {
   const onChangeComments = (field: keyof EvaluationFormType) => 
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const newValue = event.target.value;
-      console.log(newValue)
       setEvaluationForm((prevForm) => ({
         ...prevForm,
         [field]: newValue,
@@ -184,7 +202,6 @@ const ValidationForm: React.FC<Props> = (props) => {
   attachmentXML && attachmentXML.colour && attachmentXML.severity && attachmentXML.certainty
     ? `${attachmentXML.colour} (${attachmentXML.severity}/${attachmentXML.certainty})`
     : "";
-  console.log(evaluationForm)
   return (
     <Box>
       <Stack spacing={3}>
@@ -280,27 +297,27 @@ const ValidationForm: React.FC<Props> = (props) => {
           
           <CustomDropdown
               label="Evaluation of consequences (of current warning level)"
-              options={evaluationList}
-              value={evaluationForm.overallEvaluation||''}
+              options={consequencesEvaluationList}
+              value={evaluationForm.overallEvaluation??null}
               onChange={handleDropdownChange('overallEvaluation')}
             />
           <CustomDropdown
               label="Accuracy of timing"
               options={evaluationList}
-              value={evaluationForm.timeEvaluation||''}
+              value={evaluationForm.timeEvaluation??null}
               onChange={handleDropdownChange('timeEvaluation')}
             />    
           <CustomDropdown
               label="Accuracy of area"
               options={evaluationList}
-              value={evaluationForm.areaEvaluation||''}
+              value={evaluationForm.areaEvaluation??null}
               onChange={handleDropdownChange('areaEvaluation')}
             />    
           
           <CustomDropdown
               label="When was warning sent out"
               options={evaluationList}
-              value={evaluationForm.warningSentOutEvaluation||''}
+              value={evaluationForm.warningSentOutEvaluation??null}
               onChange={handleDropdownChange('warningSentOutEvaluation')}
             />
           

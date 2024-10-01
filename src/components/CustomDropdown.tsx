@@ -19,13 +19,16 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, value, 
   return (
     <Autocomplete
       options={options}
-      getOptionLabel={(option) => option.label.toString()} // Ensure label is displayed as a string
-      value={selectedValue}
+      getOptionLabel={(option) => option.label.toString()}
+      value={selectedValue} 
       onChange={(event, newValue) => onChange(newValue ? newValue.value : null)}
       renderInput={(params) => (
-        <TextField {...params} label={label} variant="outlined" InputLabelProps={{
-          shrink: true,
-          }}/>
+        <TextField
+          {...params}
+          label={label}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
+        />
       )}
       sx={{ width: 300, marginBottom: 2 }}
     />
