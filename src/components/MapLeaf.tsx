@@ -29,6 +29,7 @@ const MapLeaf: React.FC<Props> = (props) => {
     }, []);
 
     if (data) {
+      console.log('USE WHAT?', data, colour );
       return <GeoJSON pathOptions={{ color: colour }} data={data} />;
     } else {
       return null;
