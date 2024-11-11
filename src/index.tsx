@@ -8,7 +8,8 @@ import { AuthProvider } from 'react-oidc-context';
 const oidcConfig = {
   authority: 'https://login.met.no/auth/realms/Internal/',
   client_id: 'annotatedatlas',
-  redirect_uri: 'https://annotated-atlas-dev.k8s.met.no/',
+//  redirect_uri: 'https://annotated-atlas-dev.k8s.met.no/',
+  redirect_uri: `${window.location.origin}/`,
 //  redirect_uri: 'http://localhost:8080/',
   realm: 'Internal',
   onSigninCallback: () => {
@@ -29,7 +30,7 @@ const oidcConfig = {
   //  'confidential-port': 0,
 };
 
-console.log('redirectURI', `${window.location.origin}${process.env.PUBLIC_URL}/`);
+console.log('redirectURI', `${window.location.origin}/`);
 const container = document.getElementById('app-root');
 const root = createRoot(container!);
 root.render(
