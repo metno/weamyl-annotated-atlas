@@ -104,7 +104,7 @@ function xTest(sendaPolygon:any, startTime: string, endTime: string) {
   'service="CSW"\n    ' +
   'version="2.0.2"\n    ' +
   'resultType="results"\n    ' +
-  'maxRecords="20"\n    ' +
+  'maxRecords="100"\n    ' +
   'outputFormat="application/xml"\n    ' +
   'outputSchema="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
   'xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd" >\n  ' +
