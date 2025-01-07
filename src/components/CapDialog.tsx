@@ -5,23 +5,9 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  Paper,
-  PaperProps,
+  DialogTitle
 } from '@mui/material';
-import Draggable from 'react-draggable';
-import databaseFunctions from '../utils/databaseFunctions';
 
-function PaperComponent(props: PaperProps) {
-  return (
-    <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} />
-    </Draggable>
-  );
-}
 
 type Props = {
   openDialog: boolean;
@@ -37,26 +23,23 @@ const CapDialog: React.FC<Props> = (props) => {
   };
 
   return (
-    <div>
       <Dialog
         fullWidth={true}
         PaperProps={{ sx: { width: '75%', height: '100%' } }}
         open={openDialog}
         onClose={handleClose}
-        aria-labelledby="draggable-dialog-title"
+        maxWidth={'lg'}
       >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+        <DialogTitle style={{ cursor: 'move' ,fontWeight: 'bold' ,}}  >
           Cap-file
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <pre>
               <code
-                style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }}
+                style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word'}}
               >
                 {warningAttachment}
               </code>
-            </pre>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -65,7 +48,6 @@ const CapDialog: React.FC<Props> = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
   );
 };
 

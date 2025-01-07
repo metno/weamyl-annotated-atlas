@@ -29,20 +29,19 @@ import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
 import dayjs from 'dayjs';
 import { XMLParser } from 'fast-xml-parser';
-import { Collapse } from '@mui/material';
-
+import { Collapse, Dialog, DialogTitle, Grow } from '@mui/material';
 
 const styles = {
-    table: {
-      marginTop: 1,
-    },
-    tableHead: {
-      fontWeight: 'bold',
-    },
-    tableTime: {
-      fontStyle: 'italic',
-    },
-  };
+  table: {
+    marginTop: 1,
+  },
+  tableHead: {
+    fontWeight: 'bold',
+  },
+  tableTime: {
+    fontStyle: 'italic',
+  },
+};
 interface HeadCellFields{
     phenomenon: string,
     colour: string,
@@ -72,14 +71,12 @@ function descendingComparator(a: CapFilEntries, b: CapFilEntries, orderBy: keyof
 
 type Order = 'asc' | 'desc';
 
-function getComparator(
-  order: Order,
-  orderBy: keyof HeadCellFields,
-) {
-  return order === 'desc'
-    ? (a:CapFilEntries, b:CapFilEntries) => descendingComparator(a, b, orderBy)
-    : (a:CapFilEntries, b:CapFilEntries) => -descendingComparator(a, b, orderBy);
-}
+function getComparator(  order: Order,  orderBy: keyof HeadCellFields) 
+  {
+    return order === 'desc'
+      ? (a:CapFilEntries, b:CapFilEntries) => descendingComparator(a, b, orderBy)
+      : (a:CapFilEntries, b:CapFilEntries) => -descendingComparator(a, b, orderBy);
+  }
 
 interface HeadCell {
   disablePadding: boolean;
@@ -140,27 +137,29 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     <TableHead >
       <TableRow>
         <TableCell  />
-        {headCells.map((headCell) => (
-        <TableCell
-        sx={styles.tableHead}
-        key={headCell.id}
-        align={headCell.disablePadding ? 'left' : 'right'}
-        sortDirection={orderBy === headCell.id ? order : false}
-        >
-        <TableSortLabel
-            active={orderBy === headCell.id}
-            direction={orderBy === headCell.id ? order : 'asc'}
-            onClick={createSortHandler(headCell.id)}
-        >
-            {headCell.label}
-            {orderBy === headCell.id ? (
-            <Box component="span" sx={visuallyHidden}>
-                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-            </Box>
-            ) : null}
-        </TableSortLabel>
-        </TableCell>
-        ))}
+          {headCells.map((headCell) => (
+            <TableCell
+            sx={styles.tableHead}
+            key={headCell.id}
+            align={headCell.disablePadding ? 'left' : 'right'}
+            sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : 'asc'}
+                  onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                      {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                  ) : null
+                }
+              </TableSortLabel>
+            </TableCell>
+            ))
+          }
         <TableCell sx={styles.tableHead} >CAP</TableCell>
       </TableRow>
     </TableHead>
@@ -175,13 +174,10 @@ type Props = {
   };
 
 const EnhancedTable: React.FC<Props> = (props) => {
-    const {
-        warning,
-        setPolygonObject,
-        setAttachmentXML,
-        setSavedEvaluationForm,
-    } = props;
+    const { warning,    setPolygonObject, setAttachmentXML, setSavedEvaluationForm} = props;
+
     const [openDialog, setOpenDialog] = React.useState(false);
+
     const [warningAttachment, setWarningAttachment] = React.useState('');
     const [modelData, setModelDAta] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(-1);
@@ -189,28 +185,26 @@ const EnhancedTable: React.FC<Props> = (props) => {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof HeadCellFields>('areaDesc');
 
-    const handleRequestSort = (
-        event: React.MouseEvent<unknown>,
-        property: keyof HeadCellFields,
-    ) => {
+    const handleRequestSort = ( event: React.MouseEvent<unknown>, property: keyof HeadCellFields) => 
+      {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
-    };
+       };
 
-    const visibleRows = React.useMemo(
-        () =>
-          [...warning].sort(getComparator(order, orderBy)),
+    const visibleRows = React.useMemo(() =>
+        [...warning].sort(getComparator(order, orderBy)),
         [order, orderBy, warning],
     );
 
-    const onClickCapDialog = (item: CapFilEntries) => {
-        setOpenDialog(!openDialog);
-        databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
+    const onClickCapDialog = ( event: React.MouseEvent ,item_id: string) => {
+      event.stopPropagation();
+      setOpenDialog(true);
+      databaseFunctions.getCapAttachmentXML(item_id).then((r) => {
         setWarningAttachment(r);
-        //console.log('getCapAt ',r);
-        });
+      });
     };
+    
 /* Sends selected CAP to be shown in map. */
 const onClickTableRow = (item: CapFilEntries) => {
     let currentPolygon = item.features[0].geometry
@@ -413,15 +407,10 @@ const onClickTableRow = (item: CapFilEntries) => {
                                     <IconButton
                                     aria-label="expand row"
                                     size="small"
-                                    onClick={() => onClickCapDialog(row)}
+                                    onClick={(event) => onClickCapDialog(event, row._id)}
                                     >
                                         <WarningAmberIcon color="warning" />
                                     </IconButton>
-                                    <CapDialog
-                                    warningAttachment={warningAttachment}
-                                    openDialog={openDialog}
-                                    setOpenDialog={setOpenDialog}
-                                    />
                                 </TableCell>
                             </TableRow>
                             <TableRow >
@@ -429,15 +418,15 @@ const onClickTableRow = (item: CapFilEntries) => {
                                     style={{ paddingBottom: 0, paddingTop: 0 }}
                                     colSpan={6}
                                 >
-                                    <Collapse in={open === index} timeout="auto" unmountOnExit>
-                                    <Box sx={{ margin: 1 }}>
-                                        {modelData.map((item) => (
-                                        <li key={index} value={item}>
-                                            {item}
-                                        </li>
-                                        ))}
-                                    </Box>
-                                    </Collapse>
+                                  <Collapse in={open === index} timeout="auto" unmountOnExit>
+                                  <Box sx={{ margin: 1 }}>
+                                      {modelData.map((item) => (
+                                      <li key={index} value={item}>
+                                          {item}
+                                      </li>
+                                      ))}
+                                  </Box>
+                                  </Collapse>
                                 </TableCell>
                             </TableRow>
                         </React.Fragment>
@@ -447,6 +436,11 @@ const onClickTableRow = (item: CapFilEntries) => {
                 </TableBody>
             </Table>
             </TableContainer>
+            <CapDialog
+                warningAttachment={warningAttachment}
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+            />
     </Paper>
   
     </Box>
