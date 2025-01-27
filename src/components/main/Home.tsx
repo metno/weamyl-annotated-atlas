@@ -27,7 +27,8 @@ const Home: React.FC = () => {
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
   const [attachmentXML, setAttachmentXML] = React.useState<object>([]);
   const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>([]);
-
+  const [isSaved,setIsSaved] = React.useState(true);
+  
   return (
     <Box
       component="div"
@@ -86,6 +87,9 @@ const Home: React.FC = () => {
               setPolygonObject={setPolygonObject}
               setAttachmentXML={setAttachmentXML}
               setSavedEvaluationForm={setSavedEvaluationForm}
+              isSaved={isSaved}
+              setIsSaved={setIsSaved}
+
             />
           </Paper>
         </Grid>
@@ -114,6 +118,8 @@ const Home: React.FC = () => {
               attachmentXML={attachmentXML}
               savedEvaluationForm={savedEvaluationForm}
               setSavedEvaluationForm={setSavedEvaluationForm}
+              isSaved={isSaved}
+              setIsSaved={setIsSaved}
             />
           </Paper>
         </Grid>

@@ -34,18 +34,34 @@ type EvaluationFormType = {
 type Props = {
   attachmentXML: any;
   savedEvaluationForm: EvaluationFormType | null;
-  setSavedEvaluationForm:any
+  setSavedEvaluationForm:any;
+  isSaved:boolean;
+  setIsSaved:any;
 };
 
 const ValidationForm: React.FC<Props> = (props) => {
-  const { attachmentXML, savedEvaluationForm } = props;
+  const { attachmentXML, savedEvaluationForm , isSaved, setIsSaved} = props;
   const [open, setOpen] = React.useState<boolean>(false);
   const [evaluationForm, setEvaluationForm] = React.useState<EvaluationFormType>(savedEvaluationForm || {});
+  
   useEffect(() => {
     if (savedEvaluationForm) {
       setEvaluationForm(savedEvaluationForm);
     }
   }, [savedEvaluationForm]);
+
+  useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+          if (!isSaved) {
+            e.preventDefault();
+          }
+        };
+        window.addEventListener("beforeunload", handleBeforeUnload);
+    
+        return () => {
+          window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+      }, [isSaved]);
   
   let evaluationObject = {};
 
@@ -169,6 +185,7 @@ const ValidationForm: React.FC<Props> = (props) => {
       databaseFunctions
         .putEvaluationForm(evaluationObject)
         .then((r) => console.log(r));
+      setIsSaved(true);
     } else {
       setOpen(true);
     }
@@ -177,7 +194,7 @@ const ValidationForm: React.FC<Props> = (props) => {
     if (savedEvaluationForm) {
       setEvaluationForm(savedEvaluationForm);
     }
-    
+    setIsSaved(true)
   };
   
   const handleDropdownChange = (field: keyof EvaluationFormType) => (newValue: string | number | null) => {
@@ -186,6 +203,7 @@ const ValidationForm: React.FC<Props> = (props) => {
       ...prevForm,
       [field]: newValue,
     }));
+    setIsSaved(false)
   };
 
   const onChangeComments = (field: keyof EvaluationFormType) => 
@@ -195,6 +213,7 @@ const ValidationForm: React.FC<Props> = (props) => {
         ...prevForm,
         [field]: newValue,
       }));
+      setIsSaved(false)
     };
 
 
