@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -171,181 +171,195 @@ type Props = {
     setPolygonObject: any;
     setAttachmentXML: any;
     setSavedEvaluationForm: any;
+    isSaved:any;
+    setIsSaved:any;
   };
 
 const EnhancedTable: React.FC<Props> = (props) => {
-    const { warning,    setPolygonObject, setAttachmentXML, setSavedEvaluationForm} = props;
+  const { warning, setPolygonObject, setAttachmentXML, setSavedEvaluationForm,isSaved, setIsSaved} = props;
 
-    const [openDialog, setOpenDialog] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
+  
+  const [warningAttachment, setWarningAttachment] = React.useState('');
+  const [modelData, setModelDAta] = React.useState<string[]>([]);
+  const [open, setOpen] = React.useState(-1);
+  const [selectedWarning, setSelectedWarning] = useState<CapFilEntries | null>(null);
 
-    const [warningAttachment, setWarningAttachment] = React.useState('');
-    const [modelData, setModelDAta] = React.useState<string[]>([]);
-    const [open, setOpen] = React.useState(-1);
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<keyof HeadCellFields>('areaDesc');
 
-    const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof HeadCellFields>('areaDesc');
+  const handleRequestSort = ( event: React.MouseEvent<unknown>, property: keyof HeadCellFields) => 
+    {
+      const isAsc = orderBy === property && order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(property);
+      };
 
-    const handleRequestSort = ( event: React.MouseEvent<unknown>, property: keyof HeadCellFields) => 
-      {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-       };
+  const visibleRows = React.useMemo(() =>
+      [...warning].sort(getComparator(order, orderBy)),
+      [order, orderBy, warning],
+  );
 
-    const visibleRows = React.useMemo(() =>
-        [...warning].sort(getComparator(order, orderBy)),
-        [order, orderBy, warning],
-    );
-
-    const onClickCapDialog = ( event: React.MouseEvent ,item_id: string) => {
-      event.stopPropagation();
-      setOpenDialog(true);
-      databaseFunctions.getCapAttachmentXML(item_id).then((r) => {
-        setWarningAttachment(r);
-      });
-    };
+  const onClickCapDialog = ( event: React.MouseEvent ,item_id: string) => {
+    event.stopPropagation();
+    setOpenDialog(true);
+    databaseFunctions.getCapAttachmentXML(item_id).then((r) => {
+      setWarningAttachment(r);
+    });
+  };
     
 /* Sends selected CAP to be shown in map. */
-const onClickTableRow = (item: CapFilEntries) => {
-    let currentPolygon = item.features[0].geometry
-      .coordinates as unknown as number[][];
-    let currentOnset = dayjs(item.onset)
-      .subtract(72, 'hours')
-      .format('YYYY-MM-DD HH:mm')
-      .toString();
-    let currentExpires = dayjs(item.expires)
-      .format('YYYY-MM-DD HH:mm')
-      .toString();
-    let ncResults: string[] = [];
-    let resultList = {};
+  const onClickTableRow = (item: CapFilEntries) => {
+      if (!isSaved) {
+        const confirmSwitch = window.confirm(
+          "You have unsaved changes. Do you want to discard them and continue?"
+        );
+        if (!confirmSwitch) {
+          return; // Prevent switching if user cancels
+        }
+      }
+      setIsSaved(true)
+      setSelectedWarning(item);
 
-    /* Manipulates the coordinates into correct format */
-    let polygonString = currentPolygon.join('');
-    let polygonStringWithoutCommas = polygonString.replace(/,/g, ' ');
-    let polygonArray = polygonStringWithoutCommas.split(' ').map(parseFloat);
-    for (let i = 0; i < polygonArray.length - 1; i += 2) {
-      let temp = polygonArray[i];
-      polygonArray[i] = polygonArray[i + 1];
-      polygonArray[i + 1] = temp;
-    }
-    let transposedPolygonString = polygonArray.join(' ');
+      let currentPolygon = item.features[0].geometry
+        .coordinates as unknown as number[][];
+      let currentOnset = dayjs(item.onset)
+        .subtract(72, 'hours')
+        .format('YYYY-MM-DD HH:mm')
+        .toString();
+      let currentExpires = dayjs(item.expires)
+        .format('YYYY-MM-DD HH:mm')
+        .toString();
+      let ncResults: string[] = [];
+      let resultList = {};
 
-    setPolygonObject(item);
+      /* Manipulates the coordinates into correct format */
+      let polygonString = currentPolygon.join('');
+      let polygonStringWithoutCommas = polygonString.replace(/,/g, ' ');
+      let polygonArray = polygonStringWithoutCommas.split(' ').map(parseFloat);
+      for (let i = 0; i < polygonArray.length - 1; i += 2) {
+        let temp = polygonArray[i];
+        polygonArray[i] = polygonArray[i + 1];
+        polygonArray[i + 1] = temp;
+      }
+      let transposedPolygonString = polygonArray.join(' ');
 
-    databaseFunctions
-      .getModelData(transposedPolygonString, currentOnset, currentExpires)
-      .then((r) => {
-        //console.log('222222');
+      setPolygonObject(item);
+
+      databaseFunctions
+        .getModelData(transposedPolygonString, currentOnset, currentExpires)
+        .then((r) => {
+          //console.log('222222');
+          const options = {
+            ignoreAttributes: false,
+          };
+          const parser = new XMLParser(options);
+
+          let jsonObj = parser.parse(r);
+        /*  console.log(
+            'WHAT TO CHOOSE? ',
+            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+              'csw:SummaryRecord'
+            ][0]['dct:references'],
+          ); */
+
+          const summaryRecords =
+            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+              'csw:SummaryRecord'
+            ][0]['dct:references'];
+          //console.log('summary: ', summaryRecords);
+          const opendapLinks: string[] = [];
+          summaryRecords.forEach((ref: any) => {
+            //console.log('summaryTEXT: ', summaryRecords['@_scheme']);
+            if (summaryRecords['@_scheme'] === 'OGC:WMS') {
+            //  console.log('1113311');
+              opendapLinks.push(ref._);
+            }
+          });
+
+          //console.log('OPENDAP Links:');
+          opendapLinks.forEach((link) => {
+            //console.log(link);
+          });
+
+          for (
+            let i = 0;
+            i <
+            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+              'csw:SummaryRecord'
+            ].length;
+            i++
+          ) {
+            let intermediate =
+              jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+                'csw:SummaryRecord'
+              ][i]['dct:references'][1]['#text'];
+            ncResults.push(intermediate);
+          }
+          //console.log('This should be in THREDDS: ', ncResults);
+          setModelDAta(ncResults);
+        })
+        .catch(() => {
+          //console.log(e);
+          setModelDAta(['Empty dataset']);
+        });
+      databaseFunctions.getEvaluationForm(item._id).then((r) => {
+        //console.log('EV: ', r);
+        //console.log('rrorV: ', r.error);
+        if (r.error === 'not_found') {
+          //console.log('Etter if: ', r.error);
+          setSavedEvaluationForm([]);}
+        else {
+          console.log('Etter if: ', (r));
+
+          setSavedEvaluationForm(r);
+        }
+        
+      });
+      console.log('Etter if: ', item._id)
+      databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
         const options = {
           ignoreAttributes: false,
         };
-        const parser = new XMLParser(options);
-
-        let jsonObj = parser.parse(r);
-       /*  console.log(
-          'WHAT TO CHOOSE? ',
-          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-            'csw:SummaryRecord'
-          ][0]['dct:references'],
-        ); */
-
-        const summaryRecords =
-          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-            'csw:SummaryRecord'
-          ][0]['dct:references'];
-        //console.log('summary: ', summaryRecords);
-        const opendapLinks: string[] = [];
-        summaryRecords.forEach((ref: any) => {
-          //console.log('summaryTEXT: ', summaryRecords['@_scheme']);
-          if (summaryRecords['@_scheme'] === 'OGC:WMS') {
-          //  console.log('1113311');
-            opendapLinks.push(ref._);
-          }
-        });
-
-        //console.log('OPENDAP Links:');
-        opendapLinks.forEach((link) => {
-          //console.log(link);
-        });
-
-        for (
-          let i = 0;
-          i <
-          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-            'csw:SummaryRecord'
-          ].length;
-          i++
-        ) {
-          let intermediate =
-            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-              'csw:SummaryRecord'
-            ][i]['dct:references'][1]['#text'];
-          ncResults.push(intermediate);
-        }
-        //console.log('This should be in THREDDS: ', ncResults);
-        setModelDAta(ncResults);
-      })
-      .catch(() => {
-        //console.log(e);
-        setModelDAta(['Empty dataset']);
-      });
-    databaseFunctions.getEvaluationForm(item._id).then((r) => {
-      //console.log('EV: ', r);
-      //console.log('rrorV: ', r.error);
-      if (r.error === 'not_found') {
-        //console.log('Etter if: ', r.error);
-        setSavedEvaluationForm([]);}
-      else {
-        console.log('Etter if: ', (r));
-
-        setSavedEvaluationForm(r);
-      }
-      
-    });
-    console.log('Etter if: ', item._id)
-    databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
-      const options = {
-        ignoreAttributes: false,
-      };
-      console.log('Etter if: ', r.error);
-      if (r.error === 'AxiosError') {
+        console.log('Etter if: ', r.error);
+        if (r.error === 'AxiosError') {
+          
+          setAttachmentXML([]);}
+        else {
         
-        setAttachmentXML([]);}
-      else {
-      
-        const parser = new XMLParser(options);
-        let jsonObj = parser.parse(r);
-        console.log(jsonObj);
+          const parser = new XMLParser(options);
+          let jsonObj = parser.parse(r);
+          console.log(jsonObj);
 
-        const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
-          (param: any) => param.valueName === 'triggerLevel',
-        )?.value;
-        //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
+          const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
+            (param: any) => param.valueName === 'triggerLevel',
+          )?.value;
+          //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
 
-        const colour = jsonObj?.alert?.info[1]?.parameter?.find(
-          (param: any) => param.valueName === 'awareness_level',
-        )?.value;
-        //console.log('colour: ',colour);
+          const colour = jsonObj?.alert?.info[1]?.parameter?.find(
+            (param: any) => param.valueName === 'awareness_level',
+          )?.value;
+          //console.log('colour: ',colour);
 
-        // ['info[0/1]'] is norsk/english
-        resultList = {
-          identifier: jsonObj['alert']['identifier'],
-          phenomenon: jsonObj['alert']['info'][1]['event'],
-          colour: colour.split(';')[1].trim(),
-          certainty:  jsonObj['alert']['info'][1]['certainty'],
-          severity:  jsonObj['alert']['info'][1]['severity'],
-          threshold: threshold ? threshold : 'no value given',
-          area: jsonObj['alert']['info'][1]['area']['areaDesc'],
-          onset: dayjs(jsonObj['alert']['info'][1]['onset'])
-            .format('YYYY-MM-DD HH:mm')
-            .toString(),
-          expires: dayjs(jsonObj['alert']['info'][1]['expires'])
-            .format('YYYY-MM-DD HH:mm')
-            .toString(),
-        };
-        setAttachmentXML(resultList);
-        console.log('ResultatListe: ', resultList);  
-      }
+          // ['info[0/1]'] is norsk/english
+          resultList = {
+            identifier: jsonObj['alert']['identifier'],
+            phenomenon: jsonObj['alert']['info'][1]['event'],
+            colour: colour.split(';')[1].trim(),
+            certainty:  jsonObj['alert']['info'][1]['certainty'],
+            severity:  jsonObj['alert']['info'][1]['severity'],
+            threshold: threshold ? threshold : 'no value given',
+            area: jsonObj['alert']['info'][1]['area']['areaDesc'],
+            onset: dayjs(jsonObj['alert']['info'][1]['onset'])
+              .format('YYYY-MM-DD HH:mm')
+              .toString(),
+            expires: dayjs(jsonObj['alert']['info'][1]['expires'])
+              .format('YYYY-MM-DD HH:mm')
+              .toString(),
+          };
+          setAttachmentXML(resultList);
+          console.log('ResultatListe: ', resultList);  
+        }
     });
   };
   return (
@@ -376,7 +390,11 @@ const onClickTableRow = (item: CapFilEntries) => {
                                 hover
                                 selected={false}
                                 onClick={() => onClickTableRow(row)}
-                                
+                                style={{
+                                  backgroundColor:
+                                  selectedWarning === row ? "#EDF7FF" : "white",
+                                  cursor: "pointer",
+                                }}
                                 >
                                 <TableCell >
                                     <IconButton
