@@ -20,7 +20,7 @@ const SearchClearButtons: React.FC<Props> = ({ setWarning, searchObject }) => {
     // console.log(filteredData);
     databaseFunctions
       .getOpenSearch(filteredData)
-      .then((response) => setWarning(response.data));
+      .then((response) => setWarning(response));
   };
 
   const onClearClick = () => {

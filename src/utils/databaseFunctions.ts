@@ -87,11 +87,31 @@ async function getWarningsFromIncidentNames(names: string) {
 }
 
 async function getOpenSearch(input: object) {
-  //console.log('SearchObject ', input);
   const url = `/`;
-  const response = await client.post(url, input);
-  //console.log('OpenSearch: ', response);
-  return response;
+  const eval_url = `/evaluations/list`;
+
+  try {
+    const search_result = await client.post(url, input);
+
+    const eval_list = await client.get(eval_url);
+
+    const evaluationIds = new Set(eval_list.data.map((id: string) => id));
+
+    // marking annoted incidents
+    const updatedSearchResults = search_result.data.map((result: any) => ({
+      ...result,
+      annotated: evaluationIds.has(result._id), // Mark as annotated if `_id` exists in evaluationList
+    }));
+  
+    return updatedSearchResults;
+  } catch (error) {
+    console.error('Error fetching evaluation List:', error);
+    // Handle the error appropriately based on your application's needs.
+    // For example, you could rethrow the error, return a default value, or return null.
+    throw error; // Rethrow the error to be handled by the caller.
+  }
+  
+  
 }
 
 function xTest(sendaPolygon:any, startTime: string, endTime: string) {
