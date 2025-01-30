@@ -194,7 +194,7 @@ const EnhancedTable: React.FC<Props> = (props) => {
       setOrder(isAsc ? 'desc' : 'asc');
       setOrderBy(property);
       };
-
+      
   const visibleRows = React.useMemo(() =>
       [...warning].sort(getComparator(order, orderBy)),
       [order, orderBy, warning],
@@ -419,7 +419,7 @@ const EnhancedTable: React.FC<Props> = (props) => {
                                 </TableCell>
                                 <TableCell  align="right">{row.colour}</TableCell>
                                 <TableCell  align="right">{row.areaDesc.en}</TableCell>
-                                <TableCell align="right"><Checkbox checked={false}/></TableCell>
+                                <TableCell align="right"><Checkbox checked={row.annotated}/></TableCell>
                                 <TableCell align="right">{row.onset}/{row.expires}</TableCell>
                                 <TableCell  align="right">
                                     <IconButton
