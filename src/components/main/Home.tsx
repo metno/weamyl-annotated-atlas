@@ -20,10 +20,7 @@ const paperStyle = {
 
 const Home: React.FC = () => {
   const [warning, setWarning] = React.useState<CapFileEntryList>([]);
-  const [searchObject, setSearchObject] = React.useState<object>({
-    onset: '2016-01-01T00:00',
-    expires: dayjs().format('YYYY-MM-DDTHH:mm'),
-  });
+  const [searchObject, setSearchObject] = React.useState<object>({onset: '2016-01-01T00:00',});
   const [polygonObject, setPolygonObject] = React.useState<object>(test);
   const [attachmentXML, setAttachmentXML] = React.useState<object>([]);
   const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>([]);

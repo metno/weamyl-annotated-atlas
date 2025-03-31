@@ -289,7 +289,7 @@ const ValidationForm: React.FC<Props> = (props) => {
         >
           <Stack direction="row" spacing={6}>
             <TextField 
-            label={'Comment to Annotation'} 
+            label={'Observed Consequences'} 
             variant="outlined" 
             InputLabelProps={{
             shrink: true,
