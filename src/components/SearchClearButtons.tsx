@@ -17,7 +17,7 @@ const SearchClearButtons: React.FC<Props> = ({ setWarning, searchObject }) => {
       }
       return x;
     }, {} as any);
-    // console.log(filteredData);
+    console.log(filteredData);
     databaseFunctions
       .getOpenSearch(filteredData)
       .then((response) => setWarning(response));
