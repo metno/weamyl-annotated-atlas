@@ -105,14 +105,14 @@ async function getOpenSearch(input: object) {
       },
     });
 
-    console.log('RESULT', search_result.data);
+    console.log('RESULT', search_result.data.matching_warnings);
 
     const eval_list = await evaluationsClient.get(eval_url);
 
     const evaluationIds = new Set(eval_list.data.map((id: string) => id));
 
     // marking annoted incidents
-    const updatedSearchResults = search_result.data.map((result: any) => ({
+    const updatedSearchResults = search_result.data.matching_warnings.map((result: any) => ({
       ...result,
       annotated: evaluationIds.has(result._id), // Mark as annotated if `_id` exists in evaluationList
     }));
