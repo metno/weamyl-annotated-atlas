@@ -105,9 +105,11 @@ async function getOpenSearch(input: object) {
       },
     });
 
-    console.log('RESULT', search_result.data.matching_warnings);
+    console.log('RESULT ', search_result.data.matching_warnings);
 
     const eval_list = await evaluationsClient.get(eval_url);
+
+    console.log('RESULT EV LIST ', eval_list.data);
 
     const evaluationIds = new Set(eval_list.data.map((id: string) => id));
 
