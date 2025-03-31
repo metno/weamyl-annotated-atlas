@@ -187,7 +187,7 @@ async function getModelData(polygon:any, startTime: string, endTime: string) {
 async function getEvaluationForm(cap_id: string) {
   const url = `/id/${cap_id}`;
   try {
-    const response = await client.get(url);
+    const response = await evaluationsClient.get(url);
     console.log('Evaluation response: ', response);
     return response.data;
   } catch (error) {
