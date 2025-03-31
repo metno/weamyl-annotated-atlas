@@ -71,7 +71,7 @@ async function getPhenomenaList() {
 }
 
 async function getColourList() {
-  const url = `/color/list/`;
+  const url = `/colour/list/`;
   const response = await client.get(url);
   //console.log('FargeListe: ', response.data);
   return response;
@@ -92,13 +92,13 @@ async function getWarningsFromIncidentNames(names: string) {
 }
 
 async function getOpenSearch(input: object) {
-  const url = `/`;
-  const eval_url = `/search/full`;
+  const url = `/search/full`;
+  const eval_url = `/list`;
 
   try {
     const search_result = await client.post(url, input);
 
-    const eval_list = await client.get(eval_url);
+    const eval_list = await evaluationsClient.get(eval_url);
 
     const evaluationIds = new Set(eval_list.data.map((id: string) => id));
 
@@ -190,7 +190,7 @@ async function getEvaluationForm(cap_id: string) {
 async function putEvaluationForm(evaluationObject: object) {
   console.log('OBJECT: ', evaluationObject);
   const url = `/document/`;
-  const response = await client.put(url, evaluationObject);
+  const response = await evaluationsClient.put(url, evaluationObject);
   return response.data;
 }
 
