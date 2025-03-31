@@ -3,6 +3,7 @@ const axios = require('axios');
 // change this in the .env-file to use another backend/SENDA-setup
 let url = `${process.env.REACT_APP_BASE_CAP_URL}`;
 let mapURL = `${process.env.REACT_APP_BASE_MAP_URL}`;
+let evaluationURL = `${process.env.REACT_APP_BASE_EVALUATION_URL}`;
 let cswURL = `${process.env.REACT_APP_SENDA_URL}`;
 
 const client = axios.create({
@@ -11,6 +12,10 @@ const client = axios.create({
 
 const mapClient = axios.create({
   baseURL: mapURL,
+});
+
+const evaluationsClient = axios.create({
+  baseURL: evaluationURL,
 });
 
 const modelDAtaClient = axios.create({
@@ -46,14 +51,14 @@ async function getIncidentNamesList() {
 }
 
 async function getCountyList() {
-  const url = `/lowres/fylke/list/`;
+  const url = `/fylke/list/`;
   const response = await mapClient.get(url);
   // console.log('Fylkesliste: ', response.data);
   return response;
 }
 
 async function getlowresCountyPolygon(county_id: string) {
-  const url = `/lowres/fylke/${county_id}`;
+  const url = `/fylke/administrativeId/${county_id}`;
   const response = await mapClient.get(url);
   return response;
 }
@@ -88,7 +93,7 @@ async function getWarningsFromIncidentNames(names: string) {
 
 async function getOpenSearch(input: object) {
   const url = `/`;
-  const eval_url = `/evaluations/list`;
+  const eval_url = `/search/full`;
 
   try {
     const search_result = await client.post(url, input);
@@ -169,7 +174,7 @@ async function getModelData(polygon:any, startTime: string, endTime: string) {
 }
 
 async function getEvaluationForm(cap_id: string) {
-  const url = `/evaluation/${cap_id}`;
+  const url = `/id/${cap_id}`;
   try {
     const response = await client.get(url);
     console.log('Evaluation response: ', response);
@@ -184,7 +189,7 @@ async function getEvaluationForm(cap_id: string) {
 
 async function putEvaluationForm(evaluationObject: object) {
   console.log('OBJECT: ', evaluationObject);
-  const url = `/evaluation/`;
+  const url = `/document/`;
   const response = await client.put(url, evaluationObject);
   return response.data;
 }
