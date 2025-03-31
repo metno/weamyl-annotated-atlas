@@ -95,8 +95,6 @@ async function getOpenSearch(input: object) {
   const url = `/search/full/`;
   const eval_url = `/list`;
 
-  console.log('Search input', input);
-
   try {
   
     const search_result = await client.post(url, input,{
@@ -105,12 +103,7 @@ async function getOpenSearch(input: object) {
       },
     });
 
-    console.log('RESULT ', search_result.data.matching_warnings);
-
     const eval_list = await evaluationsClient.get(eval_url);
-
-    console.log('RESULT EV LIST ', eval_list.data);
-
     const evaluationIds = new Set(eval_list.data.map((id: string) => id));
 
     // marking annoted incidents

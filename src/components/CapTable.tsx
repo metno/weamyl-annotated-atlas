@@ -21,8 +21,6 @@ import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
 import { XMLParser } from 'fast-xml-parser';
 import dayjs from 'dayjs';
-import { tr } from 'date-fns/locale';
-import { CheckBox } from '@mui/icons-material';
 
 const styles = {
   table: {
@@ -50,7 +48,6 @@ const ObservationTable: React.FC<Props> = (props) => {
     setAttachmentXML,
     setSavedEvaluationForm,
   } = props;
-  //console.log(warning)
   const [open, setOpen] = React.useState(-1);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [warningAttachment, setWarningAttachment] = React.useState('');
@@ -87,37 +84,25 @@ const ObservationTable: React.FC<Props> = (props) => {
     databaseFunctions
       .getModelData(transposedPolygonString, currentOnset, currentExpires)
       .then((r) => {
-        //console.log('222222');
         const options = {
           ignoreAttributes: false,
         };
         const parser = new XMLParser(options);
 
         let jsonObj = parser.parse(r);
-       /*  console.log(
-          'WHAT TO CHOOSE? ',
-          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-            'csw:SummaryRecord'
-          ][0]['dct:references'],
-        ); */
 
         const summaryRecords =
           jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
             'csw:SummaryRecord'
           ][0]['dct:references'];
-        //console.log('summary: ', summaryRecords);
         const opendapLinks: string[] = [];
         summaryRecords.forEach((ref: any) => {
-          //console.log('summaryTEXT: ', summaryRecords['@_scheme']);
           if (summaryRecords['@_scheme'] === 'OGC:WMS') {
-          //  console.log('1113311');
             opendapLinks.push(ref._);
           }
         });
 
-        //console.log('OPENDAP Links:');
         opendapLinks.forEach((link) => {
-          //console.log(link);
         });
 
         for (
@@ -134,33 +119,24 @@ const ObservationTable: React.FC<Props> = (props) => {
             ][i]['dct:references'][1]['#text'];
           ncResults.push(intermediate);
         }
-        //console.log('This should be in THREDDS: ', ncResults);
         setModelDAta(ncResults);
       })
       .catch(() => {
-        //console.log(e);
         setModelDAta(['Empty dataset']);
       });
 
     databaseFunctions.getEvaluationForm(item._id).then((r) => {
-      //console.log('EV: ', r);
-      //console.log('rrorV: ', r.error);
       if (r.error === 'not_found') {
-        //console.log('Etter if: ', r.error);
         setSavedEvaluationForm([]);}
       else {
-        console.log('Etter if: ', (r));
-
         setSavedEvaluationForm(r);
       }
       
     });
-    console.log('Etter if: ', item._id)
     databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
       const options = {
         ignoreAttributes: false,
       };
-      console.log('Etter if: ', r.error);
       if (r.error === 'AxiosError') {
         
         setAttachmentXML([]);}
@@ -173,12 +149,10 @@ const ObservationTable: React.FC<Props> = (props) => {
         const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
           (param: any) => param.valueName === 'triggerLevel',
         )?.value;
-        //console.log('threshold: : ',jsonObj?.alert?.info[1]?.parameter);
 
         const colour = jsonObj?.alert?.info[1]?.parameter?.find(
           (param: any) => param.valueName === 'awareness_level',
         )?.value;
-        //console.log('colour: ',colour);
 
         // ['info[0/1]'] is norsk/english
         resultList = {
@@ -202,25 +176,11 @@ const ObservationTable: React.FC<Props> = (props) => {
     });
   };
 
-  const onOpenDropdownList = () => {};
-
   const onClickCapDialog = (item: CapFilEntries) => {
     setOpenDialog(!openDialog);
     databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
       setWarningAttachment(r);
-      //console.log('getCapAt ',r);
     });
-  };
-
-  const verifiedCAP = (item_id: string) => {
-    // databaseFunctions.getEvaluationForm(item_id).then((r)=> {
-    //  if (r._id)
-    //   setCheckmark(true);
-    //   else
-    //  setCheckmark(false);
-    // })
-    // console.log(checkmark);
-    return <Checkbox />;
   };
 
   return (
