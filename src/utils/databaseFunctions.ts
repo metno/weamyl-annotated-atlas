@@ -105,7 +105,7 @@ async function getOpenSearch(input: object) {
       },
     });
 
-    console.log('RESULT', search_result);
+    console.log('RESULT', search_result.data);
 
     const eval_list = await evaluationsClient.get(eval_url);
 
