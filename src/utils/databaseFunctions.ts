@@ -93,7 +93,7 @@ async function getWarningsFromIncidentNames(names: string) {
 
 async function getOpenSearch(input: object) {
   const url = `/search/full/`;
-  const eval_url = `/list/`;
+  const eval_url = `/list`;
 
   console.log('Search input', input);
 
