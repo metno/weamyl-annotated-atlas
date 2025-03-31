@@ -95,8 +95,12 @@ async function getOpenSearch(input: object) {
   const url = `/search/full`;
   const eval_url = `/list`;
 
+  console.log('Search input', input);
+
   try {
     const search_result = await client.post(url, input);
+
+    console.log('RESULT', search_result);
 
     const eval_list = await evaluationsClient.get(eval_url);
 
