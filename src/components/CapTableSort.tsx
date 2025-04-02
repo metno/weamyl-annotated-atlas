@@ -290,7 +290,7 @@ const EnhancedTable: React.FC<Props> = (props) => {
           setModelDAta(['Empty dataset']);
         });
       databaseFunctions.getEvaluationForm(item._id).then((r) => {
-        if (r.error === 'not_found') {
+        if (r=== null) {
           setSavedEvaluationForm([]);}
         else {
           setSavedEvaluationForm(r);

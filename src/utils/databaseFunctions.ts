@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 const axios = require('axios');
 
 // change this in the .env-file to use another backend/SENDA-setup
@@ -181,10 +183,17 @@ async function getEvaluationForm(cap_id: string) {
   const url = `/id/${cap_id}`;
   try {
     const response = await evaluationsClient.get(url);
-    console.log('Evaluation response: ', response);
     return response.data;
-  } catch (error) {
+  } 
+  catch (error) {
+    const axiosError = error as AxiosError;  // Explicitly cast error
+
+    if (axiosError.response?.status === 404) {
+      console.warn('Evaluation form not found for ID:', {cap_id});
+      return null
+    }
     console.error('Error fetching evaluation form:', error);
+
     // Handle the error appropriately based on your application's needs.
     // For example, you could rethrow the error, return a default value, or return null.
     throw error; // Rethrow the error to be handled by the caller.
