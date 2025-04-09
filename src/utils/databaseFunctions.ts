@@ -187,7 +187,7 @@ async function getEvaluationForm(cap_id: string) {
   } 
   catch (error) {
     const axiosError = error as AxiosError;  // Explicitly cast error
-
+    console.log("axiosError.response",axiosError.response)
     if (axiosError.response?.status === 404) {
       console.warn('Evaluation form not found for ID:', {cap_id});
       return null
