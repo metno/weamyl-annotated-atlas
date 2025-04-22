@@ -30,25 +30,33 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   }
 
   const onChange = (option: any) => {
-    if (!option) {
+    if (option) {
+      const selectedCountyId = option.value;
+      const selectedCountyName = option.label;
+  
+      databaseFunctions
+      .getlowresCountyPolygon(selectedCountyId)
+        .then((response) =>{
+          const coordinateArray = response.data.features[0].geometry.coordinates;
+          const formattedCoordinates = coordinateArray[0].map(
+            // Coordinates are switched to match same format as those copied from Diana
+            (coords: number[]) => `(${coords[1]}, ${coords[0]})`
+          ).join(' ');
+          parsePolygon(formattedCoordinates, searchObject, setSearchObject)
+        })
+    }
+    else{
+
       option = {
         target: option,
         value: '',
       };
-    }
-    const selectedCountyId = option.value;
-    const selectedCountyName = option.label;
+      const selectedCountyId = option.value;
+      const selectedCountyName = option.label;
+      parsePolygon(null, searchObject, setSearchObject)
 
-    databaseFunctions
-    .getlowresCountyPolygon(selectedCountyId)
-      .then((response) =>{
-        const coordinateArray = response.data.features[0].geometry.coordinates;
-        const formattedCoordinates = coordinateArray[0].map(
-          // Coordinates are switched to match same format as those copied from Diana
-          (coords: number[]) => `(${coords[1]}, ${coords[0]})`
-        ).join(' ');
-        parsePolygon(formattedCoordinates, searchObject, setSearchObject)
-      })
+    }
+    
   };
 
   return (
