@@ -383,17 +383,12 @@ const EnhancedTable: React.FC<Props> = (props) => {
                                     </IconButton>
                                 </TableCell>    
                                 
-                                <TableCell
-                                component="th"
-                                scope="row"
-                                
-                                >
-                                    {row.phenomenon}
-                                </TableCell>
+                                <TableCell component="th" scope="row">{row.phenomenon}</TableCell>
                                 <TableCell  align="right">{row.colour}</TableCell>
                                 <TableCell  align="right">{row.areaDesc.en}</TableCell>
                                 <TableCell align="right"><Checkbox checked={row.annotated}/></TableCell>
                                 <TableCell align="right">{row.onset}/{row.expires}</TableCell>
+                                <TableCell  align="right">{row.incident}</TableCell>
                                 <TableCell  align="right">
                                     <IconButton
                                     aria-label="expand row"
