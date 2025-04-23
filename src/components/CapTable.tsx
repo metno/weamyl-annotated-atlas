@@ -204,9 +204,6 @@ const ObservationTable: React.FC<Props> = (props) => {
               <TableCell sx={styles.tableHead} align="right">
                 Duration
               </TableCell>
-              <TableCell sx={styles.tableHead} align="right">
-                Incident nubmer
-              </TableCell>
               <TableCell sx={styles.tableHead}>CAP</TableCell>
             </TableRow>
           </TableHead>
@@ -241,7 +238,6 @@ const ObservationTable: React.FC<Props> = (props) => {
                   <TableCell align="right">
                     {item.onset} / {item.expires}{' '}
                   </TableCell>
-                  <TableCell align="right">{item.incident} </TableCell>
                   <TableCell>
                     <IconButton
                       aria-label="expand row"

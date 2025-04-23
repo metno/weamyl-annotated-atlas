@@ -160,6 +160,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableCell>
             ))
           }
+        <TableCell align="right" sx={styles.tableHead} >Incident number</TableCell>
         <TableCell sx={styles.tableHead} >CAP</TableCell>
       </TableRow>
     </TableHead>
@@ -331,7 +332,7 @@ const EnhancedTable: React.FC<Props> = (props) => {
               .toString(),
           };
           setAttachmentXML(resultList);
-          console.log('ResultatListe: ', resultList);  
+          //console.log('ResultatListe: ', resultList);  
         }
     });
   };
