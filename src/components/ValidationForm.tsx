@@ -185,6 +185,8 @@ const ValidationForm: React.FC<Props> = (props) => {
         .putEvaluationForm(evaluationObject)
         .then((r) => console.log(r));
       setIsSaved(true);
+      alert('Saved successfully!');
+
     } else {
       setOpen(true);
     }
