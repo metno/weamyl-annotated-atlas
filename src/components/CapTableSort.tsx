@@ -331,7 +331,6 @@ const EnhancedTable: React.FC<Props> = (props) => {
               .toString(),
           };
           setAttachmentXML(resultList);
-          console.log('ResultatListe: ', resultList);  
         }
     });
   };
