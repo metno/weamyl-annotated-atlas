@@ -46,11 +46,9 @@ const ValidationForm: React.FC<Props> = (props) => {
   
   useEffect(() => {
     if (savedEvaluationForm) {
-      //console.log("savedEvaluationForm",savedEvaluationForm)
       setEvaluationForm(savedEvaluationForm);
     }
   }, [savedEvaluationForm]);
- //console.log("after evaluationForm",evaluationForm)
   useEffect(() => {
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
           if (!isSaved) {
@@ -187,6 +185,8 @@ const ValidationForm: React.FC<Props> = (props) => {
         .putEvaluationForm(evaluationObject)
         .then((r) => console.log(r));
       setIsSaved(true);
+      alert('Saved successfully!');
+
     } else {
       setOpen(true);
     }

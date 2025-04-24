@@ -332,7 +332,10 @@ const EnhancedTable: React.FC<Props> = (props) => {
               .toString(),
           };
           setAttachmentXML(resultList);
+<<<<<<< HEAD
           //console.log('ResultatListe: ', resultList);  
+=======
+>>>>>>> origin/master
         }
     });
   };

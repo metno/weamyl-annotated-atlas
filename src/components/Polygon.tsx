@@ -18,37 +18,46 @@ export function parsePolygon(polygonString: any, searchObject: any, setSearchObj
     // "(62.6145, 8.55212) (59.4469, 10.8924) (63.6052, 10.466) (63.7827, 10.3753) ";
     // example2
     // (63.1588, 6.49994) (62.7406, 4.13511)(60.3196, 8.44676) (61.4481, 9.74944) (61.311, 9.83574)
-    console.log('string?', polygonString)
     // Got help with this Regex, don't really understand it  
-    const pattern: RegExp =  /[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?((1[0-7]\d|[1-9]?\d)(\.\d+)?|180(\.0+)?)/g;
-    const array = [...polygonString.matchAll(pattern)];
-    console.log('incoming array: ', array);
-    let corners = array.map((item) => item[0].split(', ').reverse());
-    console.log('corners: ', corners);
-    if (corners.length > 2) {
-      const latitudeLongitude = corners.map((corner) => [
-        parseFloat(corner[0]),
-        parseFloat(corner[1]),
-      ]);
-      console.log('latln: ', latitudeLongitude);
-      let geometry = mapCoordinates(latitudeLongitude);
-      geometry = { ...geometry, bbox: toBBox(geometry) };
-      const phenomSearch = {
-        ...searchObject,
-        cutoff: 0.5,
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: {},
-            geometry,
-          },
-        ],
-      };
-      setSearchObject(phenomSearch);
-      //console.log('inside parsPolygon', phenomSearch)
+    let phenomSearch= {};
+
+    if(polygonString){
+      const pattern: RegExp =  /[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?((1[0-7]\d|[1-9]?\d)(\.\d+)?|180(\.0+)?)/g;
+      const array = [...polygonString.matchAll(pattern)];
+      let corners = array.map((item) => item[0].split(', ').reverse());
+      if (corners.length > 2) {
+        const latitudeLongitude = corners.map((corner) => [
+          parseFloat(corner[0]),
+          parseFloat(corner[1]),
+        ]);
+        let geometry = mapCoordinates(latitudeLongitude);
+        geometry = { ...geometry, bbox: toBBox(geometry) };
+        phenomSearch = {
+          ...searchObject,
+          cutoff: 0.5,
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: {},
+              geometry,
+            },
+          ],
+        };
+      }
 
     }
+    else
+    {
+      phenomSearch = {
+        ...searchObject,
+        cutoff:null,
+        type: null,
+        features: null,
+      };
+    }
+    setSearchObject(phenomSearch);
+
   }
 
 const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
