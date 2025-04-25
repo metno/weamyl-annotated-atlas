@@ -81,6 +81,10 @@ const ValidationForm: React.FC<Props> = (props) => {
     {
         value: 'Red',
         label: 'Red',
+    },
+    {
+      value: 'Replaced',
+      label: 'Replaced by other warning',
     }
   ];
   const evaluationList = [
