@@ -73,12 +73,6 @@ const Home: React.FC = () => {
             sx={paperStyle}
             style={{ height: 400, maxHeight: 400 }}
           >
-            {/* <CapTable
-              warning={warning}
-              setPolygonObject={setPolygonObject}
-              setAttachmentXML={setAttachmentXML}
-              setSavedEvaluationForm={setSavedEvaluationForm}
-            /> */}
             <CapTableSort
               warning={warning}
               setPolygonObject={setPolygonObject}
@@ -86,7 +80,6 @@ const Home: React.FC = () => {
               setSavedEvaluationForm={setSavedEvaluationForm}
               isSaved={isSaved}
               setIsSaved={setIsSaved}
-
             />
           </Paper>
         </Grid>
