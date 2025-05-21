@@ -40,6 +40,7 @@ interface HeadCellFields{
     areaDesc :string,
     onset :string,
     archived:boolean,
+    incident: string,
 }
 
 function descendingComparator(a: CapFilEntries, b: CapFilEntries, orderBy: keyof HeadCellFields) {
@@ -52,6 +53,10 @@ function descendingComparator(a: CapFilEntries, b: CapFilEntries, orderBy: keyof
           // Assume 'annotated' is a boolean; handle accordingly if it's not
           if (!a.archived && b.archived) return -1;
           if (a.archived && !b.archived) return 1;
+          break;
+        case 'incident':
+          if (b.incident < a.incident) return -1;
+          if (b.incident > a.incident) return 1;
           break;
         default:
           if (b[orderBy] < a[orderBy]) return -1;
@@ -107,8 +112,13 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Duration',
+  },
+  {
+    id: 'incident',
+    numeric: false,
+    disablePadding: false,
+    label: 'Incident number'
   }
-  
 ];
 
 interface EnhancedTableProps {
@@ -152,7 +162,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableCell>
             ))
           }
-        <TableCell align="right" sx={styles.tableHead} >Incident number</TableCell>
         <TableCell sx={styles.tableHead} >CAP</TableCell>
       </TableRow>
     </TableHead>
@@ -373,7 +382,7 @@ const EnhancedTable: React.FC<Props> = (props) => {
                                         <KeyboardArrowDownIcon />
                                     )}
                                     </IconButton>
-                                </TableCell>    
+                                </TableCell>
                                 
                                 <TableCell component="th" scope="row">{row.phenomenon}</TableCell>
                                 <TableCell  align="right">{row.colour}</TableCell>
