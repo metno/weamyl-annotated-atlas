@@ -15,7 +15,7 @@ const IncNumber: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         const isValid = /^\d{0,10}$/.test(input);
 
         if (isValid) {
-            setSearchObject({ ...searchObject, incidentId: input });
+            setSearchObject({ ...searchObject, incident: input });
             console.log('??: ', searchObject);
         }
         setError(input.length > 0 && input.length !== 10);
@@ -31,7 +31,7 @@ const IncNumber: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       <TextField
         fullWidth
         placeholder="Incident Number"
-        value={searchObject.incidentId || ''}
+        value={searchObject.incident || ''}
         onChange={onChange}
         label="Incident Number"
         variant="outlined"
