@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -48,6 +40,7 @@ interface HeadCellFields{
     areaDesc :string,
     onset :string,
     archived:boolean,
+    incident: string,
 }
 
 function descendingComparator(a: CapFilEntries, b: CapFilEntries, orderBy: keyof HeadCellFields) {
@@ -60,6 +53,10 @@ function descendingComparator(a: CapFilEntries, b: CapFilEntries, orderBy: keyof
           // Assume 'annotated' is a boolean; handle accordingly if it's not
           if (!a.archived && b.archived) return -1;
           if (a.archived && !b.archived) return 1;
+          break;
+        case 'incident':
+          if (b.incident < a.incident) return -1;
+          if (b.incident > a.incident) return 1;
           break;
         default:
           if (b[orderBy] < a[orderBy]) return -1;
@@ -115,8 +112,13 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Duration',
+  },
+  {
+    id: 'incident',
+    numeric: false,
+    disablePadding: false,
+    label: 'Incident number'
   }
-  
 ];
 
 interface EnhancedTableProps {
@@ -380,19 +382,14 @@ const EnhancedTable: React.FC<Props> = (props) => {
                                         <KeyboardArrowDownIcon />
                                     )}
                                     </IconButton>
-                                </TableCell>    
-                                
-                                <TableCell
-                                component="th"
-                                scope="row"
-                                
-                                >
-                                    {row.phenomenon}
                                 </TableCell>
+                                
+                                <TableCell component="th" scope="row">{row.phenomenon}</TableCell>
                                 <TableCell  align="right">{row.colour}</TableCell>
                                 <TableCell  align="right">{row.areaDesc.en}</TableCell>
                                 <TableCell align="right"><Checkbox checked={row.annotated}/></TableCell>
                                 <TableCell align="right">{row.onset}/{row.expires}</TableCell>
+                                <TableCell  align="right">{row.incident}</TableCell>
                                 <TableCell  align="right">
                                     <IconButton
                                     aria-label="expand row"

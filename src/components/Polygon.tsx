@@ -12,19 +12,34 @@ type Props = {
   setSearchObject: any;
 };
 
+/**
+ * Parses a polygon string in the format "(lat, lon) (lat, lon) ..."
+ * and updates the search object with a GeoJSON FeatureCollection.
+ *
+ * Example input:
+ *   "(63.1588, 6.49994) (62.7406, 4.13511) (60.3196, 8.44676)
+ *       (61.4481, 9.74944) (61.311, 9.83574)"
+ *
+ * If the parsed polygon has more than two points, the coordinates
+ * are converted into a right-hand-rule polygon with a bounding box
+ * and stored in the `features` field of the search object.
+ * 
+ * If the input is invalid or empty, the geometry is cleared.
+ *
+ * @param polygonString - The string representing the polygon points.
+ * @param searchObject - The current state of the search object.
+ * @param setSearchObject - Setter function to update the search object.
+ */
+
 export function parsePolygon(polygonString: any, searchObject: any, setSearchObject: any) {
-    // Parse polygon from Diana
-    // example1
-    // "(62.6145, 8.55212) (59.4469, 10.8924) (63.6052, 10.466) (63.7827, 10.3753) ";
-    // example2
-    // (63.1588, 6.49994) (62.7406, 4.13511)(60.3196, 8.44676) (61.4481, 9.74944) (61.311, 9.83574)
-    // Got help with this Regex, don't really understand it  
+ 
     let phenomSearch= {};
 
-    if(polygonString){
+    if (polygonString) {
       const pattern: RegExp =  /[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?((1[0-7]\d|[1-9]?\d)(\.\d+)?|180(\.0+)?)/g;
       const array = [...polygonString.matchAll(pattern)];
       let corners = array.map((item) => item[0].split(', ').reverse());
+
       if (corners.length > 2) {
         const latitudeLongitude = corners.map((corner) => [
           parseFloat(corner[0]),
@@ -36,19 +51,10 @@ export function parsePolygon(polygonString: any, searchObject: any, setSearchObj
           ...searchObject,
           cutoff: 0.5,
           type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              properties: {},
-              geometry,
-            },
-          ],
+          features: [{ type: 'Feature', properties: {}, geometry }],
         };
       }
-
-    }
-    else
-    {
+    } else {
       phenomSearch = {
         ...searchObject,
         cutoff:null,
@@ -56,8 +62,8 @@ export function parsePolygon(polygonString: any, searchObject: any, setSearchObj
         features: null,
       };
     }
-    setSearchObject(phenomSearch);
 
+    setSearchObject(phenomSearch);
   }
 
 const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
@@ -83,31 +89,13 @@ const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     };
   }
 
-  const onChange = (option: any) => {
-    if (!option) {
-      option = {
-        target: option,
-        value: '',
-      };
-    }
-    const customAreaSearch = { ...searchObject, customArea: option.value };
-    setSearchObject(customAreaSearch);
-    console.log(customAreaSearch);
-  };
-
   return (
     <Stack direction="row" spacing={3}>
-      {/*<Select
-        isClearable
-        placeholder={'Area name (None functional in prototype)'}
-        options={optionList}
-        onChange={onChange}
-  />*/}
       <Stack>
         <TextField
           placeholder={'Polygon'}
           onChange={onPolygonChange}
-          helperText="Only works on polygons of this format (61.2481, 5.45023) (58.9953,
+          helperText="Only works with polygons like (61.2481, 5.45023) (58.9953,
           9.23162) (61.6041, 11.5993)"
         />
       </Stack>

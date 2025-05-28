@@ -10,8 +10,8 @@ import { CapFileEntryList } from '../../@customTypes/CapFilEntries';
 import MapLeaf from '../MapLeaf';
 import test from '../../config/test1.json';
 import ValidationForm from '../ValidationForm';
-import dayjs from 'dayjs';
 import CountyName from '../CountyList';
+import IncNumber from '../IncNumber'
 
 const paperStyle = {
   padding: 2,
@@ -39,46 +39,68 @@ const Home: React.FC = () => {
       }}
     >
       <Grid container spacing={2}>
+
+        {/* *********Search Parameters********* */}
+
         <Grid item md={12} lg={6}>
-          <Paper sx={paperStyle} style={{ height: 400 }}>
-            <Typography variant="h5">Search parameters</Typography>
-            <Phenomenon
-              searchObject={searchObject}
-              setSearchObject={setSearchObject}
-            />
-            <CountyName
-              searchObject={searchObject}
-              setSearchObject={setSearchObject}
-            />
-            <Polygon
-              searchObject={searchObject}
-              setSearchObject={setSearchObject}
-            />
-            <Colour
-              searchObject={searchObject}
-              setSearchObject={setSearchObject}
-            />
-            <Time
-              searchObject={searchObject}
-              setSearchObject={setSearchObject}
-            />
-            <SearchClearButtons
-              setWarning={setWarning}
-              searchObject={searchObject}
-            />
-          </Paper>
+        <Paper sx={paperStyle} style={{ height: 400, overflow: 'auto' }}>
+          <Typography variant="h5" gutterBottom>
+            Search parameters
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Phenomenon
+                searchObject={searchObject}
+                setSearchObject={setSearchObject}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Colour
+                searchObject={searchObject}
+                setSearchObject={setSearchObject}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CountyName
+                searchObject={searchObject}
+                setSearchObject={setSearchObject}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Polygon
+                searchObject={searchObject}
+                setSearchObject={setSearchObject}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Time
+                searchObject={searchObject}
+                setSearchObject={setSearchObject}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <IncNumber
+                searchObject={searchObject}
+                setSearchObject={setSearchObject}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <SearchClearButtons
+                setWarning={setWarning}
+                searchObject={searchObject}
+              />
+            </Grid>
+          </Grid>
+        </Paper>
         </Grid>
+
+        {/* *********Results list********* */}
+
         <Grid item md={12} lg={6}>
           <Paper
             sx={paperStyle}
             style={{ height: 400, maxHeight: 400 }}
           >
-            {/* <CapTable
-              warning={warning}
-              setPolygonObject={setPolygonObject}
-              setAttachmentXML={setAttachmentXML}
-              setSavedEvaluationForm={setSavedEvaluationForm}
-            /> */}
             <CapTableSort
               warning={warning}
               setPolygonObject={setPolygonObject}
@@ -86,10 +108,11 @@ const Home: React.FC = () => {
               setSavedEvaluationForm={setSavedEvaluationForm}
               isSaved={isSaved}
               setIsSaved={setIsSaved}
-
             />
           </Paper>
         </Grid>
+
+        {/* *********Leaflet Map********* */}
 
         <Grid item xs={6}>
           <Paper
@@ -101,6 +124,8 @@ const Home: React.FC = () => {
             </Box>
           </Paper>
         </Grid>
+
+        {/* *********Annotation Form********* */}
 
         <Grid item xs={6}>
           <Paper
@@ -120,6 +145,7 @@ const Home: React.FC = () => {
             />
           </Paper>
         </Grid>
+
       </Grid>
     </Box>
   );
