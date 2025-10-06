@@ -25,7 +25,8 @@ const Home: React.FC = () => {
   const [attachmentXML, setAttachmentXML] = React.useState<object>([]);
   const [savedEvaluationForm, setSavedEvaluationForm] = React.useState<object>([]);
   const [isSaved,setIsSaved] = React.useState(true);
-  
+  const [selectedArea, setSelectedArea] = React.useState<string>('');
+
   return (
     <Box
       component="div"
@@ -108,6 +109,7 @@ const Home: React.FC = () => {
               setSavedEvaluationForm={setSavedEvaluationForm}
               isSaved={isSaved}
               setIsSaved={setIsSaved}
+              setSelectedArea={setSelectedArea}
             />
           </Paper>
         </Grid>
@@ -137,6 +139,7 @@ const Home: React.FC = () => {
           >
             <Typography variant="h5">Selected warning to annotate</Typography>
             <ValidationForm
+              selectedArea={selectedArea}
               attachmentXML={attachmentXML}
               savedEvaluationForm={savedEvaluationForm}
               setSavedEvaluationForm={setSavedEvaluationForm}

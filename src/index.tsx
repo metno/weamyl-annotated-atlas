@@ -22,12 +22,6 @@ const oidcConfig = {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   },
-  //redirect_uri: `${window.location.origin}${process.env.PUBLIC_URL}/`,
-  //  'auth-server-url': 'https://login.met.no/auth/',
-  //  'ssl-required': 'all',
-  //  resource: 'devuke-frontend',
-  //  'public-client': true,
-  //  'confidential-port': 0,
 };
 
 console.log('redirectURI', `${window.location.origin}/`);

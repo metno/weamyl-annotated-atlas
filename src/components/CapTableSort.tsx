@@ -175,6 +175,7 @@ type Props = {
     setSavedEvaluationForm: any;
     isSaved:any;
     setIsSaved:any;
+    setSelectedArea: (area: string) => void;
   };
 
 const EnhancedTable: React.FC<Props> = (props) => {
@@ -247,6 +248,7 @@ const EnhancedTable: React.FC<Props> = (props) => {
       let transposedPolygonString = polygonArray.join(' ');
 
       setPolygonObject(item);
+      props.setSelectedArea(item.areaDesc.en);
 
       databaseFunctions
         .getModelData(transposedPolygonString, currentOnset, currentExpires)
@@ -331,6 +333,7 @@ const EnhancedTable: React.FC<Props> = (props) => {
             expires: dayjs(jsonObj['alert']['info'][1]['expires'])
               .format('YYYY-MM-DD HH:mm')
               .toString(),
+            incident: item.incident,
           };
           setAttachmentXML(resultList);
         }
