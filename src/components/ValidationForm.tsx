@@ -30,8 +30,11 @@ type EvaluationFormType = {
   warningSentOutEvaluation?:number;
   _id?: string;
   _rev?: string;
+  area?:string;
+  incident?: string;
 };
 type Props = {
+  selectedArea: string; 
   attachmentXML: any;
   savedEvaluationForm: EvaluationFormType | null;
   setSavedEvaluationForm:any;
@@ -187,6 +190,8 @@ const ValidationForm: React.FC<Props> = (props) => {
         onset: attachmentXML.onset,
         expires: attachmentXML.expires,
         colour: attachmentXML.colour,
+        area: attachmentXML.area,
+        incident: attachmentXML.incident,
       };
       databaseFunctions
         .putEvaluationForm(evaluationObject)
