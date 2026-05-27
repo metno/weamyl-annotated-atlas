@@ -21,7 +21,13 @@ import databaseFunctions from '../utils/databaseFunctions';
 import CapDialog from './CapDialog';
 import dayjs from 'dayjs';
 import { XMLParser } from 'fast-xml-parser';
-import { Collapse, Dialog, DialogTitle, Grow } from '@mui/material';
+import {
+  Collapse,
+  Dialog,
+  DialogTitle,
+  CircularProgress,
+  Grow,
+} from '@mui/material';
 
 const styles = {
   table: {
@@ -34,46 +40,51 @@ const styles = {
     fontStyle: 'italic',
   },
 };
-interface HeadCellFields{
-    phenomenon: string,
-    colour: string,
-    areaDesc :string,
-    onset :string,
-    archived:boolean,
-    incident: string,
+interface HeadCellFields {
+  phenomenon: string;
+  colour: string;
+  areaDesc: string;
+  onset: string;
+  archived: boolean;
+  incident: string;
 }
 
-function descendingComparator(a: CapFilEntries, b: CapFilEntries, orderBy: keyof HeadCellFields) {
-    switch (orderBy) {
-        case 'areaDesc':
-          if (b.areaDesc.en < a.areaDesc.en) return -1;
-          if (b.areaDesc.en > a.areaDesc.en) return 1;
-          break;
-        case 'archived':
-          // Assume 'annotated' is a boolean; handle accordingly if it's not
-          if (!a.archived && b.archived) return -1;
-          if (a.archived && !b.archived) return 1;
-          break;
-        case 'incident':
-          if (b.incident < a.incident) return -1;
-          if (b.incident > a.incident) return 1;
-          break;
-        default:
-          if (b[orderBy] < a[orderBy]) return -1;
-          if (b[orderBy] > a[orderBy]) return 1;
-          break;
-      }
+function descendingComparator(
+  a: CapFilEntries,
+  b: CapFilEntries,
+  orderBy: keyof HeadCellFields,
+) {
+  switch (orderBy) {
+    case 'areaDesc':
+      if (b.areaDesc.en < a.areaDesc.en) return -1;
+      if (b.areaDesc.en > a.areaDesc.en) return 1;
+      break;
+    case 'archived':
+      // Assume 'annotated' is a boolean; handle accordingly if it's not
+      if (!a.archived && b.archived) return -1;
+      if (a.archived && !b.archived) return 1;
+      break;
+    case 'incident':
+      if (b.incident < a.incident) return -1;
+      if (b.incident > a.incident) return 1;
+      break;
+    default:
+      if (b[orderBy] < a[orderBy]) return -1;
+      if (b[orderBy] > a[orderBy]) return 1;
+      break;
+  }
   return 0;
 }
 
 type Order = 'asc' | 'desc';
 
-function getComparator(  order: Order,  orderBy: keyof HeadCellFields) 
-  {
-    return order === 'desc'
-      ? (a:CapFilEntries, b:CapFilEntries) => descendingComparator(a, b, orderBy)
-      : (a:CapFilEntries, b:CapFilEntries) => -descendingComparator(a, b, orderBy);
-  }
+function getComparator(order: Order, orderBy: keyof HeadCellFields) {
+  return order === 'desc'
+    ? (a: CapFilEntries, b: CapFilEntries) =>
+        descendingComparator(a, b, orderBy)
+    : (a: CapFilEntries, b: CapFilEntries) =>
+        -descendingComparator(a, b, orderBy);
+}
 
 interface HeadCell {
   disablePadding: boolean;
@@ -117,324 +128,359 @@ const headCells: readonly HeadCell[] = [
     id: 'incident',
     numeric: false,
     disablePadding: false,
-    label: 'Incident number'
-  }
+    label: 'Incident number',
+  },
 ];
 
 interface EnhancedTableProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof HeadCellFields) => void;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof HeadCellFields,
+  ) => void;
   order: Order;
   orderBy: string;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const {  order, orderBy, onRequestSort } =
-    props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler =
     (property: keyof HeadCellFields) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
   return (
-    <TableHead >
+    <TableHead>
       <TableRow>
-        <TableCell  />
-          {headCells.map((headCell) => (
-            <TableCell
+        <TableCell />
+        {headCells.map((headCell) => (
+          <TableCell
             sx={styles.tableHead}
             key={headCell.id}
             align={headCell.disablePadding ? 'left' : 'right'}
             sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
             >
-              <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
-                  onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                      {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </Box>
-                  ) : null
-                }
-              </TableSortLabel>
-            </TableCell>
-            ))
-          }
-        <TableCell sx={styles.tableHead} >CAP</TableCell>
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+        <TableCell sx={styles.tableHead}>CAP</TableCell>
       </TableRow>
     </TableHead>
   );
 }
 
 type Props = {
-    warning: CapFileEntryList;
-    setPolygonObject: any;
-    setAttachmentXML: any;
-    setSavedEvaluationForm: any;
-    isSaved:any;
-    setIsSaved:any;
-    setSelectedArea: (area: string) => void;
-  };
+  warning: CapFileEntryList;
+  isLoading?: boolean;
+  setPolygonObject: any;
+  setAttachmentXML: any;
+  setSavedEvaluationForm: any;
+  isSaved: any;
+  setIsSaved: any;
+  setSelectedArea: (area: string) => void;
+};
 
 const EnhancedTable: React.FC<Props> = (props) => {
-  const { warning, setPolygonObject, setAttachmentXML, setSavedEvaluationForm,isSaved, setIsSaved} = props;
+  const {
+    warning,
+    isLoading = false,
+    setPolygonObject,
+    setAttachmentXML,
+    setSavedEvaluationForm,
+    isSaved,
+    setIsSaved,
+  } = props;
 
   const [openDialog, setOpenDialog] = React.useState(false);
-  
+
   const [warningAttachment, setWarningAttachment] = React.useState('');
   const [modelData, setModelDAta] = React.useState<string[]>([]);
   const [open, setOpen] = React.useState(-1);
-  const [selectedWarning, setSelectedWarning] = useState<CapFilEntries | null>(null);
-
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof HeadCellFields>('areaDesc');
-
-  const handleRequestSort = ( event: React.MouseEvent<unknown>, property: keyof HeadCellFields) => 
-    {
-      const isAsc = orderBy === property && order === 'asc';
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(property);
-      };
-      
-  const visibleRows = React.useMemo(() =>
-      [...warning].sort(getComparator(order, orderBy)),
-      [order, orderBy, warning],
+  const [selectedWarning, setSelectedWarning] = useState<CapFilEntries | null>(
+    null,
   );
 
-  const onClickCapDialog = ( event: React.MouseEvent ,item_id: string) => {
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] =
+    React.useState<keyof HeadCellFields>('areaDesc');
+
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: keyof HeadCellFields,
+  ) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const visibleRows = React.useMemo(
+    () => [...warning].sort(getComparator(order, orderBy)),
+    [order, orderBy, warning],
+  );
+
+  const onClickCapDialog = (event: React.MouseEvent, item_id: string) => {
     event.stopPropagation();
     setOpenDialog(true);
     databaseFunctions.getCapAttachmentXML(item_id).then((r) => {
       setWarningAttachment(r);
     });
   };
-    
-/* Sends selected CAP to be shown in map. */
+
+  /* Sends selected CAP to be shown in map. */
   const onClickTableRow = (item: CapFilEntries) => {
-      if (!isSaved) {
-        const confirmSwitch = window.confirm(
-          "You have unsaved changes. Do you want to discard them and continue?"
-        );
-        if (!confirmSwitch) {
-          return; // Prevent switching if user cancels
-        }
+    if (!isSaved) {
+      const confirmSwitch = window.confirm(
+        'You have unsaved changes. Do you want to discard them and continue?',
+      );
+      if (!confirmSwitch) {
+        return; // Prevent switching if user cancels
       }
-      setIsSaved(true)
-      setSelectedWarning(item);
+    }
+    setIsSaved(true);
+    setSelectedWarning(item);
 
-      let currentPolygon = item.features[0].geometry
-        .coordinates as unknown as number[][];
-      let currentOnset = dayjs(item.onset)
-        .subtract(72, 'hours')
-        .format('YYYY-MM-DD HH:mm')
-        .toString();
-      let currentExpires = dayjs(item.expires)
-        .format('YYYY-MM-DD HH:mm')
-        .toString();
-      let ncResults: string[] = [];
-      let resultList = {};
+    let currentPolygon = item.features[0].geometry
+      .coordinates as unknown as number[][];
+    let currentOnset = dayjs(item.onset)
+      .subtract(72, 'hours')
+      .format('YYYY-MM-DD HH:mm')
+      .toString();
+    let currentExpires = dayjs(item.expires)
+      .format('YYYY-MM-DD HH:mm')
+      .toString();
+    let ncResults: string[] = [];
+    let resultList = {};
 
-      /* Manipulates the coordinates into correct format */
-      let polygonString = currentPolygon.join('');
-      let polygonStringWithoutCommas = polygonString.replace(/,/g, ' ');
-      let polygonArray = polygonStringWithoutCommas.split(' ').map(parseFloat);
-      for (let i = 0; i < polygonArray.length - 1; i += 2) {
-        let temp = polygonArray[i];
-        polygonArray[i] = polygonArray[i + 1];
-        polygonArray[i + 1] = temp;
-      }
-      let transposedPolygonString = polygonArray.join(' ');
+    /* Manipulates the coordinates into correct format */
+    let polygonString = currentPolygon.join('');
+    let polygonStringWithoutCommas = polygonString.replace(/,/g, ' ');
+    let polygonArray = polygonStringWithoutCommas.split(' ').map(parseFloat);
+    for (let i = 0; i < polygonArray.length - 1; i += 2) {
+      let temp = polygonArray[i];
+      polygonArray[i] = polygonArray[i + 1];
+      polygonArray[i + 1] = temp;
+    }
+    let transposedPolygonString = polygonArray.join(' ');
 
-      setPolygonObject(item);
-      props.setSelectedArea(item.areaDesc.en);
+    setPolygonObject(item);
+    props.setSelectedArea(item.areaDesc.en);
 
-      databaseFunctions
-        .getModelData(transposedPolygonString, currentOnset, currentExpires)
-        .then((r) => {
-          const options = {
-            ignoreAttributes: false,
-          };
-          const parser = new XMLParser(options);
-
-          let jsonObj = parser.parse(r);
-
-          const summaryRecords =
-            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-              'csw:SummaryRecord'
-            ][0]['dct:references'];
-          const opendapLinks: string[] = [];
-          summaryRecords.forEach((ref: any) => {
-            if (summaryRecords['@_scheme'] === 'OGC:WMS') {
-              opendapLinks.push(ref._);
-            }
-          });
-
-          opendapLinks.forEach((link) => {
-          });
-
-          for (
-            let i = 0;
-            i <
-            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-              'csw:SummaryRecord'
-            ].length;
-            i++
-          ) {
-            let intermediate =
-              jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
-                'csw:SummaryRecord'
-              ][i]['dct:references'][1]['#text'];
-            ncResults.push(intermediate);
-          }
-          setModelDAta(ncResults);
-        })
-        .catch(() => {
-          setModelDAta(['Empty dataset']);
-        });
-      databaseFunctions.getEvaluationForm(item._id).then((r) => {
-        if (r=== null) {
-          setSavedEvaluationForm([]);}
-        else {
-          setSavedEvaluationForm(r);
-        }
-      });
-      databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
+    databaseFunctions
+      .getModelData(transposedPolygonString, currentOnset, currentExpires)
+      .then((r) => {
         const options = {
           ignoreAttributes: false,
         };
-        if (r.error === 'AxiosError') {setAttachmentXML([]);}
-        else {
-        
-          const parser = new XMLParser(options);
-          let jsonObj = parser.parse(r);
+        const parser = new XMLParser(options);
 
-          const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
-            (param: any) => param.valueName === 'triggerLevel',
-          )?.value;
+        let jsonObj = parser.parse(r);
 
-          const colour = jsonObj?.alert?.info[1]?.parameter?.find(
-            (param: any) => param.valueName === 'awareness_level',
-          )?.value;
+        const summaryRecords =
+          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+            'csw:SummaryRecord'
+          ][0]['dct:references'];
+        const opendapLinks: string[] = [];
+        summaryRecords.forEach((ref: any) => {
+          if (summaryRecords['@_scheme'] === 'OGC:WMS') {
+            opendapLinks.push(ref._);
+          }
+        });
 
-          // ['info[0/1]'] is norsk/english
-          resultList = {
-            identifier: jsonObj['alert']['identifier'],
-            phenomenon: jsonObj['alert']['info'][1]['event'],
-            colour: colour.split(';')[1].trim(),
-            certainty:  jsonObj['alert']['info'][1]['certainty'],
-            severity:  jsonObj['alert']['info'][1]['severity'],
-            threshold: threshold ? threshold : 'no value given',
-            area: jsonObj['alert']['info'][1]['area']['areaDesc'],
-            onset: dayjs(jsonObj['alert']['info'][1]['onset'])
-              .format('YYYY-MM-DD HH:mm')
-              .toString(),
-            expires: dayjs(jsonObj['alert']['info'][1]['expires'])
-              .format('YYYY-MM-DD HH:mm')
-              .toString(),
-            incident: item.incident,
-          };
-          setAttachmentXML(resultList);
+        opendapLinks.forEach((link) => {});
+
+        for (
+          let i = 0;
+          i <
+          jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+            'csw:SummaryRecord'
+          ].length;
+          i++
+        ) {
+          let intermediate =
+            jsonObj['csw:GetRecordsResponse']['csw:SearchResults'][
+              'csw:SummaryRecord'
+            ][i]['dct:references'][1]['#text'];
+          ncResults.push(intermediate);
         }
+        setModelDAta(ncResults);
+      })
+      .catch(() => {
+        setModelDAta(['Empty dataset']);
+      });
+    databaseFunctions.getEvaluationForm(item._id).then((r) => {
+      if (r === null) {
+        setSavedEvaluationForm([]);
+      } else {
+        setSavedEvaluationForm(r);
+      }
+    });
+    databaseFunctions.getCapAttachmentXML(item._id).then((r) => {
+      const options = {
+        ignoreAttributes: false,
+      };
+      if (r.error === 'AxiosError') {
+        setAttachmentXML([]);
+      } else {
+        const parser = new XMLParser(options);
+        let jsonObj = parser.parse(r);
+
+        const threshold = jsonObj?.alert?.info[1]?.parameter?.find(
+          (param: any) => param.valueName === 'triggerLevel',
+        )?.value;
+
+        const colour = jsonObj?.alert?.info[1]?.parameter?.find(
+          (param: any) => param.valueName === 'awareness_level',
+        )?.value;
+
+        // ['info[0/1]'] is norsk/english
+        resultList = {
+          identifier: jsonObj['alert']['identifier'],
+          phenomenon: jsonObj['alert']['info'][1]['event'],
+          colour: colour.split(';')[1].trim(),
+          certainty: jsonObj['alert']['info'][1]['certainty'],
+          severity: jsonObj['alert']['info'][1]['severity'],
+          threshold: threshold ? threshold : 'no value given',
+          area: jsonObj['alert']['info'][1]['area']['areaDesc'],
+          onset: dayjs(jsonObj['alert']['info'][1]['onset'])
+            .format('YYYY-MM-DD HH:mm')
+            .toString(),
+          expires: dayjs(jsonObj['alert']['info'][1]['expires'])
+            .format('YYYY-MM-DD HH:mm')
+            .toString(),
+          incident: item.incident,
+        };
+        setAttachmentXML(resultList);
+      }
     });
   };
   return (
-    <Box sx={{ width: "100%" }}>
-    <Typography variant="h5">Results ({warning.length})</Typography>
-    <Paper sx={{ width: '100%', mb: 2 }}>
-
-        <TableContainer component={Paper} sx={{ maxHeight: 360,...styles.table }} >
-            <Table
-                stickyHeader={true}
-                sx={{ minWidth: 500 ,...styles.table}}
-                aria-labelledby="tableTitle"
-                size={'small' }
-            >
-                <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                //   onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                />
-                <TableBody >
-                {visibleRows.map((row, index) => {
-
-                    return (
-                        <React.Fragment key={row._id}>
-
-                            <TableRow
-                                hover
-                                selected={false}
-                                onClick={() => onClickTableRow(row)}
-                                style={{
-                                  backgroundColor:
-                                  selectedWarning === row ? "#EDF7FF" : "white",
-                                  cursor: "pointer",
-                                }}
-                                >
-                                <TableCell >
-                                    <IconButton
-                                    aria-label="expand row"
-                                    size="small"
-                                    onClick={() => setOpen(open === index ? -1 : index)}
-                                    >
-                                    {open === index ? (
-                                        <KeyboardArrowUpIcon />
-                                    ) : (
-                                        <KeyboardArrowDownIcon />
-                                    )}
-                                    </IconButton>
-                                </TableCell>
-                                
-                                <TableCell component="th" scope="row">{row.phenomenon}</TableCell>
-                                <TableCell  align="right">{row.colour}</TableCell>
-                                <TableCell  align="right">{row.areaDesc.en}</TableCell>
-                                <TableCell align="right"><Checkbox checked={row.annotated}/></TableCell>
-                                <TableCell align="right">{row.onset}/{row.expires}</TableCell>
-                                <TableCell  align="right">{row.incident}</TableCell>
-                                <TableCell  align="right">
-                                    <IconButton
-                                    aria-label="expand row"
-                                    size="small"
-                                    onClick={(event) => onClickCapDialog(event, row._id)}
-                                    >
-                                        <WarningAmberIcon color="warning" />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow >
-                                <TableCell
-                                    style={{ paddingBottom: 0, paddingTop: 0 }}
-                                    colSpan={6}
-                                >
-                                  <Collapse in={open === index} timeout="auto" unmountOnExit>
-                                  <Box sx={{ margin: 1 }}>
-                                      {modelData.map((item) => (
-                                      <li key={index} value={item}>
-                                          {item}
-                                      </li>
-                                      ))}
-                                  </Box>
-                                  </Collapse>
-                                </TableCell>
-                            </TableRow>
-                        </React.Fragment>
-                    );
-                })}
-                
-                </TableBody>
-            </Table>
-            </TableContainer>
-            <CapDialog
-                warningAttachment={warningAttachment}
-                openDialog={openDialog}
-                setOpenDialog={setOpenDialog}
+    <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
+      {isLoading && (
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            zIndex: 10,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
+      <Typography variant="h5">Results ({warning.length})</Typography>
+      <Paper sx={{ width: '100%', mb: 2 }}>
+        <TableContainer
+          component={Paper}
+          sx={{ maxHeight: 360, ...styles.table }}
+        >
+          <Table
+            stickyHeader={true}
+            sx={{ minWidth: 500, ...styles.table }}
+            aria-labelledby="tableTitle"
+            size={'small'}
+          >
+            <EnhancedTableHead
+              order={order}
+              orderBy={orderBy}
+              //   onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
             />
-    </Paper>
-  
+            <TableBody>
+              {visibleRows.map((row, index) => {
+                return (
+                  <React.Fragment key={row._id}>
+                    <TableRow
+                      hover
+                      selected={false}
+                      onClick={() => onClickTableRow(row)}
+                      style={{
+                        backgroundColor:
+                          selectedWarning === row ? '#EDF7FF' : 'white',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <TableCell>
+                        <IconButton
+                          aria-label="expand row"
+                          size="small"
+                          onClick={() => setOpen(open === index ? -1 : index)}
+                        >
+                          {open === index ? (
+                            <KeyboardArrowUpIcon />
+                          ) : (
+                            <KeyboardArrowDownIcon />
+                          )}
+                        </IconButton>
+                      </TableCell>
+
+                      <TableCell component="th" scope="row">
+                        {row.phenomenon}
+                      </TableCell>
+                      <TableCell align="right">{row.colour}</TableCell>
+                      <TableCell align="right">{row.areaDesc.en}</TableCell>
+                      <TableCell align="right">
+                        <Checkbox checked={row.annotated} />
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.onset}/{row.expires}
+                      </TableCell>
+                      <TableCell align="right">{row.incident}</TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          aria-label="expand row"
+                          size="small"
+                          onClick={(event) => onClickCapDialog(event, row._id)}
+                        >
+                          <WarningAmberIcon color="warning" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell
+                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                        colSpan={6}
+                      >
+                        <Collapse
+                          in={open === index}
+                          timeout="auto"
+                          unmountOnExit
+                        >
+                          <Box sx={{ margin: 1 }}>
+                            {modelData.map((item) => (
+                              <li key={index} value={item}>
+                                {item}
+                              </li>
+                            ))}
+                          </Box>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  </React.Fragment>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <CapDialog
+          warningAttachment={warningAttachment}
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+        />
+      </Paper>
     </Box>
-      
   );
 };
 export default EnhancedTable;

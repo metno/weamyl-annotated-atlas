@@ -5,9 +5,16 @@ import databaseFunctions from '../utils/databaseFunctions';
 type Props = {
   setWarning: any;
   searchObject: object;
+  setIsLoading: (loading: boolean) => void;
+  onSearch?: () => void;
 };
 
-const SearchClearButtons: React.FC<Props> = ({ setWarning, searchObject }) => {
+const SearchClearButtons: React.FC<Props> = ({
+  setWarning,
+  searchObject,
+  setIsLoading,
+  onSearch,
+}) => {
   const onSearchClick = () => {
     // filter out empty elements from the json
     const filteredData = Object.entries(searchObject).reduce((x, [k, v]) => {
@@ -17,9 +24,15 @@ const SearchClearButtons: React.FC<Props> = ({ setWarning, searchObject }) => {
       }
       return x;
     }, {} as any);
+    onSearch?.();
+    setIsLoading(true);
     databaseFunctions
       .getOpenSearch(filteredData)
-      .then((response) => setWarning(response));
+      .then((response) => {
+        setWarning(response);
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
   };
 
   const onClearClick = () => {
