@@ -9,12 +9,11 @@ type Props = {
 
 const MapLeaf: React.FC<Props> = (props) => {
   const { polygonObject } = props;
-  // const position: LatLngExpression = [52.5200066, 6.8801032]; // Berlin
-  const position: LatLngExpression = [64, 11]; // Namsos
-  const zoom: number = 4.5;
+  const position: LatLngExpression = [65, 17]; // Center of Norway
+  const zoom: number = 4.6;
 
   return (
-    <MapContainer center={position} zoom={zoom} scrollWheelZoom={true}>
+    <MapContainer center={position} zoom={zoom} zoomSnap={0.1} scrollWheelZoom={true}>
       <TileLayer
         attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
