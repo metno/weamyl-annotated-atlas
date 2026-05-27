@@ -7,9 +7,9 @@ import Footer from '../main/Footer';
 
 afterEach(cleanup);
 
-it('has link for MET on twitter', () => {
-  const { getByTestId } = render(<Footer />);
-  expect(getByTestId('twitter-button').getAttribute('href')).toEqual(
-    'https://twitter.com/Meteorologene',
+it('has link for MET on instagram', () => {
+  const { getByLabelText } = render(<Footer />);
+  expect(getByLabelText('MET på Instagram').getAttribute('href')).toEqual(
+    'https://www.instagram.com/yrbilder/',
   );
 });
