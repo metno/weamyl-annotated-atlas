@@ -249,9 +249,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             <TextField
               label="Phenomena of current warning"
               value={attachmentXML.phenomenon||''}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              slotProps={{ inputLabel: { shrink: true } }}
             />
             {attachmentXML?.phenomenon === 'Wind gusts' && (
               
@@ -268,9 +266,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             <TextField
               value={currentWarningColour||''}
               label="Colour of current warning"
-              InputLabelProps={{
-                shrink: true,
-              }}
+              slotProps={{ inputLabel: { shrink: true } }}
             />
             <CustomDropdown
               label="Annotated correct colour of warning level"
@@ -284,9 +280,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             <TextField
               value={attachmentXML.threshold||''}
               label="Threshold of current warning"
-              InputLabelProps={{
-                shrink: true,
-              }}
+              slotProps={{ inputLabel: { shrink: true } }}
             />         
           </Stack>
 
@@ -303,9 +297,7 @@ const ValidationForm: React.FC<Props> = (props) => {
             <TextField 
             label={'Observed Consequences'} 
             variant="outlined" 
-            InputLabelProps={{
-            shrink: true,
-            }}
+            slotProps={{ inputLabel: { shrink: true } }}
             multiline
             minRows={6}
             value={evaluationForm.comments||''}

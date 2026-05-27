@@ -37,7 +37,7 @@ const IncNumber: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         variant="outlined"
         error={error}
         helperText={error ? 'Incident number must be exactly 10 digits' : ' '}
-        inputProps={{ maxLength: 10 }}
+        slotProps={{ htmlInput: { maxLength: 10 } }}
       />
     </Box>
   );

@@ -1,14 +1,12 @@
 import * as React from 'react';
-import nbLocale from 'date-fns/locale/nb';
-import enLocale from 'date-fns/locale/en-US';
+import { nb as nbLocale, enUS as enLocale } from 'date-fns/locale';
 import { format } from 'date-fns';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Typography } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 type Props = {
   searchObject: object;
@@ -21,8 +19,8 @@ const localeMap = {
 };
 
 const Time: React.FC<Props> = ({ searchObject, setSearchObject }) => {
-  const [startValue, setStartValue] = React.useState<Dayjs | null>(null);
-  const [endValue, setEndValue] = React.useState<Dayjs | null>(null);
+  const [startValue, setStartValue] = React.useState<Date | null>(null);
+  const [endValue, setEndValue] = React.useState<Date | null>(null);
   let phenomSearch = { ...searchObject };
 
   const onChangeStartTime = (option: any) => {
@@ -51,7 +49,6 @@ const Time: React.FC<Props> = ({ searchObject, setSearchObject }) => {
             <DateTimePicker
               value={startValue}
               onChange={onChangeStartTime}
-              renderInput={(params) => <TextField {...params} />}
             />
             <Typography variant="caption">Onset</Typography>
           </Stack>
@@ -59,7 +56,6 @@ const Time: React.FC<Props> = ({ searchObject, setSearchObject }) => {
             <DateTimePicker
               value={endValue}
               onChange={onChangeEndTime}
-              renderInput={(params) => <TextField {...params} />}
             />
             <Typography variant="caption">Expires</Typography>
           </Stack>

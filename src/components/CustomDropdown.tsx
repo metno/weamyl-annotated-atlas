@@ -27,7 +27,13 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, value, 
           {...params}
           label={label}
           variant="outlined"
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            ...(params as any).slotProps,
+            inputLabel: {
+              ...(params as any).slotProps?.inputLabel,
+              shrink: true,
+            },
+          }}
         />
       )}
       sx={{ width: 300, marginBottom: 2 }}

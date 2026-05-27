@@ -46,49 +46,49 @@ const Home: React.FC = () => {
       <Grid container spacing={2}>
         {/* *********Search Parameters********* */}
 
-        <Grid item md={12} lg={6}>
+        <Grid size={{ md: 12, lg: 6 }}>
           <Paper sx={paperStyle} style={{ height: 400, overflow: 'auto' }}>
             <Typography variant="h5" gutterBottom>
               Search parameters
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Phenomenon
                   searchObject={searchObject}
                   setSearchObject={setSearchObject}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Colour
                   searchObject={searchObject}
                   setSearchObject={setSearchObject}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <CountyName
                   searchObject={searchObject}
                   setSearchObject={setSearchObject}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Polygon
                   searchObject={searchObject}
                   setSearchObject={setSearchObject}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Time
                   searchObject={searchObject}
                   setSearchObject={setSearchObject}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <IncNumber
                   searchObject={searchObject}
                   setSearchObject={setSearchObject}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <SearchClearButtons
                   setWarning={setWarning}
                   searchObject={searchObject}
@@ -107,7 +107,7 @@ const Home: React.FC = () => {
 
         {/* *********Results list********* */}
 
-        <Grid item md={12} lg={6}>
+        <Grid size={{ md: 12, lg: 6 }}>
           <Paper sx={paperStyle} style={{ height: 400, maxHeight: 400 }}>
             <CapTableSort
               warning={warning}
@@ -124,7 +124,7 @@ const Home: React.FC = () => {
 
         {/* *********Leaflet Map********* */}
 
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Paper
             sx={paperStyle}
             style={{ height: 700, maxHeight: 700, overflow: 'auto' }}
@@ -137,7 +137,7 @@ const Home: React.FC = () => {
 
         {/* *********Annotation Form********* */}
 
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Paper
             sx={{
               textAlign: 'center',

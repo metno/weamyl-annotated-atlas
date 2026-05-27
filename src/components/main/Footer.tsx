@@ -22,9 +22,7 @@ const Footer: React.FC = () => {
     >
       <Grid container spacing={0}>
         <Grid
-          item
-          xs={12}
-          md={6}
+          size={{ xs: 12, md: 6 }}
           sx={(theme) => ({
             textAlign: 'center',
             whiteSpace: 'pre-line',
@@ -45,9 +43,7 @@ const Footer: React.FC = () => {
           </Typography>
         </Grid>
         <Grid
-          item
-          xs={12}
-          md={6}
+          size={{ xs: 12, md: 6 }}
           sx={(theme) => ({
             textAlign: 'center',
             marginTop: 2,
@@ -66,15 +62,6 @@ const Footer: React.FC = () => {
             color="primary"
           >
             <FacebookIcon />
-          </IconButton>
-          <IconButton
-            data-testid="twitter-button"
-            aria-label="MET på Twitter"
-            href="https://twitter.com/Meteorologene"
-            target="_blank"
-            color="primary"
-          >
-            <TwitterIcon />
           </IconButton>
           <IconButton
             aria-label="MET på Instagram"

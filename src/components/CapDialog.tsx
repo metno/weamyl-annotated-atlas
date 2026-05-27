@@ -25,7 +25,7 @@ const CapDialog: React.FC<Props> = (props) => {
   return (
       <Dialog
         fullWidth={true}
-        PaperProps={{ sx: { width: '75%', height: '100%' } }}
+        slotProps={{ paper: { sx: { width: '75%', height: '100%' } } }}
         open={openDialog}
         onClose={handleClose}
         maxWidth={'lg'}
