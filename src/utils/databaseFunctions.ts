@@ -1,6 +1,4 @@
-import { AxiosError } from "axios";
-
-const axios = require('axios');
+import axios, { AxiosError } from 'axios';
 
 // change this in the .env-file to use another backend/SENDA-setup
 let url = `${process.env.REACT_APP_BASE_CAP_URL}`;

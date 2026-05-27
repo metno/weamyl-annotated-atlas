@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const Dotenv = require("dotenv-webpack");
+const Dotenv = require('dotenv-webpack');
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -16,6 +16,18 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: {
+      http: false,
+      https: false,
+      http2: false,
+      stream: false,
+      zlib: false,
+      url: false,
+      crypto: false,
+      assert: false,
+      net: false,
+      tls: false,
+    },
   },
   module: {
     rules: [
@@ -38,8 +50,7 @@ module.exports = {
         exclude: /node_modules/,
         use: ['file-loader'],
       },
-      { test: /\.xml$/,
-        use: 'xml-loader' },
+      { test: /\.xml$/, use: 'xml-loader' },
     ],
   },
   devtool: prod ? undefined : 'source-map',
@@ -55,6 +66,7 @@ module.exports = {
       patterns: [{ from: './src/fonts', to: './fonts' }],
     }),
     new Dotenv({
-      systemvars: true,}),
+      systemvars: true,
+    }),
   ],
 };

@@ -46,7 +46,7 @@ export function parsePolygon(polygonString: any, searchObject: any, setSearchObj
           parseFloat(corner[1]),
         ]);
         let geometry = mapCoordinates(latitudeLongitude);
-        geometry = { ...geometry, bbox: toBBox(geometry) };
+        geometry = { ...geometry, bbox: toBBox(geometry) } as typeof geometry;
         phenomSearch = {
           ...searchObject,
           cutoff: 0.5,

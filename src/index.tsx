@@ -12,6 +12,8 @@ const oidcConfig = {
   redirect_uri: `${window.location.origin}/`,
 //  redirect_uri: 'http://localhost:8080/',
   realm: 'Internal',
+  loadUserInfo: true,
+  scope: 'openid email profile',
   onSigninCallback: () => {
     const redirectLocation = sessionStorage.getItem('path');
     sessionStorage.removeItem('path');
@@ -28,11 +30,7 @@ console.log('redirectURI', `${window.location.origin}/`);
 const container = document.getElementById('app-root');
 const root = createRoot(container!);
 root.render(
-  <AuthProvider
-    {...oidcConfig}
-    loadUserInfo={true}
-    scope="openid email profile"
-  >
+  <AuthProvider {...oidcConfig}>
     <App />
   </AuthProvider>,
 );
