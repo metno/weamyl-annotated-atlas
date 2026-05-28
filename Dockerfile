@@ -1,15 +1,12 @@
-FROM node:16 as build-stage
+FROM node:22-alpine AS build-stage
 
 WORKDIR /app
 
-COPY package*.json /src/ /app/
-ARG PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ARG CYPRESS_INSTALL_BINARY=0
+COPY package*.json ./
+RUN npm ci --legacy-peer-deps
 
-RUN npm install -g npm@9.1.1
-RUN npm install
-COPY ./ /app/
+COPY . .
 RUN npm run build
 
-FROM nginxinc/nginx-unprivileged:1-alpine
+FROM nginxinc/nginx-unprivileged:1.27-alpine
 COPY --from=build-stage /app/dist /usr/share/nginx/html
