@@ -66,6 +66,7 @@ module.exports = {
       patterns: [{ from: './src/fonts', to: './fonts' }],
     }),
     new Dotenv({
+      silent: true,
       systemvars: true,
     }),
   ],
