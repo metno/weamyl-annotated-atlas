@@ -1,75 +1,74 @@
-# What is the Annotated Atlas? (Draft)
+# Annotated Atlas
 
-The main end-users of the Annotated Atlas are both the operational and the research meteorologists.
-The operational meteorologists will use the atlas for analyzing the weather warning(CAP) proposal by 
-reviewing historical weather warnings, but also to review earlier situations and give the earlier 
-warnings hit rate grades.  For the research meteorologist, the atlas will be a convenient tool for 
-identifying good training data for machine learning algorithms by giving easy access to source 
-observation datasets.
+The Annotated Atlas is a web application for operational and research meteorologists.
+Operational meteorologists use it to analyze CAP (Common Alerting Protocol) weather warning proposals by
+reviewing historical warnings and grading their hit rates. Research meteorologists use it to identify
+good training data for machine learning algorithms by accessing source observation datasets.
 
 ## Who is responsible?
 
 Hans Christian Nenseth (hanscn@met.no) is responsible for this repository.
 
+## Tech stack
+
+- [React 19](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
+- [Material UI v9](https://mui.com/material-ui/) for UI components
+- [React Leaflet v5](https://react-leaflet.js.org/) for interactive maps
+- [react-oidc-context](https://github.com/authts/react-oidc-context) for OIDC authentication
+- [Webpack 5](https://webpack.js.org/) as bundler
+- [Jest](https://jestjs.io/) + [Testing Library](https://testing-library.com/) for tests
+- [Prettier](https://prettier.io/) for code formatting
+
 # Getting started
 
-There is a room in [google chat](https://chat.google.com) called **WeaMyL-chatroom** where we discuss development.
-If you need access to the group, contact someone@met.no
+There is a room in [Google Chat](https://chat.google.com) called **WeaMyL-chatroom** where we discuss development.
+If you need access to the group, contact hanscn@met.no.
 
-## Test it out
+## Configuration
 
-We recommend using the latest stable version of node and npm in this project. If you want to test it without 
-development tools, see description on how to run with docker below.
+If you need to run against a different backend/database, edit the `.env` file to point to the correct address.
 
-If you need to run against another backend/database you have set up on your own system you have to edit 
-the `.env`-file to point to the right address.
+## Build and run with Node
 
-### Build and run with node
+```
+npm ci
+```
 
-#### `npm ci`
+Installs all dependencies from `package-lock.json`.
 
-Installs all dependencies (based on package-lock.json).
+```
+npm start
+```
 
-#### `npm start`
+Runs the app in development mode. Open [http://localhost:8080](http://localhost:8080) in your browser.
+The page reloads on edits and lint errors appear in the console.
 
-Runs the app in the development mode.\
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+```
+npm run build
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Produces a production build in the `dist/` folder.
 
-### Build and run with docker
+## Build and run with Docker
 
-If you have docker you can build and run the app without any other dependencies this way.
+Build and run without any local Node installation:
 
 ```
 docker build -t annotated-atlas .
-docker run --name annotaded-atlas -p 8080:8080 annotated-atlas
+docker run --name annotated-atlas -p 8080:8080 annotated-atlas
 ```
 
-The docker image is suitable for production in k8s.met.no.
+The multi-stage Dockerfile builds with Node 22 and serves with nginx (unprivileged). The image is suitable for deployment on k8s.met.no.
 
 ## Use it for production
 
-You will need to fork this repo and make your own. Further we reccomend:
-
-- Add appropriate license.
-
-## Documentation
-
-- [React documentation](https://reactjs.org/)
-- [Material UI](https://mui.com/core/)
-- [Jest](https://jestjs.io/)
-- [Prettier](https://prettier.io/docs/en/index.html)
-- [WebPack](https://webpack.js.org/)
-
-If you have browser support issues, consider adding [Babel](https://babeljs.io/)
+Fork this repo and add an appropriate license before deploying publicly.
 
 # How to contribute
 
-If you find bugs or other issues, please make merge requests.
+If you find bugs or other issues, please open a merge request.
 
-- Test format with `npm run format:check`
-- Make sure test pass with `npm run test`
-- Ensure that CI pipeline does not fail
-- Additional jest tests are very welcome
+- Check formatting: `npm run format:check`
+- Run tests: `npm test`
+- Ensure the CI pipeline passes
+- Additional Jest tests are very welcome
