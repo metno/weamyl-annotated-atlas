@@ -23,7 +23,7 @@ type Props = {
  * If the parsed polygon has more than two points, the coordinates
  * are converted into a right-hand-rule polygon with a bounding box
  * and stored in the `features` field of the search object.
- * 
+ *
  * If the input is invalid or empty, the geometry is cleared.
  *
  * @param polygonString - The string representing the polygon points.
@@ -31,43 +31,46 @@ type Props = {
  * @param setSearchObject - Setter function to update the search object.
  */
 
-export function parsePolygon(polygonString: any, searchObject: any, setSearchObject: any) {
- 
-    let phenomSearch= {};
+export function parsePolygon(
+  polygonString: any,
+  searchObject: any,
+  setSearchObject: any,
+) {
+  let phenomSearch = {};
 
-    if (polygonString) {
-      const pattern: RegExp =  /[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?((1[0-7]\d|[1-9]?\d)(\.\d+)?|180(\.0+)?)/g;
-      const array = [...polygonString.matchAll(pattern)];
-      let corners = array.map((item) => item[0].split(', ').reverse());
+  if (polygonString) {
+    const pattern: RegExp =
+      /[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?((1[0-7]\d|[1-9]?\d)(\.\d+)?|180(\.0+)?)/g;
+    const array = [...polygonString.matchAll(pattern)];
+    let corners = array.map((item) => item[0].split(', ').reverse());
 
-      if (corners.length > 2) {
-        const latitudeLongitude = corners.map((corner) => [
-          parseFloat(corner[0]),
-          parseFloat(corner[1]),
-        ]);
-        let geometry = mapCoordinates(latitudeLongitude);
-        geometry = { ...geometry, bbox: toBBox(geometry) } as typeof geometry;
-        phenomSearch = {
-          ...searchObject,
-          cutoff: 0.5,
-          type: 'FeatureCollection',
-          features: [{ type: 'Feature', properties: {}, geometry }],
-        };
-      }
-    } else {
+    if (corners.length > 2) {
+      const latitudeLongitude = corners.map((corner) => [
+        parseFloat(corner[0]),
+        parseFloat(corner[1]),
+      ]);
+      let geometry = mapCoordinates(latitudeLongitude);
+      geometry = { ...geometry, bbox: toBBox(geometry) } as typeof geometry;
       phenomSearch = {
         ...searchObject,
-        cutoff:null,
-        type: null,
-        features: null,
+        cutoff: 0.5,
+        type: 'FeatureCollection',
+        features: [{ type: 'Feature', properties: {}, geometry }],
       };
     }
-
-    setSearchObject(phenomSearch);
+  } else {
+    phenomSearch = {
+      ...searchObject,
+      cutoff: null,
+      type: null,
+      features: null,
+    };
   }
 
+  setSearchObject(phenomSearch);
+}
+
 const Polygon: React.FC<Props> = ({ searchObject, setSearchObject }) => {
-  
   const onPolygonChange = (event: any) => {
     const newValue = event.target.value;
     parsePolygon(newValue, searchObject, setSearchObject);

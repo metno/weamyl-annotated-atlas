@@ -39,7 +39,7 @@ const IncidentName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
 
   return (
     <Box
-     sx={{
+      sx={{
         width: 500,
         maxWidth: '100%',
       }}

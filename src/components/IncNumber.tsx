@@ -7,19 +7,19 @@ type Props = {
 };
 
 const IncNumber: React.FC<Props> = ({ searchObject, setSearchObject }) => {
-    const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
 
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('OPTION: ', event.target.value);
-        const input = event.target.value;
-        const isValid = /^\d{0,10}$/.test(input);
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('OPTION: ', event.target.value);
+    const input = event.target.value;
+    const isValid = /^\d{0,10}$/.test(input);
 
-        if (isValid) {
-            setSearchObject({ ...searchObject, incident: input });
-            console.log('??: ', searchObject);
-        }
-        setError(input.length > 0 && input.length !== 10);
-    };
+    if (isValid) {
+      setSearchObject({ ...searchObject, incident: input });
+      console.log('??: ', searchObject);
+    }
+    setError(input.length > 0 && input.length !== 10);
+  };
 
   return (
     <Box

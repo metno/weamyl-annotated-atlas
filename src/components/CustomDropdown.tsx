@@ -13,14 +13,20 @@ interface CustomDropdownProps {
   onChange: (newValue: string | number | null) => void;
 }
 
-const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, value, onChange }) => {
-  const selectedValue = options.find(option => option.value === value) || null;
+const CustomDropdown: React.FC<CustomDropdownProps> = ({
+  label,
+  options,
+  value,
+  onChange,
+}) => {
+  const selectedValue =
+    options.find((option) => option.value === value) || null;
 
   return (
     <Autocomplete
       options={options}
       getOptionLabel={(option) => option.label.toString()}
-      value={selectedValue} 
+      value={selectedValue}
       onChange={(event, newValue) => onChange(newValue ? newValue.value : null)}
       renderInput={(params) => (
         <TextField

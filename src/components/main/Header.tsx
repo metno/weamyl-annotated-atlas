@@ -39,7 +39,13 @@ const Header: React.FC = () => {
           />
           <Box
             component="div"
-            sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 35 }}
+            sx={{
+              flexGrow: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: 35,
+            }}
           >
             Annotated Atlas
           </Box>

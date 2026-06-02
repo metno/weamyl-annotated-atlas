@@ -3,7 +3,7 @@ import CreatableSelect from 'react-select/creatable';
 import databaseFunctions from '../utils/databaseFunctions';
 import { Box, responsiveFontSizes, Typography } from '@mui/material';
 import Select from 'react-select';
-import { parsePolygon } from '../components/Polygon'
+import { parsePolygon } from '../components/Polygon';
 
 type Props = {
   searchObject: object;
@@ -14,10 +14,8 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
   const [county, setCounty] = React.useState([]);
 
   useEffect(() => {
-    databaseFunctions
-    .getCountyList()
-      .then((response) => {
-        setCounty(response.data);
+    databaseFunctions.getCountyList().then((response) => {
+      setCounty(response.data);
     });
   }, []);
 
@@ -33,35 +31,34 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
     if (option) {
       const selectedCountyId = option.value;
       const selectedCountyName = option.label;
-  
-      databaseFunctions
-      .getlowresCountyPolygon(selectedCountyId)
-        .then((response) =>{
-          const coordinateArray = response.data.features[0].geometry.coordinates;
-          const formattedCoordinates = coordinateArray[0].map(
-            // Coordinates are switched to match same format as those copied from Diana
-            (coords: number[]) => `(${coords[1]}, ${coords[0]})`
-          ).join(' ');
-          parsePolygon(formattedCoordinates, searchObject, setSearchObject)
-        })
-    }
-    else{
 
+      databaseFunctions
+        .getlowresCountyPolygon(selectedCountyId)
+        .then((response) => {
+          const coordinateArray =
+            response.data.features[0].geometry.coordinates;
+          const formattedCoordinates = coordinateArray[0]
+            .map(
+              // Coordinates are switched to match same format as those copied from Diana
+              (coords: number[]) => `(${coords[1]}, ${coords[0]})`,
+            )
+            .join(' ');
+          parsePolygon(formattedCoordinates, searchObject, setSearchObject);
+        });
+    } else {
       option = {
         target: option,
         value: '',
       };
       const selectedCountyId = option.value;
       const selectedCountyName = option.label;
-      parsePolygon(null, searchObject, setSearchObject)
-
+      parsePolygon(null, searchObject, setSearchObject);
     }
-    
   };
 
   return (
     <Box
-     sx={{
+      sx={{
         width: 500,
         maxWidth: '100%',
       }}
@@ -72,9 +69,7 @@ const CountyName: React.FC<Props> = ({ searchObject, setSearchObject }) => {
         onChange={onChange}
         options={optionList}
       />
-      <Typography variant="caption">
-        A list of counties
-      </Typography>
+      <Typography variant="caption">A list of counties</Typography>
     </Box>
   );
 };

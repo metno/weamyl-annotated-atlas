@@ -1,5 +1,5 @@
 {
-  "wind":{
+  "wind": {
     "value": "wind",
     "guiName": {
       "nb": "Vindkast",
@@ -7,9 +7,28 @@
       "en": "Wind gust"
     },
     "severities": ["Moderate", "Severe", "Extreme"],
-    "thresholds": ["17.5m/s","20m/s","22.5m/s","25m/s","27.5m/s","30m/s","32.5m/s","35m/s","37.5m/s","40m/s","42.5m/s","45m/s","47.5m/s","50m/s","52.5m/s","55m/s","57.5m/s","60m/s"]
+    "thresholds": [
+      "17.5m/s",
+      "20m/s",
+      "22.5m/s",
+      "25m/s",
+      "27.5m/s",
+      "30m/s",
+      "32.5m/s",
+      "35m/s",
+      "37.5m/s",
+      "40m/s",
+      "42.5m/s",
+      "45m/s",
+      "47.5m/s",
+      "50m/s",
+      "52.5m/s",
+      "55m/s",
+      "57.5m/s",
+      "60m/s"
+    ]
   },
-  "rain":{
+  "rain": {
     "value": "rain",
     "guiName": {
       "nb": "Regn",
@@ -17,9 +36,36 @@
       "en": "Rain"
     },
     "severities": ["Moderate", "Severe", "Extreme"],
-    "thresholds": ["25mm/6h","30mm/6h","35mm/6h","40mm/6h","50mm/6h","60mm/6h","30mm/12h","35mm/12h","40mm/12h","50mm/12h","60mm/12h","70mm/12h","80mm/12h","90mm/12h","40mm/24h","50mm/24h","60mm/24h","70mm/24h","80mm/24h","90mm/24h","100mm/24h","120mm/24h","150mm/24h","180mm/24h","200mm/24h","250mm/24h"]
+    "thresholds": [
+      "25mm/6h",
+      "30mm/6h",
+      "35mm/6h",
+      "40mm/6h",
+      "50mm/6h",
+      "60mm/6h",
+      "30mm/12h",
+      "35mm/12h",
+      "40mm/12h",
+      "50mm/12h",
+      "60mm/12h",
+      "70mm/12h",
+      "80mm/12h",
+      "90mm/12h",
+      "40mm/24h",
+      "50mm/24h",
+      "60mm/24h",
+      "70mm/24h",
+      "80mm/24h",
+      "90mm/24h",
+      "100mm/24h",
+      "120mm/24h",
+      "150mm/24h",
+      "180mm/24h",
+      "200mm/24h",
+      "250mm/24h"
+    ]
   },
-"snow":{
+  "snow": {
     "value": "snow",
     "guiName": {
       "nb": "Snø",
@@ -27,9 +73,24 @@
       "en": "Snow"
     },
     "severities": ["Moderate", "Severe", "Extreme"],
-    "thresholds": ["3cm/24h", "5cm/24h","10cm/24h","15cm/24h","20cm/24h","25cm/24h","30cm/24h","40cm/24h","50cm/24h","60cm/24h","70cm/24h","80cm/24h","90cm/24h","100cm/24h"]
+    "thresholds": [
+      "3cm/24h",
+      "5cm/24h",
+      "10cm/24h",
+      "15cm/24h",
+      "20cm/24h",
+      "25cm/24h",
+      "30cm/24h",
+      "40cm/24h",
+      "50cm/24h",
+      "60cm/24h",
+      "70cm/24h",
+      "80cm/24h",
+      "90cm/24h",
+      "100cm/24h"
+    ]
   },
-  "ice":{
+  "ice": {
     "value": "ice",
     "guiName": {
       "nb": "Is",
@@ -37,9 +98,17 @@
       "en": "Ice"
     },
     "severities": ["Moderate", "Severe"],
-    "thresholds": ["0,2mm/3h", "0,5mm/3h","1mm/3h","2mm/3h","3mm/3h","4mm/3h","5mm/3h"]
+    "thresholds": [
+      "0,2mm/3h",
+      "0,5mm/3h",
+      "1mm/3h",
+      "2mm/3h",
+      "3mm/3h",
+      "4mm/3h",
+      "5mm/3h"
+    ]
   },
- "rainFlood": {
+  "rainFlood": {
     "value": "rainFlood",
     "guiName": {
       "nb": "Styrtregn",
@@ -47,9 +116,9 @@
       "en": "Rain flood"
     },
     "severities": ["Moderate", "Severe"],
-    "thresholds": ["15mm/h", "20mm/h","25mm/h","30mm/h","35mm/h"]
+    "thresholds": ["15mm/h", "20mm/h", "25mm/h", "30mm/h", "35mm/h"]
   },
- "lightning": {
+  "lightning": {
     "value": "lightning",
     "guiName": {
       "nb": "Mye lyn",
@@ -59,7 +128,7 @@
     "severities": ["Moderate"],
     "thresholds": []
   },
-  "blowingSnow":{
+  "blowingSnow": {
     "value": "blowingSnow",
     "guiName": {
       "nb": "Snøfokk",
@@ -69,7 +138,7 @@
     "severities": ["Moderate"],
     "thresholds": []
   },
-  "stormSurge":{
+  "stormSurge": {
     "value": "stormSurge",
     "guiName": {
       "nb": "Vannstand",
@@ -79,7 +148,7 @@
     "severities": ["Moderate", "Severe", "Extreme"],
     "thresholds": []
   },
-  "polarLow":{
+  "polarLow": {
     "value": "polarLow",
     "id": "polarLow",
     "guiName": {
@@ -90,7 +159,7 @@
     "severities": ["Minor", "Moderate", "Severe"],
     "thresholds": []
   },
-  "forestFire":{
+  "forestFire": {
     "value": "forestFire",
     "guiName": {
       "nb": "Skogbrannfare",
@@ -100,7 +169,7 @@
     "severities": ["Moderate", "Severe"],
     "thresholds": []
   },
-  "icing":{
+  "icing": {
     "value": "icing",
     "guiName": {
       "nb": "Ising",
@@ -109,5 +178,5 @@
     },
     "severities": ["Moderate", "Severe"],
     "thresholds": ["0.5cm/h", "1.34cm/h"]
- }
+  }
 }

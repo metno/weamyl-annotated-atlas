@@ -13,7 +13,12 @@ const MapLeaf: React.FC<Props> = (props) => {
   const zoom: number = 4.6;
 
   return (
-    <MapContainer center={position} zoom={zoom} zoomSnap={0.1} scrollWheelZoom={true}>
+    <MapContainer
+      center={position}
+      zoom={zoom}
+      zoomSnap={0.1}
+      scrollWheelZoom={true}
+    >
       <TileLayer
         attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

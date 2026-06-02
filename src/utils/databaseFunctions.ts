@@ -28,7 +28,7 @@ async function getCapAttachmentXML(id: string) {
     const response = await client.get(url);
     // console.log('Attachment ', response.data);
     return response.data;
-  }catch (error) {
+  } catch (error) {
     console.error('Error fetching CapAttachmentXML:', error);
     // Handle the error appropriately based on your application's needs.
     // For example, you could rethrow the error, return a default value, or return null.
@@ -96,10 +96,9 @@ async function getOpenSearch(input: object) {
   const eval_url = `/list`;
 
   try {
-  
-    const search_result = await client.post(url, input,{
+    const search_result = await client.post(url, input, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
 
@@ -107,11 +106,13 @@ async function getOpenSearch(input: object) {
     const evaluationIds = new Set(eval_list.data.map((id: string) => id));
 
     // marking annoted incidents
-    const updatedSearchResults = search_result.data.matching_warnings.map((result: any) => ({
-      ...result,
-      annotated: evaluationIds.has(result._id), // Mark as annotated if `_id` exists in evaluationList
-    }));
-  
+    const updatedSearchResults = search_result.data.matching_warnings.map(
+      (result: any) => ({
+        ...result,
+        annotated: evaluationIds.has(result._id), // Mark as annotated if `_id` exists in evaluationList
+      }),
+    );
+
     return updatedSearchResults;
   } catch (error) {
     console.error('Error fetching evaluation List:', error);
@@ -119,56 +120,60 @@ async function getOpenSearch(input: object) {
     // For example, you could rethrow the error, return a default value, or return null.
     throw error; // Rethrow the error to be handled by the caller.
   }
-  
-  
 }
 
-function xTest(sendaPolygon:any, startTime: string, endTime: string) {
-    return (
-'<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>\n<csw:GetRecords\n    ' +
-  'xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
-  'xmlns:gml="http://www.opengis.net/gml"\n    ' +
-  'xmlns:ogc="http://www.opengis.net/ogc"\n    ' +
-  'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n    ' +
-  'service="CSW"\n    ' +
-  'version="2.0.2"\n    ' +
-  'resultType="results"\n    ' +
-  'maxRecords="100"\n    ' +
-  'outputFormat="application/xml"\n    ' +
-  'outputSchema="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
-  'xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd" >\n  ' +
-  '<csw:Query typeNames="csw:Record">\n    ' +
-  '<csw:ElementSetName>summary</csw:ElementSetName>\n    ' +
-  '<csw:Constraint version="1.1.0">\n      ' +
-  '<ogc:Filter>\n        ' +
-  '<ogc:And>\n          ' +
-  '<ogc:Intersects>\n' +
-  '<ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>\n            ' +
-  '<gml:Polygon>\n              ' +
-  '<gml:exterior>\n                ' +
-  '<gml:LinearRing>\n                  ' +
-  '<gml:posList>\n                    ' +
-  sendaPolygon                  +
-  '</gml:posList>\n                ' +
-  '</gml:LinearRing>\n              ' +
-  '</gml:exterior>\n            ' +
-  '</gml:Polygon>\n          ' +
-  '</ogc:Intersects>\n          ' +
-  '<ogc:PropertyIsGreaterThanOrEqualTo>\n            ' +
-  '<ogc:PropertyName>apiso:TempExtent_begin</ogc:PropertyName>\n            ' +
-  '<ogc:Literal>'+ startTime + '</ogc:Literal>\n          ' +
-  '</ogc:PropertyIsGreaterThanOrEqualTo>\n          ' +
-  '<ogc:PropertyIsLessThanOrEqualTo>\n            ' +
-  '<ogc:PropertyName>apiso:TempExtent_end</ogc:PropertyName>\n            ' +
-  '<ogc:Literal>'+ endTime + '</ogc:Literal>\n          ' +
-  '</ogc:PropertyIsLessThanOrEqualTo>\n        ' +
-  '</ogc:And>\n      ' +
-  '</ogc:Filter>\n    ' +
-  '</csw:Constraint>\n  ' +
-  '</csw:Query>\n' +
-  '</csw:GetRecords>')}
+function xTest(sendaPolygon: any, startTime: string, endTime: string) {
+  return (
+    '<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>\n<csw:GetRecords\n    ' +
+    'xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
+    'xmlns:gml="http://www.opengis.net/gml"\n    ' +
+    'xmlns:ogc="http://www.opengis.net/ogc"\n    ' +
+    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n    ' +
+    'service="CSW"\n    ' +
+    'version="2.0.2"\n    ' +
+    'resultType="results"\n    ' +
+    'maxRecords="100"\n    ' +
+    'outputFormat="application/xml"\n    ' +
+    'outputSchema="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
+    'xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd" >\n  ' +
+    '<csw:Query typeNames="csw:Record">\n    ' +
+    '<csw:ElementSetName>summary</csw:ElementSetName>\n    ' +
+    '<csw:Constraint version="1.1.0">\n      ' +
+    '<ogc:Filter>\n        ' +
+    '<ogc:And>\n          ' +
+    '<ogc:Intersects>\n' +
+    '<ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>\n            ' +
+    '<gml:Polygon>\n              ' +
+    '<gml:exterior>\n                ' +
+    '<gml:LinearRing>\n                  ' +
+    '<gml:posList>\n                    ' +
+    sendaPolygon +
+    '</gml:posList>\n                ' +
+    '</gml:LinearRing>\n              ' +
+    '</gml:exterior>\n            ' +
+    '</gml:Polygon>\n          ' +
+    '</ogc:Intersects>\n          ' +
+    '<ogc:PropertyIsGreaterThanOrEqualTo>\n            ' +
+    '<ogc:PropertyName>apiso:TempExtent_begin</ogc:PropertyName>\n            ' +
+    '<ogc:Literal>' +
+    startTime +
+    '</ogc:Literal>\n          ' +
+    '</ogc:PropertyIsGreaterThanOrEqualTo>\n          ' +
+    '<ogc:PropertyIsLessThanOrEqualTo>\n            ' +
+    '<ogc:PropertyName>apiso:TempExtent_end</ogc:PropertyName>\n            ' +
+    '<ogc:Literal>' +
+    endTime +
+    '</ogc:Literal>\n          ' +
+    '</ogc:PropertyIsLessThanOrEqualTo>\n        ' +
+    '</ogc:And>\n      ' +
+    '</ogc:Filter>\n    ' +
+    '</csw:Constraint>\n  ' +
+    '</csw:Query>\n' +
+    '</csw:GetRecords>'
+  );
+}
 
-async function getModelData(polygon:any, startTime: string, endTime: string) {
+async function getModelData(polygon: any, startTime: string, endTime: string) {
   let polyObj = xTest(polygon, startTime, endTime);
   // console.log('xml ', polyObj);
   const url = `/`;
@@ -182,13 +187,12 @@ async function getEvaluationForm(cap_id: string) {
   try {
     const response = await evaluationsClient.get(url);
     return response.data;
-  } 
-  catch (error) {
-    const axiosError = error as AxiosError;  // Explicitly cast error
-    console.log("axiosError.response",axiosError.response)
+  } catch (error) {
+    const axiosError = error as AxiosError; // Explicitly cast error
+    console.log('axiosError.response', axiosError.response);
     if (axiosError.response?.status === 404) {
-      console.warn('Evaluation form not found for ID:', {cap_id});
-      return null
+      console.warn('Evaluation form not found for ID:', { cap_id });
+      return null;
     }
     console.error('Error fetching evaluation form:', error);
 

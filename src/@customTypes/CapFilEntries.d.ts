@@ -19,7 +19,7 @@ export interface CapFilEntries {
   ceiling: string;
   msgType: string;
   type: string;
-  annotated:boolean;
+  annotated: boolean;
   features: [
     {
       type: string;

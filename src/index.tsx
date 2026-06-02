@@ -8,9 +8,9 @@ import { AuthProvider } from 'react-oidc-context';
 const oidcConfig = {
   authority: 'https://login.met.no/auth/realms/Internal/',
   client_id: 'annotatedatlas',
-//  redirect_uri: 'https://annotated-atlas-dev.k8s.met.no/',
+  //  redirect_uri: 'https://annotated-atlas-dev.k8s.met.no/',
   redirect_uri: `${window.location.origin}/`,
-//  redirect_uri: 'http://localhost:8080/',
+  //  redirect_uri: 'http://localhost:8080/',
   realm: 'Internal',
   loadUserInfo: true,
   scope: 'openid email profile',

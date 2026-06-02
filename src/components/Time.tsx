@@ -46,17 +46,11 @@ const Time: React.FC<Props> = ({ searchObject, setSearchObject }) => {
       <Stack spacing={3}>
         <Stack direction="row" spacing={3}>
           <Stack>
-            <DateTimePicker
-              value={startValue}
-              onChange={onChangeStartTime}
-            />
+            <DateTimePicker value={startValue} onChange={onChangeStartTime} />
             <Typography variant="caption">Onset</Typography>
           </Stack>
           <Stack>
-            <DateTimePicker
-              value={endValue}
-              onChange={onChangeEndTime}
-            />
+            <DateTimePicker value={endValue} onChange={onChangeEndTime} />
             <Typography variant="caption">Expires</Typography>
           </Stack>
         </Stack>
