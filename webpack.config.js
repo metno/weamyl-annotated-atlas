@@ -50,7 +50,6 @@ module.exports = {
         exclude: /node_modules/,
         use: ['file-loader'],
       },
-      { test: /\.xml$/, use: 'xml-loader' },
     ],
   },
   devtool: prod ? undefined : 'source-map',
