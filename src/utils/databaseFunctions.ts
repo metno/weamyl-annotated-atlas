@@ -1,10 +1,11 @@
 import axios, { AxiosError } from 'axios';
+import { apiConfig } from './apiConfig';
 
 // change this in the .env-file to use another backend/SENDA-setup
-let url = `${process.env.REACT_APP_BASE_CAP_URL}`;
-let mapURL = `${process.env.REACT_APP_BASE_MAP_URL}`;
-let evaluationURL = `${process.env.REACT_APP_BASE_EVALUATION_URL}`;
-let cswURL = `${process.env.REACT_APP_SENDA_URL}`;
+let url = apiConfig.baseCapUrl;
+let mapURL = apiConfig.baseMapUrl;
+let evaluationURL = apiConfig.baseEvaluationUrl;
+let cswURL = apiConfig.sendaUrl;
 
 const client = axios.create({
   baseURL: url,
