@@ -5,12 +5,14 @@ import { AuthProvider } from 'react-oidc-context';
 
 // TODO: Update with relevant info when project approved
 
+const redirectUri = `${window.location.origin}/`;
+
 const oidcConfig = {
   authority: 'https://login.met.no/auth/realms/Internal/',
   client_id: 'annotatedatlas',
-  //  redirect_uri: 'https://annotated-atlas-dev.k8s.met.no/',
-  redirect_uri: `${window.location.origin}/`,
-  //  redirect_uri: 'http://localhost:8080/',
+  redirect_uri: redirectUri,
+  response_type: 'code',
+  disablePKCE: false,
   realm: 'Internal',
   loadUserInfo: true,
   scope: 'openid email profile',
@@ -26,7 +28,6 @@ const oidcConfig = {
   },
 };
 
-console.log('redirectURI', `${window.location.origin}/`);
 const container = document.getElementById('app-root');
 const root = createRoot(container!);
 root.render(

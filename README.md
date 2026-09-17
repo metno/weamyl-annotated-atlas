@@ -28,6 +28,18 @@ If you need access to the group, contact hanscn@met.no.
 
 If you need to run against a different backend/database, edit the `.env` file to point to the correct address.
 
+### OIDC client security
+
+The application uses the OIDC authorization code flow with PKCE. The Keycloak client
+`annotatedatlas` at `login.met.no` must therefore have **Direct Access Grants**
+disabled and PKCE enforced with the `S256` method.
+
+The redirect URI is the application origin followed by `/` (for example,
+`https://annotated-atlas.k8s.met.no/` in production or
+`http://localhost:8080/` during local development). Register each required URI
+individually in Keycloak and remove wildcard redirect URIs. Do not add a wildcard
+to support additional environments; register each environment's exact URL instead.
+
 ## Build and run with Node
 
 ```
