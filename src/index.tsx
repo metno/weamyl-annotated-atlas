@@ -6,7 +6,9 @@ import { AuthProvider } from 'react-oidc-context';
 // TODO: Update with relevant info when project approved
 
 const applicationRoot = `${window.location.origin}/`;
-const redirectUri = `${applicationRoot}callback`;
+const redirectUri = `${applicationRoot}oidc-callback`;
+
+console.log('OIDC redirect_uri:', redirectUri);
 
 const oidcConfig = {
   authority: 'https://login.met.no/auth/realms/Internal/',
