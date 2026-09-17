@@ -34,11 +34,12 @@ The application uses the OIDC authorization code flow with PKCE. The Keycloak cl
 `annotatedatlas` at `login.met.no` must therefore have **Direct Access Grants**
 disabled and PKCE enforced with the `S256` method.
 
-The redirect URI is the application origin followed by `/` (for example,
-`https://annotated-atlas.k8s.met.no/` in production or
-`http://localhost:8080/` during local development). Register each required URI
-individually in Keycloak and remove wildcard redirect URIs. Do not add a wildcard
-to support additional environments; register each environment's exact URL instead.
+The redirect URI is `/oidc-callback` on the application origin (for example,
+`https://annotated-atlas.k8s.met.no/oidc-callback` in production or
+`http://localhost:8080/oidc-callback` during local development). Register each
+required URI individually in Keycloak and remove wildcard redirect URIs. Do not
+add a wildcard to support additional environments; register each environment's
+exact URL instead.
 
 ## Build and run with Node
 

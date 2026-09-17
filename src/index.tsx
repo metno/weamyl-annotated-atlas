@@ -5,7 +5,8 @@ import { AuthProvider } from 'react-oidc-context';
 
 // TODO: Update with relevant info when project approved
 
-const redirectUri = `${window.location.origin}/`;
+const applicationRoot = `${window.location.origin}/`;
+const redirectUri = `${applicationRoot}oidc-callback`;
 
 const oidcConfig = {
   authority: 'https://login.met.no/auth/realms/Internal/',
@@ -23,7 +24,7 @@ const oidcConfig = {
     if (redirectLocation) {
       window.location.replace(redirectLocation);
     } else {
-      window.history.replaceState({}, document.title, window.location.pathname);
+      window.history.replaceState({}, document.title, applicationRoot);
     }
   },
 };
