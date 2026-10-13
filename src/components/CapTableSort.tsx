@@ -314,7 +314,8 @@ const EnhancedTable: React.FC<Props> = (props) => {
         }
         setModelDAta(ncResults);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Failed to fetch Senda model data:', error);
         setModelDAta(['Empty dataset']);
       });
     databaseFunctions.getEvaluationForm(item._id).then((r) => {

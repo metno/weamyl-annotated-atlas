@@ -123,63 +123,93 @@ async function getOpenSearch(input: object) {
   }
 }
 
-function xTest(sendaPolygon: any, startTime: string, endTime: string) {
-  return (
-    '<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>\n<csw:GetRecords\n    ' +
-    'xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
-    'xmlns:gml="http://www.opengis.net/gml"\n    ' +
-    'xmlns:ogc="http://www.opengis.net/ogc"\n    ' +
-    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n    ' +
-    'service="CSW"\n    ' +
-    'version="2.0.2"\n    ' +
-    'resultType="results"\n    ' +
-    'maxRecords="100"\n    ' +
-    'outputFormat="application/xml"\n    ' +
-    'outputSchema="http://www.opengis.net/cat/csw/2.0.2"\n    ' +
-    'xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd" >\n  ' +
-    '<csw:Query typeNames="csw:Record">\n    ' +
-    '<csw:ElementSetName>summary</csw:ElementSetName>\n    ' +
-    '<csw:Constraint version="1.1.0">\n      ' +
-    '<ogc:Filter>\n        ' +
-    '<ogc:And>\n          ' +
-    '<ogc:Intersects>\n' +
-    '<ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>\n            ' +
-    '<gml:Polygon>\n              ' +
-    '<gml:exterior>\n                ' +
-    '<gml:LinearRing>\n                  ' +
-    '<gml:posList>\n                    ' +
-    sendaPolygon +
-    '</gml:posList>\n                ' +
-    '</gml:LinearRing>\n              ' +
-    '</gml:exterior>\n            ' +
-    '</gml:Polygon>\n          ' +
-    '</ogc:Intersects>\n          ' +
-    '<ogc:PropertyIsGreaterThanOrEqualTo>\n            ' +
-    '<ogc:PropertyName>apiso:TempExtent_begin</ogc:PropertyName>\n            ' +
-    '<ogc:Literal>' +
-    startTime +
-    '</ogc:Literal>\n          ' +
-    '</ogc:PropertyIsGreaterThanOrEqualTo>\n          ' +
-    '<ogc:PropertyIsLessThanOrEqualTo>\n            ' +
-    '<ogc:PropertyName>apiso:TempExtent_end</ogc:PropertyName>\n            ' +
-    '<ogc:Literal>' +
-    endTime +
-    '</ogc:Literal>\n          ' +
-    '</ogc:PropertyIsLessThanOrEqualTo>\n        ' +
-    '</ogc:And>\n      ' +
-    '</ogc:Filter>\n    ' +
-    '</csw:Constraint>\n  ' +
-    '</csw:Query>\n' +
-    '</csw:GetRecords>'
-  );
+function createSendaSearchRequest(
+  sendaPolygon: string,
+  startTime: string,
+  endTime: string,
+) {
+  const escapeXml = (value: string) =>
+    value.replace(
+      /[<>&'"]/g,
+      (character) =>
+        ({
+          '<': '&lt;',
+          '>': '&gt;',
+          '&': '&amp;',
+          "'": '&apos;',
+          '"': '&quot;',
+        })[character] ?? character,
+    );
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords
+    xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+    xmlns:gml="http://www.opengis.net/gml"
+    xmlns:ogc="http://www.opengis.net/ogc"
+    xmlns:ows="http://www.opengis.net/ows"
+    xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    service="CSW"
+    version="2.0.2"
+    resultType="results"
+    maxRecords="100"
+    outputFormat="application/xml"
+    outputSchema="http://www.opengis.net/cat/csw/2.0.2"
+    xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd">
+  <csw:Query typeNames="csw:Record">
+    <csw:ElementSetName>summary</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <ogc:Filter>
+        <ogc:And>
+          <ogc:Intersects>
+            <ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>
+            <gml:Polygon>
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>${escapeXml(sendaPolygon)}</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </ogc:Intersects>
+          <ogc:PropertyIsLessThanOrEqualTo>
+            <ogc:PropertyName>apiso:TempExtent_begin</ogc:PropertyName>
+            <ogc:Literal>${escapeXml(endTime)}</ogc:Literal>
+          </ogc:PropertyIsLessThanOrEqualTo>
+          <ogc:PropertyIsGreaterThanOrEqualTo>
+            <ogc:PropertyName>apiso:TempExtent_end</ogc:PropertyName>
+            <ogc:Literal>${escapeXml(startTime)}</ogc:Literal>
+          </ogc:PropertyIsGreaterThanOrEqualTo>
+        </ogc:And>
+      </ogc:Filter>
+    </csw:Constraint>
+  </csw:Query>
+</csw:GetRecords>`;
 }
 
-async function getModelData(polygon: any, startTime: string, endTime: string) {
-  let polyObj = xTest(polygon, startTime, endTime);
-  // console.log('xml ', polyObj);
-  const url = `/`;
-  const response = await modelDAtaClient.post(url, polyObj);
-  //console.log('Senda response: ', response.data);
+async function getModelData(
+  polygon: string,
+  startTime: string,
+  endTime: string,
+) {
+  const requestXml = createSendaSearchRequest(polygon, startTime, endTime);
+  const requestUrl = '/';
+  const requestHeaders = {
+    'Content-Type': 'application/xml; charset=UTF-8',
+  };
+  console.log('Senda request:', {
+    method: 'POST',
+    url: modelDAtaClient.getUri({ url: requestUrl }),
+    headers: requestHeaders,
+    body: requestXml,
+  });
+  const response = await modelDAtaClient.post(requestUrl, requestXml, {
+    headers: requestHeaders,
+  });
+  console.log('Senda response:', {
+    status: response.status,
+    headers: response.headers,
+    body: response.data,
+  });
   return response.data;
 }
 
