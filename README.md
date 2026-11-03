@@ -1,87 +1,57 @@
 # Annotated Atlas
 
-The Annotated Atlas is a web application for operational and research meteorologists.
-Operational meteorologists use it to analyze CAP (Common Alerting Protocol) weather warning proposals by
-reviewing historical warnings and grading their hit rates. Research meteorologists use it to identify
-good training data for machine learning algorithms by accessing source observation datasets.
+Web application for reviewing CAP weather warning proposals and browsing observation data for training and analysis.
 
-## Who is responsible?
+## Quick start
 
-Hans Christian Nenseth (hanscn@met.no) is responsible for this repository.
+### Prerequisites
 
-## Tech stack
+- [Node.js](https://nodejs.org/) 22.x
+- npm
 
-- [React 19](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
-- [Material UI v9](https://mui.com/material-ui/) for UI components
-- [React Leaflet v5](https://react-leaflet.js.org/) for interactive maps
-- [react-oidc-context](https://github.com/authts/react-oidc-context) for OIDC authentication
-- [Webpack 5](https://webpack.js.org/) as bundler
-- [Jest](https://jestjs.io/) + [Testing Library](https://testing-library.com/) for tests
-- [Prettier](https://prettier.io/) for code formatting
+### Configure
 
-# Getting started
+Edit `.env` to point to the backend/database you want to use.
 
-There is a room in [Google Chat](https://chat.google.com) called **WeaMyL-chatroom** where we discuss development.
-If you need access to the group, contact hanscn@met.no.
+### Run locally
 
-## Configuration
-
-If you need to run against a different backend/database, edit the `.env` file to point to the correct address.
-
-### OIDC client security
-
-The application uses the OIDC authorization code flow with PKCE. The Keycloak client
-`annotatedatlas` at `login.met.no` must therefore have **Direct Access Grants**
-disabled and PKCE enforced with the `S256` method.
-
-The redirect URI is `/oidc-callback` on the application origin (for example,
-`https://annotated-atlas.k8s.met.no/oidc-callback` in production or
-`http://localhost:8080/oidc-callback` during local development). Register each
-required URI individually in Keycloak and remove wildcard redirect URIs. Do not
-add a wildcard to support additional environments; register each environment's
-exact URL instead.
-
-## Build and run with Node
-
-```
+```bash
 npm ci
-```
-
-Installs all dependencies from `package-lock.json`.
-
-```
 npm start
 ```
 
-Runs the app in development mode. Open [http://localhost:8080](http://localhost:8080) in your browser.
-The page reloads on edits and lint errors appear in the console.
+Open [http://localhost:8080](http://localhost:8080).
 
-```
+## Build, test, and format
+
+```bash
 npm run build
+npm test
+npm run format:check
 ```
 
-Produces a production build in the `dist/` folder.
+## Docker
 
-## Build and run with Docker
-
-Build and run without any local Node installation:
-
-```
+```bash
 docker build -t annotated-atlas .
 docker run --name annotated-atlas -p 8080:8080 annotated-atlas
 ```
 
-The multi-stage Dockerfile builds with Node 22 and serves with nginx (unprivileged). The image is suitable for deployment on k8s.met.no.
+## OIDC notes
 
-## Use it for production
+The Keycloak client `annotatedatlas` at `login.met.no` must use authorization code flow with PKCE (`S256`) and have **Direct Access Grants** disabled.
 
-Fork this repo and add an appropriate license before deploying publicly.
+Register exact redirect URIs (no wildcards), including:
 
-# How to contribute
+- `http://localhost:8080/oidc-callback`
+- `https://annotated-atlas.k8s.met.no/oidc-callback`
 
-If you find bugs or other issues, please open a merge request.
+## Contributing
 
-- Check formatting: `npm run format:check`
-- Run tests: `npm test`
-- Ensure the CI pipeline passes
-- Additional Jest tests are very welcome
+Open a merge request for bugs or improvements.
+
+Before submitting:
+
+- `npm run format:check`
+- `npm test`
+- Ensure CI passes
