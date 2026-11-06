@@ -53,7 +53,7 @@ export function parsePolygon(
       geometry = { ...geometry, bbox: toBBox(geometry) } as typeof geometry;
       phenomSearch = {
         ...searchObject,
-        cutoff: 0.5,
+        cutoff: 0.2,
         type: 'FeatureCollection',
         features: [{ type: 'Feature', properties: {}, geometry }],
       };
